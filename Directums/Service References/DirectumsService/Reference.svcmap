@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="58bc4c20-1b4b-4bda-868b-922f1c71315e" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://localhost:8000/DirectumsService/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="3d7e63f5-57f6-4370-a3bd-3148d49c39d0" SourceId="1" SourceUrl="net.tcp://localhost:8000/DirectumsService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="6da90dc0-93b1-4891-b3ac-477824c5cd2a" SourceId="1" SourceUrl="net.tcp://localhost:8000/DirectumsService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="f84394d5-c94d-46a2-989e-c7ab9037924c" SourceId="1" SourceUrl="net.tcp://localhost:8000/DirectumsService/mex" />
+    <MetadataFile FileName="Directums.Service.xsd" MetadataType="Schema" ID="6c14e0d1-9f7e-4b64-b6a3-9f35d0b03361" SourceId="1" SourceUrl="net.tcp://localhost:8000/DirectumsService/mex" />
+    <MetadataFile FileName="System.Data.Linq.xsd" MetadataType="Schema" ID="5f24acaa-d4d7-41e3-8888-68edc42397c4" SourceId="1" SourceUrl="net.tcp://localhost:8000/DirectumsService/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

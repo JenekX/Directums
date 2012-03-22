@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="DirectumsService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetTcpBinding_IDirectumsService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1">
+        </msb:BinaryEncoding>
+        <wsaw:UsingAddressing>
+        </wsaw:UsingAddressing>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Directums.Service" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/System.Data.Linq" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IDirectumsService_Connect_InputMessage">
+    <wsdl:part name="parameters" element="tns:Connect" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_Connect_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConnectResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_Disconnect_InputMessage">
+    <wsdl:part name="parameters" element="tns:Disconnect" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_UserList_InputMessage">
+    <wsdl:part name="parameters" element="tns:UserList" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_UserList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UserListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_AddUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddUser" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_AddUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_IsLoginEmpty_InputMessage">
+    <wsdl:part name="parameters" element="tns:IsLoginEmpty" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_IsLoginEmpty_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IsLoginEmptyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_AddMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddMessage" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_UserConnected_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:UserConnected" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_UserDisconnected_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:UserDisconnected" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_NewMessageReceive_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:NewMessageReceive" />
+  </wsdl:message>
+  <wsdl:portType msc:usingSession="true" name="IDirectumsService">
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Connect">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/Connect" message="tns:IDirectumsService_Connect_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/ConnectResponse" message="tns:IDirectumsService_Connect_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Disconnect">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/Disconnect" message="tns:IDirectumsService_Disconnect_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UserList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/UserList" message="tns:IDirectumsService_UserList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/UserListResponse" message="tns:IDirectumsService_UserList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="AddUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/AddUser" message="tns:IDirectumsService_AddUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/AddUserResponse" message="tns:IDirectumsService_AddUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="IsLoginEmpty">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/IsLoginEmpty" message="tns:IDirectumsService_IsLoginEmpty_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/IsLoginEmptyResponse" message="tns:IDirectumsService_IsLoginEmpty_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="AddMessage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/AddMessage" message="tns:IDirectumsService_AddMessage_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UserConnected">
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/UserConnected" message="tns:IDirectumsService_UserConnected_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UserDisconnected">
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/UserDisconnected" message="tns:IDirectumsService_UserDisconnected_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="NewMessageReceive">
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/NewMessageReceive" message="tns:IDirectumsService_NewMessageReceive_OutputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetTcpBinding_IDirectumsService" type="tns:IDirectumsService">
+    <wsp:PolicyReference URI="#NetTcpBinding_IDirectumsService_policy">
+    </wsp:PolicyReference>
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="Connect">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/Connect" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Disconnect">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/Disconnect" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="UserList">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/UserList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUser">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/AddUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsLoginEmpty">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/IsLoginEmpty" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMessage">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/AddMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="UserConnected">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/UserConnected" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UserDisconnected">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/UserDisconnected" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NewMessageReceive">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/NewMessageReceive" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DirectumsService">
+    <wsdl:port name="NetTcpBinding_IDirectumsService" binding="tns:NetTcpBinding_IDirectumsService">
+      <soap12:address location="net.tcp://astrakhan.chickenkiller.com:8000/DirectumsService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://astrakhan.chickenkiller.com:8000/DirectumsService</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Dns>localhost</Dns>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
