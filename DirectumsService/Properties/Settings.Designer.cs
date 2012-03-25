@@ -28,9 +28,9 @@ namespace Directums.Service.Properties {
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=JENEKX-PC;Initial Catalog=Files;Persist Security Info=True;User ID=sa" +
             ";Password=qwerty")]
-        public string FilesConnectionString {
+        public string DirectumsConnectionString {
             get {
-                return ((string)(this["FilesConnectionString"]));
+                return ((string)(this["DirectumsConnectionString"]));
             }
         }
     }

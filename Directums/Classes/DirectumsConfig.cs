@@ -18,7 +18,13 @@ namespace Directums.Client.Classes
 
         ~DirectumsConfig()
         {
-            Client.Disconnect();
+            try
+            {
+                Client.Disconnect();
+            }
+            catch
+            {
+            }
         }
 
         public DirectumsServiceClient Client { get; private set; }

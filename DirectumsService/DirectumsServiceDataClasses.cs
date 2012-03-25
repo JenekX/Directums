@@ -1,7 +1,19 @@
+using Directums.Classes.Core;
+using System.ServiceModel;
+
 namespace Directums.Service
 {
     partial class DirectumsServiceDataClassesDataContext
     {
+    }
+
+    partial class User
+    {
+        [OperationContract]
+        public bool CheckOnRegister()
+        {
+            return RegexCheck.CheckLogin(Login) && (PasswordHash.Length == 32) && RegexCheck.CheckEmail(Email);
+        }
     }
 
     partial class Item

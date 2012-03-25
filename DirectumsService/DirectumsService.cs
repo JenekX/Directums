@@ -74,6 +74,13 @@ namespace Directums.Service
             }
         }
 
+        public User GetCurrentUser()
+        {
+            IsAllowAction(AccessType.Authorized);
+
+            return context.Users.SingleOrDefault(x => x.Id == idUser);
+        }
+
         public User[] UserList()
         {
             IsAllowAction(AccessType.Admin);
@@ -84,29 +91,42 @@ namespace Directums.Service
             return result;
         }
 
-        public bool AddUser(string login, string passwordHash, string email)
+        public bool AddUser(string login, string email, string passwordHash)
         {
-            // Валидация модели
-
             try
             {
-                Item item = new Item() { Type = Item.ObjectRef, IdParent = null, IdFile = null, IdItem = null };
-                User user = new User() { Login = login, PasswordHash = passwordHash, Email = email, Surname = "", Name = "", Patronymic = "", BornDate = null, Status = 0, Item = item, IsAdmin = false };
+                Item item = new Item() { Type = Item.UserFolder, IdParent = null, IdFile = null, IdItem = null };
+                User user = new User() { Login = login, Email = email, PasswordHash = passwordHash, Surname = "", Name = "", Patronymic = "", BornDate = null, Status = 0, Item = item, IsAdmin = false };
 
-                context.Items.InsertOnSubmit(item);
-                context.Users.InsertOnSubmit(user);
-                context.SubmitChanges();
+                if (user.CheckOnRegister() && IsLoginEmpty(login) && IsEmailEmpty(email))
+                {
+                    context.Items.InsertOnSubmit(item);
+                    context.Users.InsertOnSubmit(user);
+                    context.SubmitChanges();
+
+                    return true;
+                }
+                else
+                {
+                    // запись в лог о попытке хака
+
+                    return false;
+                }
             }
             catch
             {
                 return false;
             }
-            return true;
         }
 
         public bool IsLoginEmpty(string login)
         {
             return context.Users.Count(x => x.Login == login) == 0;
+        }
+
+        public bool IsEmailEmpty(string email)
+        {
+            return context.Users.Count(x => x.Email == email) == 0;
         }
         
         public void AddMessage(int idUserFor, string text)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="xoA0nHvP5uzoK3UCjZcCzkH0hww=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="Jz3UItdnmDBpCMRLuZu/+GbinDY=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="netTcpBinding" name="NetTcpBinding_IDirectumsService">
       <properties>
@@ -118,10 +118,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="NetTcpBinding_IDirectumsService" contract="DirectumsService.IDirectumsService" bindingType="netTcpBinding" address="net.tcp://astrakhan.chickenkiller.com:8000/DirectumsService" bindingConfiguration="NetTcpBinding_IDirectumsService">
+    <endpoint name="NetTcpBinding_IDirectumsService" contract="DirectumsService.IDirectumsService" bindingType="netTcpBinding" address="net.tcp://localhost:8000/DirectumsService" bindingConfiguration="NetTcpBinding_IDirectumsService">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>net.tcp://astrakhan.chickenkiller.com:8000/DirectumsService</serializedValue>
+          <serializedValue>net.tcp://localhost:8000/DirectumsService</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

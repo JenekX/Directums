@@ -1542,14 +1542,20 @@ namespace Directums.Client.DirectumsService {
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IDirectumsService/Disconnect")]
         void Disconnect();
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/GetCurrentUser", ReplyAction="http://tempuri.org/IDirectumsService/GetCurrentUserResponse")]
+        Directums.Client.DirectumsService.User GetCurrentUser();
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/UserList", ReplyAction="http://tempuri.org/IDirectumsService/UserListResponse")]
         Directums.Client.DirectumsService.User[] UserList();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/AddUser", ReplyAction="http://tempuri.org/IDirectumsService/AddUserResponse")]
-        bool AddUser(string login, string passwordHash, string email);
+        bool AddUser(string login, string email, string passwordHash);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/IsLoginEmpty", ReplyAction="http://tempuri.org/IDirectumsService/IsLoginEmptyResponse")]
         bool IsLoginEmpty(string login);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/IsEmailEmpty", ReplyAction="http://tempuri.org/IDirectumsService/IsEmailEmptyResponse")]
+        bool IsEmailEmpty(string email);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IDirectumsService/AddMessage")]
         void AddMessage(int idUserFor, string text);
@@ -1604,16 +1610,24 @@ namespace Directums.Client.DirectumsService {
             base.Channel.Disconnect();
         }
         
+        public Directums.Client.DirectumsService.User GetCurrentUser() {
+            return base.Channel.GetCurrentUser();
+        }
+        
         public Directums.Client.DirectumsService.User[] UserList() {
             return base.Channel.UserList();
         }
         
-        public bool AddUser(string login, string passwordHash, string email) {
-            return base.Channel.AddUser(login, passwordHash, email);
+        public bool AddUser(string login, string email, string passwordHash) {
+            return base.Channel.AddUser(login, email, passwordHash);
         }
         
         public bool IsLoginEmpty(string login) {
             return base.Channel.IsLoginEmpty(login);
+        }
+        
+        public bool IsEmailEmpty(string email) {
+            return base.Channel.IsEmailEmpty(email);
         }
         
         public void AddMessage(int idUserFor, string text) {

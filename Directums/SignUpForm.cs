@@ -1,42 +1,80 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using Directums.Classes.Core;
 using Directums.Client.Classes;
+using Directums.Client.DirectumsService;
 
 namespace Directums.Client
 {
     public partial class SignUpForm : DirectumsForm
     {
-        public string Login;
-        public string Pass;
-        public string Email;
+        private bool[] valids = { false, false, false, false };
 
-        public SignUpForm(DirectumsConfig config) : base(config)
+        private bool CheckLogin(bool request)
         {
-            InitializeComponent();
-
             lbLoginStatus.Text = "";
-            lbPassStatus.Text = "";
-            lbConfirmPassStatus.Text = "";
+            valids[0] = true;
+
+            if (RegexCheck.CheckLogin(tbLogin.Text))
+            {
+                if (request && !Config.Client.IsLoginEmpty(tbLogin.Text))
+                {
+                    lbLoginStatus.Text = "Такой логин уже занят";
+                    valids[0] = false;
+                }
+            }
+            else
+            {
+                lbLoginStatus.Text = "Логин заполнен некорректно";
+                valids[0] = false;
+            }
+
+            return valids[0];
         }
 
-        private void tbPass_TextChanged(object sender, EventArgs e)
+        private bool CheckEmail(bool request)
         {
+            lbEmailStatus.Text = "";
+            valids[3] = true;
+
+            if (RegexCheck.CheckEmail(tbEmail.Text))
+            {
+                if (request && !Config.Client.IsEmailEmpty(tbEmail.Text))
+                {
+                    lbEmailStatus.Text = "Такой e-mail уже занят";
+                    valids[0] = false;
+                }
+            }
+            else
+            {
+                lbEmailStatus.Text = "Некорректный e-mail";
+                valids[3] = false;
+            }
+
+            return valids[3];
+        }
+
+        private bool CheckPassword()
+        {
+            valids[1] = true;
             string passEntering = tbPass.Text;
 
             if (passEntering.Length < 3)
             {
                 lbPassStatus.Text = "Некорректная длина пароля";
+                valids[1] = false;
+                return false;
             }
 
             if (RegexCheck.CheckLoginPass(passEntering))
             {
                 lbPassStatus.Text = "В пароле присутствуют не корректные символы";
-                return;
+                valids[1] = false;
+                return false;
             }
 
-            if (passEntering.Length >= 3 &&
-                (RegexCheck.CheckDigits(passEntering) || RegexCheck.CheckLowLetter(passEntering) || RegexCheck.CheckUpLetters(passEntering)))
+            if (passEntering.Length >= 3 && (RegexCheck.CheckDigits(passEntering) || RegexCheck.CheckLowLetter(passEntering) || RegexCheck.CheckUpLetters(passEntering)))
             {
                 lbPassStatus.Text = "Хреновый пароль";
             }
@@ -53,95 +91,81 @@ namespace Directums.Client
                 lbPassStatus.Text = "Заебись!!!!";
             }
 
-            btnOK.Enabled = IfOKAvailable();
+            return valids[1];
+        }
+
+        private bool CheckConfirmPassword()
+        {
+            lbConfirmPassStatus.Text = "";
+            valids[2] = true;
+
+            if (tbPass.Text != "" && tbPass.Text != tbConfirmPass.Text)
+            {
+                lbConfirmPassStatus.Text = "Подтверждение пароля некорректно";
+                valids[2] = false;
+            }
+
+            return valids[2];
+        }
+
+        private void RefreshInterface()
+        {
+            btnOK.Enabled = valids.Count(x => x) == valids.Length;
+        }
+
+        public SignUpForm(DirectumsConfig config)
+            : base(config)
+        {
+            InitializeComponent();
+
+            lbLoginStatus.Text = lbPassStatus.Text = lbConfirmPassStatus.Text = lbEmailStatus.Text = "";
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            bool isLoginEmpty = Config.Client.IsLoginEmpty(tbLogin.Text);
-            if (!isLoginEmpty)
-            {
-                DialogHelper.Error(this, "Логин уже занят");
-                DialogResult = DialogResult.None;
-
-                return;
-            }
-
-            if (!IsCheckValues())
-            {
-                DialogResult = DialogResult.None;
-
-                return;
-            }
-
-            bool result = Config.Client.AddUser(tbLogin.Text, HashHelper.StringHash(tbPass.Text), tbEmail.Text);
+            bool result = Config.Client.AddUser(tbLogin.Text, tbEmail.Text, HashHelper.StringHash(tbPass.Text));
             if (result)
             {
-                MessageBox.Show("good");
+                DialogHelper.Information(this, "Новый пользователь зарегистрирован. Вы может войти с указанным вами логином и паролем");
             }
             else
             {
-                MessageBox.Show("failure");
+                DialogHelper.Error(this, "Во время регистрации пользователя произошла ошибка");
+                DialogResult = DialogResult.None;
             }
         }
 
-        private bool IsCheckValues()
+        private void tbLogin_Leave(object sender, EventArgs e)
         {
-            lbPassStatus.Text = "";
-            lbConfirmPassStatus.Text = "";
-            lbLoginStatus.Text = "";
-
-            if (RegexCheck.CheckLoginPass(tbLogin.Text) || tbLogin.Text.Length == 0)
+            if (sender == tbLogin)
             {
-                lbLoginStatus.Visible = true;
-                lbLoginStatus.Text = "Логин заполнен некорректно";
+                CheckLogin(true);
+            }
+            else if (sender == tbEmail)
+            {
+                CheckEmail(true);
             }
 
-            if (RegexCheck.CheckLoginPass(tbPass.Text) || tbPass.Text.Length < 3)
-            {
-                lbPassStatus.Visible = true;
-                lbPassStatus.Text = "Пароль заполнен некорректно";
-            }
-
-            if (tbPass.Text != tbConfirmPass.Text)
-            {
-                lbConfirmPassStatus.Visible = true;
-                lbConfirmPassStatus.Text = "Подтверждение пароля некорректно";
-            }
-
-            return (lbPassStatus.Text == "") && (lbLoginStatus.Text == "") && (lbConfirmPassStatus.Text == "");
-        }
-
-        private void tbPass_Leave(object sender, EventArgs e)
-        {
-            lbPassStatus.Visible = false;
-        }
-
-        private void tbPass_Enter(object sender, EventArgs e)
-        {
-            lbPassStatus.Visible = true;
+            RefreshInterface();
         }
 
         private void tbLogin_TextChanged(object sender, EventArgs e)
         {
-            btnOK.Enabled = IfOKAvailable();
-        }
-
-        private bool IfOKAvailable()
-        {
-            if ((tbLogin.Text != "") && (tbPass.Text != "") && (tbConfirmPass.Text != ""))
+            if (sender == tbLogin)
             {
-                return true;
+                CheckLogin(false);
             }
-            else
+            else if (sender == tbEmail)
             {
-                return false;
+                CheckEmail(false);
             }
-        }
+            else if (sender == tbPass || sender == tbConfirmPass)
+            {
+                CheckPassword();
+                CheckConfirmPassword();
+            }
 
-        private void tbConfirmPass_TextChanged(object sender, EventArgs e)
-        {
-            btnOK.Enabled = IfOKAvailable();
+            RefreshInterface();
         }
     }
 }

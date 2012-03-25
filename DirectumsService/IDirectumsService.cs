@@ -13,13 +13,19 @@ namespace Directums.Service
         void Disconnect();
 
         [OperationContract]
+        User GetCurrentUser();
+
+        [OperationContract]
         User[] UserList();
 
         [OperationContract]
-        bool AddUser(string login, string passwordHash, string email);
+        bool AddUser(string login, string email, string passwordHash);
 
         [OperationContract]
         bool IsLoginEmpty(string login);
+
+        [OperationContract]
+        bool IsEmailEmpty(string email);
 
         [OperationContract(IsOneWay = true)]
         void AddMessage(int idUserFor, string text);

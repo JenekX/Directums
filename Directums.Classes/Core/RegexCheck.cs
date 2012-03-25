@@ -10,6 +10,9 @@ namespace Directums.Classes.Core
         private static Regex lowLetters = new Regex(@"[a-z]");
         private static Regex upLetters = new Regex(@"[A-Z]");
 
+        private static Regex loginRegex = new Regex(@"^[a-z0-9_\.\-]{3,32}$", RegexOptions.IgnoreCase);
+        private static Regex emailRegex = new Regex(@"^[a-z0-9_\.\-]{1,20}@[a-z0-9\.\-]{1,20}\.[a-z]{2,4}$", RegexOptions.IgnoreCase);
+
         public static bool CheckDigits(string checkingString)
         {
             return digits.Match(checkingString).Success;
@@ -28,6 +31,16 @@ namespace Directums.Classes.Core
         public static bool CheckUpLetters(string checkingString)
         {
             return upLetters.Match(checkingString).Success;
+        }
+
+        public static bool CheckLogin(string login)
+        {
+            return loginRegex.Match(login).Success;
+        }
+
+        public static bool CheckEmail(string email)
+        {
+            return emailRegex.Match(email).Success;
         }
     }
 }

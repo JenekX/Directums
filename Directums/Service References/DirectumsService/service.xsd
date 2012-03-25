@@ -21,6 +21,18 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
+  <xs:element name="GetCurrentUser">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCurrentUserResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Directums.Service" minOccurs="0" name="GetCurrentUserResult" nillable="true" type="q1:User" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="UserList">
     <xs:complexType>
       <xs:sequence />
@@ -29,7 +41,7 @@
   <xs:element name="UserListResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Directums.Service" minOccurs="0" name="UserListResult" nillable="true" type="q1:ArrayOfUser" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Directums.Service" minOccurs="0" name="UserListResult" nillable="true" type="q2:ArrayOfUser" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -37,8 +49,8 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="login" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="passwordHash" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="email" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="passwordHash" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -60,6 +72,20 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="IsLoginEmptyResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsEmailEmpty">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="email" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsEmailEmptyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IsEmailEmptyResult" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
