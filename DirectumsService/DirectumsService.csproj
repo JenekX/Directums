@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="AccessFailureException.cs" />
     <Compile Include="AccessType.cs" />
+    <Compile Include="Classes\FindUsersResult.cs" />
     <Compile Include="DirectumsServiceDataClasses.cs">
       <DependentUpon>DirectumsServiceDataClasses.dbml</DependentUpon>
     </Compile>

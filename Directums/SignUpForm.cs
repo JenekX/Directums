@@ -36,41 +36,41 @@ namespace Directums.Client
         private bool CheckEmail(bool request)
         {
             lbEmailStatus.Text = "";
-            valids[3] = true;
+            valids[1] = true;
 
             if (RegexCheck.CheckEmail(tbEmail.Text))
             {
                 if (request && !Config.Client.IsEmailEmpty(tbEmail.Text))
                 {
                     lbEmailStatus.Text = "Такой e-mail уже занят";
-                    valids[0] = false;
+                    valids[1] = false;
                 }
             }
             else
             {
                 lbEmailStatus.Text = "Некорректный e-mail";
-                valids[3] = false;
+                valids[1] = false;
             }
 
-            return valids[3];
+            return valids[1];
         }
 
         private bool CheckPassword()
         {
-            valids[1] = true;
+            valids[2] = true;
             string passEntering = tbPass.Text;
 
             if (passEntering.Length < 3)
             {
                 lbPassStatus.Text = "Некорректная длина пароля";
-                valids[1] = false;
+                valids[2] = false;
                 return false;
             }
 
             if (RegexCheck.CheckLoginPass(passEntering))
             {
                 lbPassStatus.Text = "В пароле присутствуют не корректные символы";
-                valids[1] = false;
+                valids[2] = false;
                 return false;
             }
 
@@ -91,21 +91,21 @@ namespace Directums.Client
                 lbPassStatus.Text = "Заебись!!!!";
             }
 
-            return valids[1];
+            return valids[2];
         }
 
         private bool CheckConfirmPassword()
         {
             lbConfirmPassStatus.Text = "";
-            valids[2] = true;
+            valids[3] = true;
 
             if (tbPass.Text != "" && tbPass.Text != tbConfirmPass.Text)
             {
                 lbConfirmPassStatus.Text = "Подтверждение пароля некорректно";
-                valids[2] = false;
+                valids[3] = false;
             }
 
-            return valids[2];
+            return valids[3];
         }
 
         private void RefreshInterface()

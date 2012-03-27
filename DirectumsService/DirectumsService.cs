@@ -3,6 +3,10 @@ using System.Linq;
 using System.ServiceModel;
 using System.Collections.Generic;
 using System.Collections;
+using Directums.Classes;
+using System.Linq.Expressions;
+using Directums.Service.Classes;
+using Directums.Classes.Core;
 
 namespace Directums.Service
 {
@@ -11,6 +15,8 @@ namespace Directums.Service
     {
         private static DirectumsServiceDataClassesDataContext context = new DirectumsServiceDataClassesDataContext();
         private static Dictionary<int, IDirectumsServiceCallback> connected = new Dictionary<int, IDirectumsServiceCallback>();
+
+        private const int takeCount = 2;
 
         private int idUser = 0;
         private bool isAdmin = false;
@@ -157,6 +163,138 @@ namespace Directums.Service
                 {
                     // Обработка исключения
                 }
+            }
+        }
+
+        /**
+         * Тут говнокод
+         */
+        public FindUsersResult FindUsers(int page, UserFilter filter)
+        {
+            IsAllowAction(AccessType.Admin);
+
+            Expression<Func<User, bool>> filterId = x => true;
+            Expression<Func<User, bool>> filterLogin = x => true;
+            Expression<Func<User, bool>> filterEmail = x => true;
+            Expression<Func<User, bool>> filterSurname = x => true;
+            Expression<Func<User, bool>> filterName = x => true;
+            Expression<Func<User, bool>> filterPatronymic = x => true;
+            Expression<Func<User, bool>> filterStatus = x => true;
+            Expression<Func<User, bool>> filterBornDateFrom = x => true;
+            Expression<Func<User, bool>> filterBornDateTo = x => true;
+
+            if (filter.Id.Count > 0)
+            {
+                filterId = x => filter.Id.Contains(x.Id);
+            }
+
+            if (!string.IsNullOrEmpty(filter.Login))
+            {
+                filterLogin = x => x.Login.Contains(filter.Login);
+            }
+
+            if (!string.IsNullOrEmpty(filter.Email))
+            {
+                filterEmail = x => x.Email.Contains(filter.Email);
+            }
+
+            if (!string.IsNullOrEmpty(filter.Surname))
+            {
+                filterSurname = x => x.Surname.Contains(filter.Surname);
+            }
+
+            if (!string.IsNullOrEmpty(filter.Name))
+            {
+                filterName = x => x.Name.Contains(filter.Name);
+            }
+
+            if (!string.IsNullOrEmpty(filter.Patronymic))
+            {
+                filterPatronymic = x => x.Patronymic.Contains(filter.Patronymic);
+            }
+
+            if (filter.Status.Contains(true))
+            {
+                filterStatus = x => (filter.Status[0] ? x.Status == 0 : false) || (filter.Status[1] ? x.Status == 1 : false) || (filter.Status[2] ? x.Status == 2 : false);
+            }
+
+            if (filter.BornDateFrom.HasValue)
+            {
+                filterBornDateFrom = x => x.BornDate >= filter.BornDateFrom.Value;
+            }
+
+            if (filter.BornDateTo.HasValue)
+            {
+                filterBornDateTo = x => x.BornDate <= filter.BornDateTo.Value;
+            }
+
+            var query = context.Users.Where(filterId).Where(filterLogin).Where(filterEmail).Where(filterSurname).Where(filterName).Where(filterPatronymic).
+                Where(filterStatus).Where(filterBornDateFrom).Where(filterBornDateTo);
+            var result = new FindUsersResult()
+            {
+                PageCount = Math.Max((int)Math.Ceiling((double)query.Count() / takeCount), 1),
+                Users = query.Skip((page - 1) * takeCount).Take(takeCount).ToArray()
+            };
+
+            return result;
+        }
+
+        public void ResetUserPassword(int idUser)
+        {
+            IsAllowAction(AccessType.Admin);
+
+            try
+            {
+                var user = context.Users.SingleOrDefault(x => x.Id == idUser);
+                if (user == null)
+                {
+                    // Попытка хака
+
+                    return;
+                }
+
+                user.PasswordHash = HashHelper.StringHash("");
+
+                context.SubmitChanges();
+            }
+            catch
+            {
+                // ошибка доступа к БД.
+            }
+        }
+
+        public void UpdateUser(int idUser, string login, string email, byte status)
+        {
+            IsAllowAction(AccessType.Admin);
+
+            try
+            {
+                var user = context.Users.SingleOrDefault(x => x.Id == idUser);
+                if (user == null)
+                {
+                    // Попытка хака
+
+                    return;
+                }
+
+                if (user.CheckOnAdminEdit() && (user.Login == login || IsLoginEmpty(login)) && (user.Email == email || IsEmailEmpty(email)))
+                {
+                    user.Login = login;
+                    user.Email = email;
+                    user.Status = status;
+
+                    context.SubmitChanges();
+                }
+                else
+                {
+                    // Попытка хака
+
+                    return;
+                }
+            }
+            catch
+            {
+                // ошибка доступа к БД.
             }
         }
     }

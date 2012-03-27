@@ -1532,6 +1532,67 @@ namespace Directums.Client.DirectumsService {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="FindUsersResult", Namespace="http://schemas.datacontract.org/2004/07/Directums.Service.Classes")]
+    [System.SerializableAttribute()]
+    public partial class FindUsersResult : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PageCountField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Directums.Client.DirectumsService.User[] UsersField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int PageCount {
+            get {
+                return this.PageCountField;
+            }
+            set {
+                if ((this.PageCountField.Equals(value) != true)) {
+                    this.PageCountField = value;
+                    this.RaisePropertyChanged("PageCount");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Directums.Client.DirectumsService.User[] Users {
+            get {
+                return this.UsersField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UsersField, value) != true)) {
+                    this.UsersField = value;
+                    this.RaisePropertyChanged("Users");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="DirectumsService.IDirectumsService", CallbackContract=typeof(Directums.Client.DirectumsService.IDirectumsServiceCallback), SessionMode=System.ServiceModel.SessionMode.Required)]
     public interface IDirectumsService {
@@ -1559,6 +1620,15 @@ namespace Directums.Client.DirectumsService {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IDirectumsService/AddMessage")]
         void AddMessage(int idUserFor, string text);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/FindUsers", ReplyAction="http://tempuri.org/IDirectumsService/FindUsersResponse")]
+        Directums.Client.DirectumsService.FindUsersResult FindUsers(int page, Directums.Classes.UserFilter filter);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IDirectumsService/ResetUserPassword")]
+        void ResetUserPassword(int idUser);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IDirectumsService/UpdateUser")]
+        void UpdateUser(int idUser, string login, string email, byte status);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1632,6 +1702,18 @@ namespace Directums.Client.DirectumsService {
         
         public void AddMessage(int idUserFor, string text) {
             base.Channel.AddMessage(idUserFor, text);
+        }
+        
+        public Directums.Client.DirectumsService.FindUsersResult FindUsers(int page, Directums.Classes.UserFilter filter) {
+            return base.Channel.FindUsers(page, filter);
+        }
+        
+        public void ResetUserPassword(int idUser) {
+            base.Channel.ResetUserPassword(idUser);
+        }
+        
+        public void UpdateUser(int idUser, string login, string email, byte status) {
+            base.Channel.UpdateUser(idUser, login, email, status);
         }
     }
 }

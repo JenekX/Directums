@@ -9,7 +9,7 @@ namespace Directums.Client
     {
         private void RefreshInterface()
         {
-            btnOK.Enabled = tbLogin.TextLength > 0 && tbPass.TextLength > 0;
+            btnOK.Enabled = tbLogin.TextLength > 0;
         }
 
         public LoginForm(DirectumsConfig config) : base(config)
@@ -31,7 +31,11 @@ namespace Directums.Client
             if (connected)
             {
                 // Тут переход в главную форму
-                DialogHelper.Information(this, "все чОтко!");
+                //DialogHelper.Information(this, "все чОтко!");
+
+                Directums.Client.Forms.Admin.UserManagementForm.Execute(this);
+
+                Config.Client.Disconnect();
             }
             else
             {

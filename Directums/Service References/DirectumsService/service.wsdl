@@ -16,6 +16,9 @@
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/Directums.Service" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/System.Data.Linq" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Directums.Classes" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IDirectumsService_Connect_InputMessage">
@@ -60,6 +63,18 @@
   <wsdl:message name="IDirectumsService_AddMessage_InputMessage">
     <wsdl:part name="parameters" element="tns:AddMessage" />
   </wsdl:message>
+  <wsdl:message name="IDirectumsService_FindUsers_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindUsers" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_FindUsers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindUsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_ResetUserPassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:ResetUserPassword" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_UpdateUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUser" />
+  </wsdl:message>
   <wsdl:message name="IDirectumsService_UserConnected_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:UserConnected" />
   </wsdl:message>
@@ -99,6 +114,16 @@
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="AddMessage">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/AddMessage" message="tns:IDirectumsService_AddMessage_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="FindUsers">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/FindUsers" message="tns:IDirectumsService_FindUsers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/FindUsersResponse" message="tns:IDirectumsService_FindUsers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="ResetUserPassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/ResetUserPassword" message="tns:IDirectumsService_ResetUserPassword_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UpdateUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/UpdateUser" message="tns:IDirectumsService_UpdateUser_InputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UserConnected">
       <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/UserConnected" message="tns:IDirectumsService_UserConnected_OutputCallbackMessage" />
@@ -176,6 +201,27 @@
     </wsdl:operation>
     <wsdl:operation name="AddMessage">
       <soap12:operation soapAction="http://tempuri.org/IDirectumsService/AddMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="FindUsers">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/FindUsers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResetUserPassword">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/ResetUserPassword" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUser">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/UpdateUser" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

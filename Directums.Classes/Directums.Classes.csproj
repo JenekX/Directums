@@ -43,6 +43,7 @@
     <Compile Include="Core\HashHelper.cs" />
     <Compile Include="Core\RegexCheck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserFilter.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
