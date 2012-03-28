@@ -16,11 +16,6 @@ namespace Directums.Client.Classes
             IsAdmin = arguments.Count(x => x == "/admin" || x == "-admin") == 1;
         }
 
-        ~DirectumsConfig()
-        {
-            Client.Disconnect();
-        }
-
         public DirectumsServiceClient Client { get; private set; }
         public bool IsAdmin { get; private set; }
     }

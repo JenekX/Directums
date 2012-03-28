@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Files" Class="DirectumsServiceDataClassesDataContext" Serialization="Unidirectional" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=JENEKX-PC;Initial Catalog=Files;Persist Security Info=True;User ID=sa" SettingsObjectName="Directums.Service.Properties.Settings" SettingsPropertyName="FilesConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=JENEKX-PC;Initial Catalog=Files;Persist Security Info=True;User ID=sa" SettingsObjectName="Directums.Service.Properties.Settings" SettingsPropertyName="DirectumsConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Users" Member="Users">
     <Type Name="User">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />

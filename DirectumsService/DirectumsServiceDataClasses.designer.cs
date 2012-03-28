@@ -76,7 +76,7 @@ namespace Directums.Service
     #endregion
 		
 		public DirectumsServiceDataClassesDataContext() : 
-				base(global::Directums.Service.Properties.Settings.Default.FilesConnectionString, mappingSource)
+				base(global::Directums.Service.Properties.Settings.Default.DirectumsConnectionString, mappingSource)
 		{
 			OnCreated();
 		}

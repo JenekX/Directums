@@ -17,5 +17,10 @@ namespace Directums.Client.Classes
         {
             MessageBox.Show(owner, text, "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
+
+        public static bool Confirmation(IWin32Window owner, string question)
+        {
+            return MessageBox.Show(owner, question, "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes;
+        }
     }
 }
