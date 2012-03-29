@@ -131,6 +131,32 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="GetDirs">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDirsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="GetDirsResult" nillable="true" type="q5:ArrayOfGetDirsResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFiles">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="dirId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFilesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="GetFilesResult" nillable="true" type="q6:ArrayOfGetFilesResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="UserConnected">
     <xs:complexType>
       <xs:sequence>

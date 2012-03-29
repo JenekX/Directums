@@ -8,4 +8,35 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="FindUsersResult" nillable="true" type="tns:FindUsersResult" />
+  <xs:complexType name="ArrayOfGetDirsResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="GetDirsResult" nillable="true" type="tns:GetDirsResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfGetDirsResult" nillable="true" type="tns:ArrayOfGetDirsResult" />
+  <xs:complexType name="GetDirsResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IdItem" type="xs:int" />
+      <xs:element minOccurs="0" name="IdParent" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="typeAccess" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetDirsResult" nillable="true" type="tns:GetDirsResult" />
+  <xs:complexType name="ArrayOfGetFilesResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="GetFilesResult" nillable="true" type="tns:GetFilesResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfGetFilesResult" nillable="true" type="tns:ArrayOfGetFilesResult" />
+  <xs:complexType name="GetFilesResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CreatedTime" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Extension" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetFilesResult" nillable="true" type="tns:GetFilesResult" />
 </xs:schema>

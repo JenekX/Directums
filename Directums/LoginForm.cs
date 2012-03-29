@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using Directums.Classes.Core;
 using Directums.Client.Classes;
+using System.Collections.Generic;
 
 namespace Directums.Client
 {
@@ -32,8 +33,12 @@ namespace Directums.Client
             {
                 // Тут переход в главную форму
                 //DialogHelper.Information(this, "все чОтко!");
+                //var dirs = Config.Client.GetFiles();
+                MainForm mf = new MainForm(Config);
+                //this.Close();
+                mf.ShowDialog();
 
-                Directums.Client.Forms.Admin.UserManagementForm.Execute(this);
+                //Directums.Client.Forms.Admin.UserManagementForm.Execute(this);
 
                 Config.Client.Disconnect();
             }

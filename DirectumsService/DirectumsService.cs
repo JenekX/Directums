@@ -287,7 +287,7 @@ namespace Directums.Service
                 }
                 else
                 {
-                    // Попытка хака
+                    // Попытка хаxа
 
                     return;
                 }
@@ -296,6 +296,51 @@ namespace Directums.Service
             {
                 // ошибка доступа к БД.
             }
+        }
+
+        public List<GetDirsResult> GetDirs()
+        {
+            //Получение доступных директорий конкретно для пользователя            
+            var dirs = context.AccessRights.Where(x => x.IdUser == idUser).
+                Join(context.Files, access => access.IdFile, file => file.Id, (access, file) => new { Id = file.Id, Name = file.Name, FileType = file.Type, AccType = access.Type }).
+                Where(x => x.FileType == 1).
+                Join(context.Items, file => file.Id, item => item.IdFile, (file, item) => new GetDirsResult((Int32)file.Id, file.Name, (Int32)item.IdParent, (Int32)item.Id, item.Type)).ToList();
+            
+            //Получение доступных директорий для группы пользователей, в которой состоит данные пользователь
+            dirs.AddRange(context.UserGroups.Where(x => x.IdUser == idUser).
+                Join(context.AccessRights, groups => groups.IdGroup, access => access.IdGroup, (groups, access) => new {IdFile = access.IdFile, AccType = access.Type, IdUser = access.IdUser}).
+                Where(x => x.IdUser == null).
+                Join(context.Files, access => access.IdFile, file => file.Id, (access, file) => new { Id = file.Id, Name = file.Name, FileType = file.Type, AccType = access.AccType }).
+                Where(x => x.FileType == 1).
+                Join(context.Items, file => file.Id, item => item.IdFile, (file, item) => new GetDirsResult((Int32)file.Id, file.Name, (Int32)item.IdParent, (Int32)item.Id, item.Type)).ToList());
+                        
+            //Получение расшаренной папки всей конторы
+            var shared = context.Items.FirstOrDefault(x => x.Type == 1);
+            
+            if (shared != null)
+            {
+                //GetFilesResult fileRoot = new GetFilesResult(-1, "Корневая папка пользователя", -1, root.IdRootFolder);
+                dirs.Add(new GetDirsResult(-1, "Общая папка", -1, shared.Id));
+            }
+
+            //Получение корневой папки пользователя
+            var root = context.Users.FirstOrDefault(x => x.Id == idUser);
+            
+            if (root != null)
+            {
+                //GetFilesResult fileRoot = new GetFilesResult(-1, "Корневая папка пользователя", -1, root.IdRootFolder);
+                dirs.Add(new GetDirsResult(-1, "Корневая папка пользователя", -1, root.IdRootFolder));   
+            }
+
+            return dirs;
+        }
+
+        public List<GetFilesResult> GetFiles(Int32 dirId)
+        {
+            return context.Items.Where(x => x.IdParent == dirId && x.Type == 0).
+                Join(context.Files, item => item.IdFile, file => file.Id, (item, file) => new { Id = (Int32)file.Id, FileType = file.Type }).
+                Where(x => x.FileType == 0)
+                .Join(context.Files, prevFile => prevFile.Id, file => file.Id, (prevFile, file) => new GetFilesResult((Int32) file.Id, file.Name, file.Extension.Name, (DateTime) file.Created)).ToList(); 
         }
     }
 }

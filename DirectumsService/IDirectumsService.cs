@@ -2,6 +2,7 @@
 using System.ServiceModel;
 using Directums.Classes;
 using Directums.Service.Classes;
+using System.Collections.Generic;
 
 namespace Directums.Service
 {
@@ -40,5 +41,12 @@ namespace Directums.Service
 
         [OperationContract(IsOneWay = true)]
         void UpdateUser(int idUser, string login, string email, byte status);
+
+        [OperationContract]
+        List<GetDirsResult> GetDirs();
+
+        [OperationContract]
+        List<GetFilesResult> GetFiles(Int32 dirId);
+
     }
 }

@@ -67,6 +67,8 @@
     <Compile Include="AccessFailureException.cs" />
     <Compile Include="AccessType.cs" />
     <Compile Include="Classes\FindUsersResult.cs" />
+    <Compile Include="Classes\GetDirsResult.cs" />
+    <Compile Include="Classes\GetFilesResult.cs" />
     <Compile Include="DirectumsServiceDataClasses.cs">
       <DependentUpon>DirectumsServiceDataClasses.dbml</DependentUpon>
     </Compile>

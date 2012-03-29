@@ -75,6 +75,18 @@
   <wsdl:message name="IDirectumsService_UpdateUser_InputMessage">
     <wsdl:part name="parameters" element="tns:UpdateUser" />
   </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetDirs_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDirs" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetDirs_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDirsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetFiles_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFiles" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetFiles_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFilesResponse" />
+  </wsdl:message>
   <wsdl:message name="IDirectumsService_UserConnected_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:UserConnected" />
   </wsdl:message>
@@ -124,6 +136,14 @@
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UpdateUser">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/UpdateUser" message="tns:IDirectumsService_UpdateUser_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetDirs">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/GetDirs" message="tns:IDirectumsService_GetDirs_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/GetDirsResponse" message="tns:IDirectumsService_GetDirs_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetFiles">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/GetFiles" message="tns:IDirectumsService_GetFiles_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/GetFilesResponse" message="tns:IDirectumsService_GetFiles_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UserConnected">
       <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/UserConnected" message="tns:IDirectumsService_UserConnected_OutputCallbackMessage" />
@@ -225,6 +245,24 @@
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="GetDirs">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/GetDirs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFiles">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/GetFiles" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="UserConnected">
       <soap12:operation soapAction="http://tempuri.org/IDirectumsService/UserConnected" style="document" />
