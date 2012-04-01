@@ -30,23 +30,36 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserManagementForm));
+            this.columnHeaderStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.lbPage = new System.Windows.Forms.Label();
             this.cmbPage = new System.Windows.Forms.ComboBox();
             this.lbFilter = new System.Windows.Forms.Label();
             this.btnReset = new System.Windows.Forms.Button();
             this.btnFilter = new System.Windows.Forms.Button();
-            this.btnClose = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.lvUsers = new System.Windows.Forms.ListView();
-            this.columnHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderLogin = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderEmail = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderSurname = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderPatronymic = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderBornDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.cmUsers = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmSelect = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmStatus = new System.Windows.Forms.ToolStripMenuItem();
+            this.columnHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lbUsers = new System.Windows.Forms.Label();
+            this.btnSelect = new System.Windows.Forms.Button();
+            this.cmUsers.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // columnHeaderStatus
+            // 
+            this.columnHeaderStatus.Text = "?";
+            this.columnHeaderStatus.Width = 22;
             // 
             // imageList
             // 
@@ -86,7 +99,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbFilter.Location = new System.Drawing.Point(174, 277);
             this.lbFilter.Name = "lbFilter";
-            this.lbFilter.Size = new System.Drawing.Size(432, 23);
+            this.lbFilter.Size = new System.Drawing.Size(351, 23);
             this.lbFilter.TabIndex = 7;
             this.lbFilter.Text = "Фильтр: не используется";
             this.lbFilter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -113,16 +126,16 @@
             this.btnFilter.UseVisualStyleBackColor = true;
             this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
             // 
-            // btnClose
+            // btnCancel
             // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnClose.Location = new System.Drawing.Point(612, 277);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(75, 23);
-            this.btnClose.TabIndex = 3;
-            this.btnClose.Text = "Закрыть";
-            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(612, 277);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 3;
+            this.btnCancel.Text = "Закрыть";
+            this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // lvUsers
             // 
@@ -130,13 +143,14 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lvUsers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeaderId,
+            this.columnHeaderStatus,
             this.columnHeaderLogin,
             this.columnHeaderEmail,
             this.columnHeaderSurname,
             this.columnHeaderName,
             this.columnHeaderPatronymic,
             this.columnHeaderBornDate});
+            this.lvUsers.ContextMenuStrip = this.cmUsers;
             this.lvUsers.FullRowSelect = true;
             this.lvUsers.Location = new System.Drawing.Point(12, 33);
             this.lvUsers.MultiSelect = false;
@@ -146,12 +160,8 @@
             this.lvUsers.TabIndex = 1;
             this.lvUsers.UseCompatibleStateImageBehavior = false;
             this.lvUsers.View = System.Windows.Forms.View.Details;
+            this.lvUsers.SelectedIndexChanged += new System.EventHandler(this.lvUsers_SelectedIndexChanged);
             this.lvUsers.DoubleClick += new System.EventHandler(this.lvUsers_DoubleClick);
-            // 
-            // columnHeaderId
-            // 
-            this.columnHeaderId.Text = "Код";
-            this.columnHeaderId.Width = 40;
             // 
             // columnHeaderLogin
             // 
@@ -183,6 +193,48 @@
             this.columnHeaderBornDate.Text = "Дата рождения";
             this.columnHeaderBornDate.Width = 110;
             // 
+            // cmUsers
+            // 
+            this.cmUsers.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmSelect,
+            this.tsmSeparator,
+            this.tsmEdit,
+            this.tsmStatus});
+            this.cmUsers.Name = "cmGroups";
+            this.cmUsers.Size = new System.Drawing.Size(159, 98);
+            this.cmUsers.Opening += new System.ComponentModel.CancelEventHandler(this.cmUsers_Opening);
+            // 
+            // tsmSelect
+            // 
+            this.tsmSelect.Name = "tsmSelect";
+            this.tsmSelect.Size = new System.Drawing.Size(158, 22);
+            this.tsmSelect.Text = "Выбрать";
+            this.tsmSelect.Click += new System.EventHandler(this.tsmSelect_Click);
+            // 
+            // tsmSeparator
+            // 
+            this.tsmSeparator.Name = "tsmSeparator";
+            this.tsmSeparator.Size = new System.Drawing.Size(155, 6);
+            // 
+            // tsmEdit
+            // 
+            this.tsmEdit.Name = "tsmEdit";
+            this.tsmEdit.Size = new System.Drawing.Size(158, 22);
+            this.tsmEdit.Text = "Редактировать";
+            this.tsmEdit.Click += new System.EventHandler(this.tsmEdit_Click);
+            // 
+            // tsmStatus
+            // 
+            this.tsmStatus.Name = "tsmStatus";
+            this.tsmStatus.Size = new System.Drawing.Size(158, 22);
+            this.tsmStatus.Text = "Заблокировать";
+            this.tsmStatus.Click += new System.EventHandler(this.tsmStatus_Click);
+            // 
+            // columnHeaderId
+            // 
+            this.columnHeaderId.Text = "Код";
+            this.columnHeaderId.Width = 40;
+            // 
             // lbUsers
             // 
             this.lbUsers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -194,22 +246,36 @@
             this.lbUsers.Text = "Пользователи:";
             this.lbUsers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // btnSelect
+            // 
+            this.btnSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelect.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnSelect.Location = new System.Drawing.Point(531, 277);
+            this.btnSelect.Name = "btnSelect";
+            this.btnSelect.Size = new System.Drawing.Size(75, 23);
+            this.btnSelect.TabIndex = 10;
+            this.btnSelect.Text = "Выбрать";
+            this.btnSelect.UseVisualStyleBackColor = true;
+            // 
             // UserManagementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(699, 312);
+            this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.lbPage);
             this.Controls.Add(this.cmbPage);
             this.Controls.Add(this.lbFilter);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnFilter);
-            this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lvUsers);
             this.Controls.Add(this.lbUsers);
             this.MinimumSize = new System.Drawing.Size(715, 250);
             this.Name = "UserManagementForm";
             this.Text = "Управление пользователями";
+            this.cmUsers.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -218,7 +284,7 @@
 
         private System.Windows.Forms.Label lbUsers;
         private System.Windows.Forms.ListView lvUsers;
-        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnFilter;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Label lbFilter;
@@ -232,5 +298,12 @@
         private System.Windows.Forms.ColumnHeader columnHeaderPatronymic;
         private System.Windows.Forms.ColumnHeader columnHeaderBornDate;
         private System.Windows.Forms.ImageList imageList;
+        private System.Windows.Forms.ContextMenuStrip cmUsers;
+        private System.Windows.Forms.ToolStripMenuItem tsmEdit;
+        private System.Windows.Forms.ToolStripMenuItem tsmStatus;
+        private System.Windows.Forms.ToolStripMenuItem tsmSelect;
+        private System.Windows.Forms.ToolStripSeparator tsmSeparator;
+        private System.Windows.Forms.Button btnSelect;
+        private System.Windows.Forms.ColumnHeader columnHeaderStatus;
     }
 }

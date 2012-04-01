@@ -14,7 +14,7 @@ namespace Directums.Client
 {
     public partial class MainForm : DirectumsForm
     {
-        private List<GetDirsResult> dirs;
+        private GetDirsResult[] dirs;
 
         public MainForm(DirectumsConfig config) : base (config)
         {

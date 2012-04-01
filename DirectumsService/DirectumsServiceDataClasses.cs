@@ -10,6 +10,10 @@ namespace Directums.Service
 
     partial class User
     {
+        public const byte StatusInactive = 0;
+        public const byte StatusActive = 1;
+        public const byte StatusBlocked = 2;
+
         public bool CheckOnRegister()
         {
             return RegexCheck.CheckLogin(Login) && (PasswordHash.Length == 32) && RegexCheck.CheckEmail(Email);
@@ -17,7 +21,7 @@ namespace Directums.Service
 
         public bool CheckOnAdminEdit()
         {
-            return RegexCheck.CheckLogin(Login) && RegexCheck.CheckEmail(Email) && (Status == 0 || Status == 1 || Status == 2);
+            return RegexCheck.CheckLogin(Login) && RegexCheck.CheckEmail(Email) && (Status == StatusInactive || Status == StatusActive || Status == StatusBlocked);
         }
     }
 
