@@ -62,6 +62,11 @@ namespace Directums.Client.Forms.Admin
             return true;
         }
 
+        private bool FullCheck()
+        {
+            return CheckLogin(true) && CheckEmail(true);
+        }
+
         private void FillForm()
         {
             tbLogin.Text = user.Login;
@@ -101,10 +106,13 @@ namespace Directums.Client.Forms.Admin
             }
         }
 
-        public UserEditForm(DirectumsConfig config, User user) : base(config)
+        public UserEditForm(DirectumsConfig config) : base(config)
         {
             InitializeComponent();
+        }
 
+        public void Initialize(User user)
+        {
             this.user = user;
 
             FillForm();
@@ -113,7 +121,9 @@ namespace Directums.Client.Forms.Admin
 
         public static bool Execute(DirectumsForm ownerForm, User user)
         {
-            UserEditForm form = new UserEditForm(ownerForm.Config, user);
+            UserEditForm form = new UserEditForm(ownerForm.Config);
+            form.Initialize(user);
+
             return form.ShowDialog(ownerForm) == DialogResult.OK;
         }
 
@@ -155,7 +165,16 @@ namespace Directums.Client.Forms.Admin
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            if (!FullCheck())
+            {
+                DialogResult = DialogResult.None;
+            }
+
             Config.Client.UpdateUser(user.Id, tbLogin.Text, tbEmail.Text, GetStatus());
+
+            user.Login = tbLogin.Text;
+            user.Email = tbEmail.Text;
+            user.Status = GetStatus();
         }
     }
 }

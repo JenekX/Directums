@@ -54,16 +54,28 @@
     <Compile Include="Classes\DirectumsForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\Admin\GroupEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Admin\GroupEditForm.Designer.cs">
+      <DependentUpon>GroupEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Admin\GroupManagementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Admin\GroupManagementForm.designer.cs">
+      <DependentUpon>GroupManagementForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Admin\UserEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Admin\UserEditForm.Designer.cs">
       <DependentUpon>UserEditForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Admin\UserFilterForm.cs">
+    <Compile Include="Forms\Common\UserFilterForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Admin\UserFilterForm.Designer.cs">
+    <Compile Include="Forms\Common\UserFilterForm.Designer.cs">
       <DependentUpon>UserFilterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Admin\UserManagementForm.cs">
@@ -91,10 +103,16 @@
     <Compile Include="SignUpForm.Designer.cs">
       <DependentUpon>SignUpForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\Admin\GroupEditForm.resx">
+      <DependentUpon>GroupEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Admin\GroupManagementForm.resx">
+      <DependentUpon>GroupManagementForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Admin\UserEditForm.resx">
       <DependentUpon>UserEditForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Admin\UserFilterForm.resx">
+    <EmbeddedResource Include="Forms\Common\UserFilterForm.resx">
       <DependentUpon>UserFilterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Admin\UserManagementForm.resx">
@@ -132,7 +150,16 @@
     <None Include="Service References\DirectumsService\Directums.Classes.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.FindGroupsResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.FindUsersResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetGroupResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.Options.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.User.datasource">
@@ -182,7 +209,9 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Forms\Client\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

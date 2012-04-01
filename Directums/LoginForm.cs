@@ -26,14 +26,13 @@ namespace Directums.Client
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            bool connected = Config.Client.Connect(tbLogin.Text, HashHelper.StringHash(tbPass.Text));
+            bool connected = Config.Connect(tbLogin.Text, HashHelper.StringHash(tbPass.Text));
 
             if (connected)
             {
                 // Тут переход в главную форму
                 //DialogHelper.Information(this, "все чОтко!");
-
-                Directums.Client.Forms.Admin.UserManagementForm.Execute(this);
+                Directums.Client.Forms.Admin.GroupManagementForm.Execute(this);
 
                 Config.Client.Disconnect();
             }

@@ -1,6 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="http://schemas.datacontract.org/2004/07/Directums.Service" />
+  <xs:complexType name="Options">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IdAllUsersGroup" type="xs:int" />
+      <xs:element minOccurs="0" name="MaxFileSize" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Options" nillable="true" type="tns:Options" />
   <xs:complexType name="FindUsersResult">
     <xs:sequence>
       <xs:element minOccurs="0" name="PageCount" type="xs:int" />
@@ -8,4 +15,26 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="FindUsersResult" nillable="true" type="tns:FindUsersResult" />
+  <xs:complexType name="ArrayOfFindGroupsResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FindGroupsResult" nillable="true" type="tns:FindGroupsResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFindGroupsResult" nillable="true" type="tns:ArrayOfFindGroupsResult" />
+  <xs:complexType name="FindGroupsResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Status" type="xs:boolean" />
+      <xs:element minOccurs="0" name="UserCount" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FindGroupsResult" nillable="true" type="tns:FindGroupsResult" />
+  <xs:complexType name="GetGroupResult">
+    <xs:sequence>
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Directums.Service" minOccurs="0" name="Group" nillable="true" type="q2:Group" />
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Directums.Service" minOccurs="0" name="Users" nillable="true" type="q3:ArrayOfUser" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetGroupResult" nillable="true" type="tns:GetGroupResult" />
 </xs:schema>

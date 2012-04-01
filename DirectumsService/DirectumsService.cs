@@ -17,14 +17,21 @@ namespace Directums.Service
         private static Dictionary<int, IDirectumsServiceCallback> connected = new Dictionary<int, IDirectumsServiceCallback>();
 
         private const int takeCount = 2;
+        private const int allGroupId = 1;
 
-        private int idUser = 0;
-        private bool isAdmin = false;
+        private User user = null;
         private IDirectumsServiceCallback callback = null;
 
-        private void IsAllowAction(AccessType needType)
+        private void IsAllowAction(AccessType needType, AccessStatus needStatus = AccessStatus.All)
         {
-            if (needType == AccessType.Authorized && idUser == 0 || needType == AccessType.Admin && !isAdmin)
+            byte status = user != null ? user.Status : byte.MaxValue;
+
+            bool isInactive = (needStatus & AccessStatus.Inactive) == AccessStatus.Inactive;
+            bool isActive = (needStatus & AccessStatus.Active) == AccessStatus.Active;
+            bool isBlocked = (needStatus & AccessStatus.Blocked) == AccessStatus.Blocked;
+
+            if (needType == AccessType.Authorized && user == null || needType == AccessType.Admin && (user == null || !user.IsAdmin) ||
+                !(isInactive && status == User.StatusInactive || isActive && status == User.StatusActive || isBlocked && status == User.StatusBlocked))
             {
                 throw new AccessFailureException();
             }
@@ -32,31 +39,44 @@ namespace Directums.Service
 
         public bool Connect(string login, string passwordHash)
         {
-            if (idUser != 0)
+            if (user != null)
             {
                 return true;
             }
 
-            User user = context.Users.FirstOrDefault(x => x.Login == login && x.PasswordHash == passwordHash);
+            try
+            {
+                user = context.Users.FirstOrDefault(x => x.Login == login && x.PasswordHash == passwordHash);
+            }
+            catch
+            {
+                // Ошибка запроса к БД
+
+                return false;
+            }
+
             if (user == null)
             {
                 return false;
             }
 
-            this.idUser = user.Id;
-            this.isAdmin = user.IsAdmin;
-            this.callback = OperationContext.Current.GetCallbackChannel<IDirectumsServiceCallback>();
+            if (connected.ContainsKey(user.Id))
+            {
+                connected.Remove(user.Id);
+            }
+
+            callback = OperationContext.Current.GetCallbackChannel<IDirectumsServiceCallback>();
 
             try
             {
-                connected.ToList().ForEach(x => x.Value.UserConnected(idUser));
+                connected.ToList().ForEach(x => x.Value.UserConnected(user.Id));
             }
             catch
             {
                 // Обработка исключения
             }
 
-            connected.Add(idUser, callback);
+            connected.Add(user.Id, callback);
 
             return true;
         }
@@ -65,18 +85,21 @@ namespace Directums.Service
         {
             IsAllowAction(AccessType.Authorized);
 
-            if (connected.ContainsKey(idUser))
+            if (connected.ContainsKey(user.Id))
             {
-                connected.Remove(idUser);
+                connected.Remove(user.Id);
 
                 try
                 {
-                    connected.ToList().ForEach(x => x.Value.UserDisconnected(idUser));
+                    connected.ToList().ForEach(x => x.Value.UserDisconnected(user.Id));
                 }
                 catch
                 {
                     // Обработка исключения
                 }
+
+                user = null;
+                callback = null;
             }
         }
 
@@ -84,12 +107,22 @@ namespace Directums.Service
         {
             IsAllowAction(AccessType.Authorized);
 
-            return context.Users.SingleOrDefault(x => x.Id == idUser);
+            return context.Users.SingleOrDefault(x => x.Id == user.Id);
+        }
+
+        public Options GetOptions()
+        {
+            var result = new Options()
+            {
+                IdAllUsersGroup = allGroupId
+            };
+
+            return result;
         }
 
         public User[] UserList()
         {
-            IsAllowAction(AccessType.Admin);
+            IsAllowAction(AccessType.Admin, AccessStatus.Active);
 
             var users = connected.Select(x => x.Key);
             var result = context.Users.Where(x => users.Contains(x.Id)).ToArray();
@@ -103,11 +136,14 @@ namespace Directums.Service
             {
                 Item item = new Item() { Type = Item.UserFolder, IdParent = null, IdFile = null, IdItem = null };
                 User user = new User() { Login = login, Email = email, PasswordHash = passwordHash, Surname = "", Name = "", Patronymic = "", BornDate = null, Status = 0, Item = item, IsAdmin = false };
+                Group group = context.Groups.Single(x => x.Id == allGroupId);
+                UserGroup userGroup = new UserGroup() { Group = group, User = user };
 
                 if (user.CheckOnRegister() && IsLoginEmpty(login) && IsEmailEmpty(email))
                 {
                     context.Items.InsertOnSubmit(item);
                     context.Users.InsertOnSubmit(user);
+                    context.UserGroups.InsertOnSubmit(userGroup);
                     context.SubmitChanges();
 
                     return true;
@@ -121,6 +157,8 @@ namespace Directums.Service
             }
             catch
             {
+                // Ошибка доступа к БД
+
                 return false;
             }
         }
@@ -137,9 +175,9 @@ namespace Directums.Service
         
         public void AddMessage(int idUserFor, string text)
         {
-            IsAllowAction(AccessType.Authorized);
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
 
-            Message message = new Message() { IdUserFrom = idUser, IdUserFor = idUserFor, Text = text };
+            Message message = new Message() { IdUserFrom = user.Id, IdUserFor = idUserFor, Text = text };
 
             try
             {
@@ -157,7 +195,7 @@ namespace Directums.Service
             {
                 try
                 {
-                    connected[idUserFor].NewMessageReceive(idUser, text);
+                    connected[idUserFor].NewMessageReceive(user.Id, text);
                 }
                 catch
                 {
@@ -171,7 +209,7 @@ namespace Directums.Service
          */
         public FindUsersResult FindUsers(int page, UserFilter filter)
         {
-            IsAllowAction(AccessType.Admin);
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
 
             Expression<Func<User, bool>> filterId = x => true;
             Expression<Func<User, bool>> filterLogin = x => true;
@@ -241,7 +279,7 @@ namespace Directums.Service
 
         public void ResetUserPassword(int idUser)
         {
-            IsAllowAction(AccessType.Admin);
+            IsAllowAction(AccessType.Admin, AccessStatus.Active);
 
             try
             {
@@ -265,7 +303,7 @@ namespace Directums.Service
 
         public void UpdateUser(int idUser, string login, string email, byte status)
         {
-            IsAllowAction(AccessType.Admin);
+            IsAllowAction(AccessType.Admin, AccessStatus.Active);
 
             try
             {
@@ -296,6 +334,217 @@ namespace Directums.Service
             {
                 // ошибка доступа к БД.
             }
+        }
+
+        public void UpdateUserStatus(int idUser, byte status)
+        {
+            IsAllowAction(AccessType.Admin, AccessStatus.Active);
+
+            try
+            {
+                var user = context.Users.SingleOrDefault(x => x.Id == idUser);
+                if (user == null || status != User.StatusInactive && status != User.StatusActive && status != User.StatusBlocked)
+                {
+                    // Попытка хака
+
+                    return;
+                }
+
+                user.Status = status;
+
+                context.SubmitChanges();
+            }
+            catch
+            {
+                // ошибка доступа к БД.
+            }
+        }
+
+        public FindGroupsResult[] FindGroups(string filter)
+        {
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
+
+            Expression<Func<Group, bool>> filterFunc = x => true;
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                filterFunc = x => x.Name.Contains(filter);
+            }
+
+            try
+            {
+                return context.Groups.Where(filterFunc).Select(x => new FindGroupsResult() { Id = x.Id, Name = x.Name, Status = x.Status, UserCount = x.UserGroups.Count }).ToArray();
+            }
+            catch
+            {
+                // Ошибка доступа к БД
+
+                return null;
+            }
+        }
+
+        public GetGroupResult GetGroup(int idGroup)
+        {
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
+
+            try
+            {
+                var group = context.Groups.SingleOrDefault(x => x.Id == idGroup);
+                if (group == null)
+                {
+                    // Попытка хака
+
+                    return null;
+                }
+
+                var result = new GetGroupResult()
+                {
+                    Group = group,
+                    Users = group.UserGroups.Select(x => x.User).ToArray()
+                };
+
+                return result;
+            }
+            catch
+            {
+                // ошибка доступа к БД
+
+                return null;
+            }
+        }
+
+        public bool IsGroupNameEmpty(string name)
+        {
+            IsAllowAction(AccessType.Admin, AccessStatus.Active);
+
+            try
+            {
+                return context.Groups.Count(x => x.Name == name) == 0;
+            }
+            catch
+            {
+                // ошибка доступа к БД
+
+                return false;
+            }
+        }
+
+        public bool AddGroup(string name, bool status, int[] users)
+        {
+            IsAllowAction(AccessType.Admin, AccessStatus.Active);
+
+            var group = new Group()
+            {
+                Name = name,
+                Status = status
+            };
+
+            foreach (int idUser in users)
+            {
+                var userGroup = new UserGroup()
+                {
+                    Group = group,
+                    IdUser = idUser
+                };
+
+                context.UserGroups.InsertOnSubmit(userGroup);
+            }
+
+            context.Groups.InsertOnSubmit(group);
+
+            try
+            {
+                context.SubmitChanges();
+            }
+            catch
+            {
+                // ошибка доступа к БД
+
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool UpdateGroup(int id, string name, bool status, int[] users)
+        {
+            IsAllowAction(AccessType.Admin, AccessStatus.Active);
+
+            var group = context.Groups.SingleOrDefault(x => x.Id == id);
+            if (group == null)
+            {
+                // Хакерская атака
+
+                return false;
+            }
+
+            var usersToAdd = users.ToList();
+
+            group.Name = name;
+            group.Status = status;
+
+            foreach (var userGroup in group.UserGroups)
+            {
+                if (users.Contains(userGroup.IdUser))
+                {
+                    usersToAdd.Remove(userGroup.IdUser);
+                }
+                else
+                {
+                    context.UserGroups.DeleteOnSubmit(userGroup);
+                }
+            }
+
+            foreach (int idUser in usersToAdd)
+            {
+                var userGroup = new UserGroup()
+                {
+                    Group = group,
+                    IdUser = idUser
+                };
+
+                context.UserGroups.InsertOnSubmit(userGroup);
+            }
+
+            try
+            {
+                context.SubmitChanges();
+            }
+            catch
+            {
+                // ошибка доступа к БД
+
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool ChangeGroupStatus(int idGroup)
+        {
+            IsAllowAction(AccessType.Admin, AccessStatus.Active);
+
+            try
+            {
+                var group = context.Groups.SingleOrDefault(x => x.Id == idGroup);
+                if (group == null)
+                {
+                    // Хакерская атака
+
+                    return false;
+                }
+
+                group.Status = !group.Status;
+
+                context.SubmitChanges();
+            }
+            catch
+            {
+                // ошибка доступа к БД
+
+                return false;
+            }
+
+            return true;
         }
     }
 }

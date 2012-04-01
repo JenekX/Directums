@@ -1,5 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Files" Class="DirectumsServiceDataClassesDataContext" Serialization="Unidirectional" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=JENEKX-PC;Initial Catalog=Files;Persist Security Info=True;User ID=sa" SettingsObjectName="Directums.Service.Properties.Settings" SettingsPropertyName="DirectumsConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.AccessRights" Member="AccessRights">
+    <Type Name="AccessRight">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IdFile" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdUser" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdGroup" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Type" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Association Name="User_AccessRight" Member="User" ThisKey="IdUser" OtherKey="Id" Type="User" IsForeignKey="true" />
+      <Association Name="File_AccessRight" Member="File" ThisKey="IdFile" OtherKey="Id" Type="File" IsForeignKey="true" />
+      <Association Name="Group_AccessRight" Member="Group" ThisKey="IdGroup" OtherKey="Id" Type="Group" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.Users" Member="Users">
     <Type Name="User">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -22,18 +34,6 @@
       <Association Name="Item_User" Member="Item" ThisKey="IdRootFolder" OtherKey="Id" Type="Item" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.AccessRights" Member="AccessRights">
-    <Type Name="AccessRight">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IdFile" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IdUser" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IdGroup" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Type" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
-      <Association Name="User_AccessRight" Member="User" ThisKey="IdUser" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="File_AccessRight" Member="File" ThisKey="IdFile" OtherKey="Id" Type="File" IsForeignKey="true" />
-      <Association Name="Group_AccessRight" Member="Group" ThisKey="IdGroup" OtherKey="Id" Type="Group" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Extensions" Member="Extensions">
     <Type Name="Extension">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -48,8 +48,8 @@
       <Column Name="Type" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
       <Column Name="IdExtension" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Description" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" />
-      <Column Name="Created" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
+      <Column Name="Description" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="File_AccessRight" Member="AccessRights" ThisKey="Id" OtherKey="IdFile" Type="AccessRight" />
       <Association Name="File_FileTag" Member="FileTags" ThisKey="Id" OtherKey="IdFile" Type="FileTag" />
       <Association Name="File_FileVersion" Member="FileVersions" ThisKey="Id" OtherKey="IdFile" Type="FileVersion" />
@@ -80,7 +80,7 @@
   </Table>
   <Table Name="dbo.Groups" Member="Groups">
     <Type Name="Group">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
       <Column Name="Status" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="Group_AccessRight" Member="AccessRights" ThisKey="Id" OtherKey="IdGroup" Type="AccessRight" />
@@ -145,7 +145,7 @@
     <Type Name="Option">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(64) NOT NULL" CanBeNull="false" />
-      <Column Name="Value" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.Tags" Member="Tags">
@@ -157,7 +157,7 @@
   </Table>
   <Table Name="dbo.UserGroups" Member="UserGroups">
     <Type Name="UserGroup">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="IdGroup" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IdUser" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Group_UserGroup" Member="Group" ThisKey="IdGroup" OtherKey="Id" Type="Group" IsForeignKey="true" />

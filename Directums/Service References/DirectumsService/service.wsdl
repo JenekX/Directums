@@ -16,9 +16,9 @@
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/Directums.Service" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/System.Data.Linq" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/Directums.Classes" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IDirectumsService_Connect_InputMessage">
@@ -35,6 +35,12 @@
   </wsdl:message>
   <wsdl:message name="IDirectumsService_GetCurrentUser_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetCurrentUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetOptions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOptions" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetOptions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOptionsResponse" />
   </wsdl:message>
   <wsdl:message name="IDirectumsService_UserList_InputMessage">
     <wsdl:part name="parameters" element="tns:UserList" />
@@ -75,6 +81,45 @@
   <wsdl:message name="IDirectumsService_UpdateUser_InputMessage">
     <wsdl:part name="parameters" element="tns:UpdateUser" />
   </wsdl:message>
+  <wsdl:message name="IDirectumsService_UpdateUserStatus_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUserStatus" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_FindGroups_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindGroups" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_FindGroups_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindGroupsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroup" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_IsGroupNameEmpty_InputMessage">
+    <wsdl:part name="parameters" element="tns:IsGroupNameEmpty" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_IsGroupNameEmpty_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IsGroupNameEmptyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_AddGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddGroup" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_AddGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_UpdateGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateGroup" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_UpdateGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_ChangeGroupStatus_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeGroupStatus" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_ChangeGroupStatus_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeGroupStatusResponse" />
+  </wsdl:message>
   <wsdl:message name="IDirectumsService_UserConnected_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:UserConnected" />
   </wsdl:message>
@@ -95,6 +140,10 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetCurrentUser">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/GetCurrentUser" message="tns:IDirectumsService_GetCurrentUser_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/GetCurrentUserResponse" message="tns:IDirectumsService_GetCurrentUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetOptions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/GetOptions" message="tns:IDirectumsService_GetOptions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/GetOptionsResponse" message="tns:IDirectumsService_GetOptions_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UserList">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/UserList" message="tns:IDirectumsService_UserList_InputMessage" />
@@ -124,6 +173,33 @@
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UpdateUser">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/UpdateUser" message="tns:IDirectumsService_UpdateUser_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UpdateUserStatus">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/UpdateUserStatus" message="tns:IDirectumsService_UpdateUserStatus_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="FindGroups">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/FindGroups" message="tns:IDirectumsService_FindGroups_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/FindGroupsResponse" message="tns:IDirectumsService_FindGroups_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/GetGroup" message="tns:IDirectumsService_GetGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/GetGroupResponse" message="tns:IDirectumsService_GetGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="IsGroupNameEmpty">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/IsGroupNameEmpty" message="tns:IDirectumsService_IsGroupNameEmpty_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/IsGroupNameEmptyResponse" message="tns:IDirectumsService_IsGroupNameEmpty_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="AddGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/AddGroup" message="tns:IDirectumsService_AddGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/AddGroupResponse" message="tns:IDirectumsService_AddGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UpdateGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/UpdateGroup" message="tns:IDirectumsService_UpdateGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/UpdateGroupResponse" message="tns:IDirectumsService_UpdateGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="ChangeGroupStatus">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/ChangeGroupStatus" message="tns:IDirectumsService_ChangeGroupStatus_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/ChangeGroupStatusResponse" message="tns:IDirectumsService_ChangeGroupStatus_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UserConnected">
       <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/UserConnected" message="tns:IDirectumsService_UserConnected_OutputCallbackMessage" />
@@ -156,6 +232,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetCurrentUser">
       <soap12:operation soapAction="http://tempuri.org/IDirectumsService/GetCurrentUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOptions">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/GetOptions" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -225,6 +310,66 @@
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserStatus">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/UpdateUserStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="FindGroups">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/FindGroups" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroup">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/GetGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsGroupNameEmpty">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/IsGroupNameEmpty" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddGroup">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/AddGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateGroup">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/UpdateGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeGroupStatus">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/ChangeGroupStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="UserConnected">
       <soap12:operation soapAction="http://tempuri.org/IDirectumsService/UserConnected" style="document" />

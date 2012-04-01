@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Windows.Forms;
 using Directums.Classes;
 using Directums.Client.Classes;
 using Directums.Client.DirectumsService;
+using Directums.Client.Forms.Common;
 
 namespace Directums.Client.Forms.Admin
 {
     public partial class UserManagementForm : DirectumsForm
     {
+        private bool isSelect = false;
         private UserFilter filter = new UserFilter();
 
         private void FillUsers(bool resetPage)
@@ -58,9 +61,49 @@ namespace Directums.Client.Forms.Admin
             }
         }
 
-        public UserManagementForm(DirectumsConfig config, bool showNew) : base(config)
+        private User GetSelectedUser()
+        {
+            if (lvUsers.SelectedItems.Count != 1)
+            {
+                return null;
+            }
+
+            return (User)lvUsers.SelectedItems[0].Tag;
+        }
+
+        private void RefreshInterface()
+        {
+            var user = GetSelectedUser();
+            btnSelect.Enabled = user != null && user.Status == 1;
+        }
+
+        private void RefreshMenu()
+        {
+            tsmSelect.Visible = tsmSeparator.Visible = isSelect;
+
+            var user = GetSelectedUser();
+            bool enabled = user != null;
+
+            tsmSelect.Enabled = enabled && user.Status == 1;
+            tsmEdit.Enabled = enabled;
+            tsmStatus.Text = enabled && user.Status != 2 ? "Заблокировать" : "Активировать";
+            tsmStatus.Enabled = enabled;
+        }
+
+        public UserManagementForm(DirectumsConfig config) : base(config)
         {
             InitializeComponent();
+        }
+
+        public void Initialize(bool isSelect, bool showNew)
+        {
+            this.isSelect = isSelect;
+
+            if (isSelect)
+            {
+                btnSelect.Visible = true;
+                Text = "Выбор пользователя";
+            }
 
             if (showNew)
             {
@@ -70,12 +113,30 @@ namespace Directums.Client.Forms.Admin
 
             UpdateFilterStatus();
             FillUsers(true);
+
+            RefreshInterface();
+            RefreshMenu();
         }
 
         public static void Execute(DirectumsForm ownerForm, bool showNew = false)
         {
-            UserManagementForm form = new UserManagementForm(ownerForm.Config, showNew);
+            UserManagementForm form = new UserManagementForm(ownerForm.Config);
+            form.Initialize(false, showNew);
+
             form.ShowDialog(ownerForm);
+        }
+
+        public static User ExecuteSelect(DirectumsForm ownerForm)
+        {
+            UserManagementForm form = new UserManagementForm(ownerForm.Config);
+            form.Initialize(true, false);
+
+            if (form.ShowDialog(ownerForm) == DialogResult.OK)
+            {
+                return form.GetSelectedUser();
+            }
+
+            return null;
         }
 
         private void btnFilter_Click(object sender, EventArgs e)
@@ -102,16 +163,52 @@ namespace Directums.Client.Forms.Admin
 
         private void lvUsers_DoubleClick(object sender, EventArgs e)
         {
-            if (lvUsers.SelectedItems.Count != 1)
+            if (isSelect)
             {
-                return;
+                btnSelect.PerformClick();
             }
-            
-            var user = (User)lvUsers.SelectedItems[0].Tag;
-            if (UserEditForm.Execute(this, user))
+            else
+            {
+                tsmEdit.PerformClick();
+            }
+        }
+
+        private void lvUsers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshInterface();
+        }
+
+        private void cmUsers_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            RefreshMenu();
+        }
+
+        private void tsmSelect_Click(object sender, EventArgs e)
+        {
+            btnSelect.PerformClick();
+        }
+
+        private void tsmEdit_Click(object sender, EventArgs e)
+        {
+            var user = GetSelectedUser();
+            if (user != null && UserEditForm.Execute(this, user))
             {
                 FillUsers(false);
+
+                RefreshInterface();
             }
+        }
+
+        private void tsmStatus_Click(object sender, EventArgs e)
+        {
+            var user = GetSelectedUser();
+            byte newStatus = (byte)(user.Status == 2 ? 1 : 2);
+
+            Config.Client.UpdateUserStatus(user.Id, newStatus);
+
+            FillUsers(false);
+
+            RefreshInterface();
         }
     }
 }

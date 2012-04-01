@@ -18,6 +18,9 @@ namespace Directums.Service
         User GetCurrentUser();
 
         [OperationContract]
+        Options GetOptions();
+
+        [OperationContract]
         User[] UserList();
 
         [OperationContract]
@@ -40,5 +43,26 @@ namespace Directums.Service
 
         [OperationContract(IsOneWay = true)]
         void UpdateUser(int idUser, string login, string email, byte status);
+
+        [OperationContract(IsOneWay = true)]
+        void UpdateUserStatus(int idUser, byte status);
+
+        [OperationContract]
+        FindGroupsResult[] FindGroups(string filter);
+
+        [OperationContract]
+        GetGroupResult GetGroup(int idGroup);
+
+        [OperationContract]
+        bool IsGroupNameEmpty(string name);
+
+        [OperationContract]
+        bool AddGroup(string name, bool status, int[] users);
+
+        [OperationContract]
+        bool UpdateGroup(int id, string name, bool status, int[] users);
+
+        [OperationContract]
+        bool ChangeGroupStatus(int idGroup);
     }
 }
