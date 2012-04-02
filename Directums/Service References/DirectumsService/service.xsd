@@ -267,6 +267,38 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="AddFile">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ex" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="parent" type="xs:int" />
+        <xs:element minOccurs="0" name="b" nillable="true" type="xs:base64Binary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddFileResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddFileResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddVersion">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="file" type="xs:int" />
+        <xs:element minOccurs="0" name="b" nillable="true" type="xs:base64Binary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddVersionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddVersionResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="UserConnected">
     <xs:complexType>
       <xs:sequence>

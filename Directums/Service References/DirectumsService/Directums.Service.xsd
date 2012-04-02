@@ -165,7 +165,7 @@
       <xs:element minOccurs="0" name="IdFile" type="xs:int" />
       <xs:element minOccurs="0" name="Number" type="xs:unsignedByte" />
       <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/System.Data.Linq" minOccurs="0" name="Data" nillable="true" type="q1:Binary" />
-      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/System.Data.Linq" minOccurs="0" name="Created" nillable="true" type="q2:Binary" />
+      <xs:element minOccurs="0" name="Created" type="xs:dateTime" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="FileVersion" nillable="true" type="tns:FileVersion" />
@@ -200,14 +200,6 @@
       <xs:element minOccurs="0" name="IdParent" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="IdFile" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="IdItem" nillable="true" type="xs:int" />
-      <xs:element minOccurs="0" name="Users" nillable="true" type="tns:ArrayOfUser">
-        <xs:annotation>
-          <xs:appinfo>
-            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
-            </DefaultValue>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
       <xs:element minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfItem">
         <xs:annotation>
           <xs:appinfo>
@@ -217,6 +209,14 @@
         </xs:annotation>
       </xs:element>
       <xs:element minOccurs="0" name="Items1" nillable="true" type="tns:ArrayOfItem">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+            </DefaultValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="Users" nillable="true" type="tns:ArrayOfUser">
         <xs:annotation>
           <xs:appinfo>
             <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
@@ -265,7 +265,7 @@
       <xs:element minOccurs="0" name="IdGroupFor" type="xs:int" />
       <xs:element minOccurs="0" name="Text" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Status" type="xs:unsignedByte" />
-      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/System.Data.Linq" minOccurs="0" name="Created" nillable="true" type="q3:Binary" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/System.Data.Linq" minOccurs="0" name="Created" nillable="true" type="q2:Binary" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Message" nillable="true" type="tns:Message" />

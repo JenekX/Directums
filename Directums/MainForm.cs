@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Directums.Classes.Core;
 using Directums.Client.Classes;
 using Directums.Client.DirectumsService;
+using IO = System.IO;
 
 namespace Directums.Client
 {
@@ -67,7 +68,9 @@ namespace Directums.Client
 
             foreach (GetFilesResult fl in files)
             {
-                lvFiles.Items.Add(fl.Name + "." + fl.Extension + " (" + fl.CreatedTime + ")");
+                ListViewItem lvItem = new ListViewItem(fl.Name + fl.Extension + " (" + fl.CreatedTime + ")");
+                lvItem.Tag = fl.Id;
+                lvFiles.Items.Add(lvItem);
             }
         }
 
@@ -76,18 +79,53 @@ namespace Directums.Client
             ShowFiles();
         }
 
-        private void выборГруппыToolStripMenuItem_Click(object sender, EventArgs e)
+        private void openToolStripButton_Click(object sender, EventArgs e)
         {
-            int result = Directums.Client.Forms.Client.GroupsForm.ExecuteSelect(this);
-
-            DialogHelper.Information(this, "Код выбранной группы: " + result.ToString());
+            if (MessageBox.Show("Добавить новый документ", "Добавление нового файла документа", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+            {
+                OpenFileDialog openFile = new OpenFileDialog();
+                if (openFile.ShowDialog() == DialogResult.OK)
+                {
+                    if (Config.Client.AddFile(IO.Path.GetFileNameWithoutExtension(openFile.SafeFileName), IO.Path.GetExtension(openFile.SafeFileName).ToLower(),
+                        (Int32)tvDirs.SelectedNode.Tag, IO.File.ReadAllBytes(openFile.FileName)))
+                    {
+                        MessageBox.Show("Файл успешно добавлен");
+                    }
+                    ShowFiles();
+                }
+            }
         }
 
-        private void выборПользователяToolStripMenuItem_Click(object sender, EventArgs e)
+        private void lvFiles_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int result = Directums.Client.Forms.Client.UsersForm.ExecuteSelect(this);
+            if (lvFiles.SelectedItems.Count != 0)
+            {
+                saveToolStripButton.Enabled = true;
+            }
+            else
+            {
+                saveToolStripButton.Enabled = false;
+            }
+        }
 
-            DialogHelper.Information(this, "Код выбранного пользователя: " + result.ToString());
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Добавить новую версию документа", "Добавление нового файла документа", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+            {
+                OpenFileDialog openFile = new OpenFileDialog();
+                if (openFile.ShowDialog() == DialogResult.OK)
+                {
+                     if (Config.Client.AddVersion((Int32) lvFiles.SelectedItems[0].Tag, IO.File.ReadAllBytes(openFile.FileName)))
+                     {
+                         MessageBox.Show("Файл успешно обновлен");
+                     }
+                }
+            }
+        }
+
+        private void lvFiles_Leave(object sender, EventArgs e)
+        {
+            saveToolStripButton.Enabled = false;
         }
     }
 }

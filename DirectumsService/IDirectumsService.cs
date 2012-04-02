@@ -71,5 +71,11 @@ namespace Directums.Service
 
         [OperationContract]
         bool ChangeGroupStatus(int idGroup);
+
+        [OperationContract]
+        bool AddFile(String name, String ex, Int32 parent, byte[] b);
+
+        [OperationContract]
+        bool AddVersion(Int32 file, byte[] b);
     }
 }
