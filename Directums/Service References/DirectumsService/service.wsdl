@@ -132,6 +132,18 @@
   <wsdl:message name="IDirectumsService_ChangeGroupStatus_OutputMessage">
     <wsdl:part name="parameters" element="tns:ChangeGroupStatusResponse" />
   </wsdl:message>
+  <wsdl:message name="IDirectumsService_AddFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddFile" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_AddFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_AddVersion_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddVersion" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_AddVersion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddVersionResponse" />
+  </wsdl:message>
   <wsdl:message name="IDirectumsService_UserConnected_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:UserConnected" />
   </wsdl:message>
@@ -220,6 +232,14 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="ChangeGroupStatus">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/ChangeGroupStatus" message="tns:IDirectumsService_ChangeGroupStatus_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/ChangeGroupStatusResponse" message="tns:IDirectumsService_ChangeGroupStatus_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="AddFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/AddFile" message="tns:IDirectumsService_AddFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/AddFileResponse" message="tns:IDirectumsService_AddFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="AddVersion">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/AddVersion" message="tns:IDirectumsService_AddVersion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/AddVersionResponse" message="tns:IDirectumsService_AddVersion_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UserConnected">
       <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/UserConnected" message="tns:IDirectumsService_UserConnected_OutputCallbackMessage" />
@@ -402,6 +422,24 @@
     </wsdl:operation>
     <wsdl:operation name="ChangeGroupStatus">
       <soap12:operation soapAction="http://tempuri.org/IDirectumsService/ChangeGroupStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddFile">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/AddFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddVersion">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/AddVersion" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -7,6 +7,7 @@ using Directums.Classes;
 using System.Linq.Expressions;
 using Directums.Service.Classes;
 using Directums.Classes.Core;
+using System.IO;
 
 namespace Directums.Service
 {
@@ -172,7 +173,7 @@ namespace Directums.Service
         {
             return context.Users.Count(x => x.Email == email) == 0;
         }
-        
+
         public void AddMessage(int idUserFor, string text)
         {
             IsAllowAction(AccessType.Authorized, AccessStatus.Active);
@@ -343,18 +344,18 @@ namespace Directums.Service
                 Join(context.Files, access => access.IdFile, file => file.Id, (access, file) => new { Id = file.Id, Name = file.Name, FileType = file.Type, AccType = access.Type }).
                 Where(x => x.FileType == 1).
                 Join(context.Items, file => file.Id, item => item.IdFile, (file, item) => new GetDirsResult((Int32)file.Id, file.Name, (Int32)item.IdParent, (Int32)item.Id, item.Type)).ToList();
-            
+
             //Получение доступных директорий для группы пользователей, в которой состоит данные пользователь
             dirs.AddRange(context.UserGroups.Where(x => x.IdUser == user.Id).
-                Join(context.AccessRights, groups => groups.IdGroup, access => access.IdGroup, (groups, access) => new {IdFile = access.IdFile, AccType = access.Type, IdUser = access.IdUser}).
+                Join(context.AccessRights, groups => groups.IdGroup, access => access.IdGroup, (groups, access) => new { IdFile = access.IdFile, AccType = access.Type, IdUser = access.IdUser }).
                 Where(x => x.IdUser == null).
                 Join(context.Files, access => access.IdFile, file => file.Id, (access, file) => new { Id = file.Id, Name = file.Name, FileType = file.Type, AccType = access.AccType }).
                 Where(x => x.FileType == 1).
                 Join(context.Items, file => file.Id, item => item.IdFile, (file, item) => new GetDirsResult((Int32)file.Id, file.Name, (Int32)item.IdParent, (Int32)item.Id, item.Type)).ToList());
-                        
+
             //Получение расшаренной папки всей конторы
             var shared = context.Items.FirstOrDefault(x => x.Type == 1);
-            
+
             if (shared != null)
             {
                 //GetFilesResult fileRoot = new GetFilesResult(-1, "Корневая папка пользователя", -1, root.IdRootFolder);
@@ -363,11 +364,11 @@ namespace Directums.Service
 
             //Получение корневой папки пользователя
             var root = context.Users.FirstOrDefault(x => x.Id == user.Id);
-            
+
             if (root != null)
             {
                 //GetFilesResult fileRoot = new GetFilesResult(-1, "Корневая папка пользователя", -1, root.IdRootFolder);
-                dirs.Add(new GetDirsResult(-1, "Корневая папка пользователя", -1, root.IdRootFolder));   
+                dirs.Add(new GetDirsResult(-1, "Корневая папка пользователя", -1, root.IdRootFolder));
             }
 
             return dirs.ToArray();
@@ -378,7 +379,7 @@ namespace Directums.Service
             return context.Items.Where(x => x.IdParent == dirId && x.Type == 0).
                 Join(context.Files, item => item.IdFile, file => file.Id, (item, file) => new { Id = (Int32)file.Id, FileType = file.Type }).
                 Where(x => x.FileType == 0)
-                .Join(context.Files, prevFile => prevFile.Id, file => file.Id, (prevFile, file) => new GetFilesResult((Int32) file.Id, file.Name, file.Extension.Name, (DateTime) file.Created)).ToArray(); 
+                .Join(context.Files, prevFile => prevFile.Id, file => file.Id, (prevFile, file) => new GetFilesResult((Int32)file.Id, file.Name, file.Extension.Name, (DateTime)file.Created)).ToArray();
         }
 
         public void UpdateUserStatus(int idUser, byte status)
@@ -586,6 +587,76 @@ namespace Directums.Service
             {
                 // ошибка доступа к БД
 
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool AddFile(String name, String ex, Int32 parent, byte[] b)
+        {
+            IsAllowAction(AccessType.Authorized);
+            
+            try
+            {
+                Extension extensionRecord = context.Extensions.FirstOrDefault(x => x.Name == ex);
+                if (extensionRecord == null)
+                {
+                    extensionRecord = new Extension() { Name = ex };
+                    context.Extensions.InsertOnSubmit(extensionRecord);
+                }
+
+                File file = new File() { Extension = extensionRecord, User = user, Name = name, Type = 0, Created = DateTime.Now, Description = "" };
+                Item item = new Item() { File = file, Type = 0, IdParent = parent };
+                AccessRight right = new AccessRight() { User = user, File = file, Type = 1 };
+                FileVersion version = new FileVersion() { File = file, Number = 0, Created = DateTime.Now, Data = b };
+
+                context.Files.InsertOnSubmit(file);
+                context.Items.InsertOnSubmit(item);
+                context.AccessRights.InsertOnSubmit(right);
+                context.FileVersions.InsertOnSubmit(version);
+                context.SubmitChanges();
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool AddVersion(Int32 file, byte[] b)
+        {
+            IsAllowAction(AccessType.Authorized);
+
+            try
+            {
+                var oldFile = context.FileVersions.FirstOrDefault(x => x.IdFile == file);
+                if (oldFile != null)
+                {
+                    FileVersion version;
+
+                    if ((oldFile.Number++) % 5 == 0)
+                    {
+                        version = new FileVersion() { IdFile = file, Number = ++oldFile.Number, Created = DateTime.Now, Data = b };
+                    }
+                    else
+                    {
+                        MemoryStream output = new MemoryStream();
+                        version = new FileVersion() { IdFile = file, Number = ++oldFile.Number, Created = DateTime.Now, Data = BinaryPatchUtility.Create(oldFile.Data.ToArray(), b, output).ToArray() };
+                    }
+
+                    context.FileVersions.InsertOnSubmit(version);
+                    context.SubmitChanges();
+                }
+                else
+                {
+                    //файл не загружен
+                    return false;
+                }
+            }
+            catch
+            {
                 return false;
             }
 

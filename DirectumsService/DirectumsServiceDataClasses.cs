@@ -1,6 +1,7 @@
 using Directums.Classes.Core;
 using System.ServiceModel;
 using System.Runtime.Serialization;
+using System;
 
 namespace Directums.Service
 {
