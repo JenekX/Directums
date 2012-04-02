@@ -127,5 +127,10 @@ namespace Directums.Client
         {
             saveToolStripButton.Enabled = false;
         }
+
+        private void printToolStripButton_Click(object sender, EventArgs e)
+        {
+            Directums.Client.Forms.Client.UsersForm.Execute(this);
+        }
     }
 }

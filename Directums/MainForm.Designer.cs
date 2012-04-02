@@ -83,7 +83,7 @@
             this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripButton.Name = "openToolStripButton";
-            this.openToolStripButton.Size = new System.Drawing.Size(90, 22);
+            this.openToolStripButton.Size = new System.Drawing.Size(95, 22);
             this.openToolStripButton.Text = "Добавить файл";
             this.openToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.openToolStripButton.Click += new System.EventHandler(this.openToolStripButton_Click);
@@ -95,7 +95,7 @@
             this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
             this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripButton.Name = "saveToolStripButton";
-            this.saveToolStripButton.Size = new System.Drawing.Size(95, 22);
+            this.saveToolStripButton.Size = new System.Drawing.Size(101, 22);
             this.saveToolStripButton.Text = "Сохранить файл";
             this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
             // 
@@ -107,6 +107,7 @@
             this.printToolStripButton.Name = "printToolStripButton";
             this.printToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.printToolStripButton.Text = "&Print";
+            this.printToolStripButton.Click += new System.EventHandler(this.printToolStripButton_Click);
             // 
             // toolStripSeparator
             // 
