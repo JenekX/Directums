@@ -75,5 +75,19 @@ namespace Directums.Client
         {
             ShowFiles();
         }
+
+        private void выборГруппыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int result = Directums.Client.Forms.Client.GroupsForm.ExecuteSelect(this);
+
+            DialogHelper.Information(this, "Код выбранной группы: " + result.ToString());
+        }
+
+        private void выборПользователяToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int result = Directums.Client.Forms.Client.UsersForm.ExecuteSelect(this);
+
+            DialogHelper.Information(this, "Код выбранного пользователя: " + result.ToString());
+        }
     }
 }
