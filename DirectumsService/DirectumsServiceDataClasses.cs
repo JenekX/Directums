@@ -15,6 +15,18 @@ namespace Directums.Service
         public const byte StatusActive = 1;
         public const byte StatusBlocked = 2;
 
+        public string GetLoginWithName()
+        {
+            string result = Login;
+
+            if (!string.IsNullOrWhiteSpace(Surname) && !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Patronymic))
+            {
+                result += string.Format(" ({0} {1} {2})", Surname, Name, Patronymic);
+            }
+
+            return result;
+        }
+
         public bool CheckOnRegister()
         {
             return RegexCheck.CheckLogin(Login) && (PasswordHash.Length == 32) && RegexCheck.CheckEmail(Email);

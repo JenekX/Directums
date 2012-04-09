@@ -132,5 +132,14 @@ namespace Directums.Client
         {
             Directums.Client.Forms.Client.UsersForm.Execute(this);
         }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            //Directums.Client.Forms.Client.FilePropertiesForm.Execute(this);
+
+            int idFile = (int)lvFiles.SelectedItems[0].Tag;
+
+            Directums.Client.Forms.Client.FilePropertiesForm.Execute(this, idFile);
+        }
     }
 }

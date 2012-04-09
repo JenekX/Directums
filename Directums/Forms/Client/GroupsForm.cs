@@ -14,14 +14,14 @@ namespace Directums.Client.Forms.Client
             var groups = Config.Client.FindGroups(tbQuickFilter.Text);
 
             lvGroups.Items.Clear();
-            foreach (var group in groups)
+            foreach (var g in groups)
             {
-                var item = lvGroups.Items.Add("", group.Status ? 1 : 0);
+                var item = lvGroups.Items.Add("", g.Group.Status ? 1 : 0);
 
-                item.Tag = group;
-                item.SubItems.Add(group.Id.ToString());
-                item.SubItems.Add(group.Name);
-                item.SubItems.Add(group.UserCount.ToString());
+                item.Tag = g;
+                item.SubItems.Add(g.Group.Id.ToString());
+                item.SubItems.Add(g.Group.Name);
+                item.SubItems.Add(g.UserCount.ToString());
             }
         }
 
@@ -38,7 +38,7 @@ namespace Directums.Client.Forms.Client
         private void RefreshInterface()
         {
             var group = GetSelectedGroup();
-            btnSelect.Enabled = group != null && group.Status;
+            btnSelect.Enabled = group != null && group.Group.Status;
         }
 
         private void RefreshMenu()
@@ -46,7 +46,7 @@ namespace Directums.Client.Forms.Client
             var group = GetSelectedGroup();
             bool enabled = group != null;
 
-            tsmSelect.Enabled = enabled && group.Status;
+            tsmSelect.Enabled = enabled && group.Group.Status;
             tsmView.Enabled = enabled;
         }
 
@@ -82,17 +82,17 @@ namespace Directums.Client.Forms.Client
             form.ShowDialog(ownerForm);
         }
 
-        public static int ExecuteSelect(DirectumsForm ownerForm)
+        public static Group ExecuteSelect(DirectumsForm ownerForm)
         {
             GroupsForm form = new GroupsForm(ownerForm.Config);
             form.Initialize(true);
 
             if (form.ShowDialog(ownerForm) == DialogResult.OK)
             {
-                return form.GetSelectedGroup().Id;
+                return form.GetSelectedGroup().Group;
             }
 
-            return 0;
+            return null;
         }
 
         private void tbQuickFilter_KeyUp(object sender, KeyEventArgs e)
@@ -122,7 +122,7 @@ namespace Directums.Client.Forms.Client
 
         private void tsmView_Click(object sender, EventArgs e)
         {
-            int idGroup = GetSelectedGroup().Id;
+            int idGroup = GetSelectedGroup().Group.Id;
 
             GroupViewForm.Execute(this, idGroup); 
         }

@@ -14,13 +14,25 @@
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import namespace="http://tempuri.org/" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/Directums.Service" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/System.Data.Linq" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/Directums.Classes" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="IDirectumsService_GetFileProperties_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFileProperties" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetFileProperties_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFilePropertiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_UpdateFileProperties_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateFileProperties" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_UpdateFileProperties_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateFilePropertiesResponse" />
+  </wsdl:message>
   <wsdl:message name="IDirectumsService_Connect_InputMessage">
     <wsdl:part name="parameters" element="tns:Connect" />
   </wsdl:message>
@@ -29,6 +41,9 @@
   </wsdl:message>
   <wsdl:message name="IDirectumsService_Disconnect_InputMessage">
     <wsdl:part name="parameters" element="tns:Disconnect" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_Disconnect_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DisconnectResponse" />
   </wsdl:message>
   <wsdl:message name="IDirectumsService_GetCurrentUser_InputMessage">
     <wsdl:part name="parameters" element="tns:GetCurrentUser" />
@@ -78,8 +93,14 @@
   <wsdl:message name="IDirectumsService_ResetUserPassword_InputMessage">
     <wsdl:part name="parameters" element="tns:ResetUserPassword" />
   </wsdl:message>
+  <wsdl:message name="IDirectumsService_ResetUserPassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ResetUserPasswordResponse" />
+  </wsdl:message>
   <wsdl:message name="IDirectumsService_UpdateUser_InputMessage">
     <wsdl:part name="parameters" element="tns:UpdateUser" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_UpdateUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUserResponse" />
   </wsdl:message>
   <wsdl:message name="IDirectumsService_GetDirs_InputMessage">
     <wsdl:part name="parameters" element="tns:GetDirs" />
@@ -95,6 +116,9 @@
   </wsdl:message>
   <wsdl:message name="IDirectumsService_UpdateUserStatus_InputMessage">
     <wsdl:part name="parameters" element="tns:UpdateUserStatus" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_UpdateUserStatus_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUserStatusResponse" />
   </wsdl:message>
   <wsdl:message name="IDirectumsService_FindGroups_InputMessage">
     <wsdl:part name="parameters" element="tns:FindGroups" />
@@ -144,6 +168,36 @@
   <wsdl:message name="IDirectumsService_AddVersion_OutputMessage">
     <wsdl:part name="parameters" element="tns:AddVersionResponse" />
   </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetAccessRights_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccessRights" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetAccessRights_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAccessRightsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_SetAccessRights_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetAccessRights" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_SetAccessRights_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetAccessRightsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetTags_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTags" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetTags_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTagsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetTagList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTagList" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetTagList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTagListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_SetTags_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetTags" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_SetTags_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetTagsResponse" />
+  </wsdl:message>
   <wsdl:message name="IDirectumsService_UserConnected_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:UserConnected" />
   </wsdl:message>
@@ -154,12 +208,21 @@
     <wsdl:part name="parameters" element="tns:NewMessageReceive" />
   </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="IDirectumsService">
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetFileProperties">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/GetFileProperties" message="tns:IDirectumsService_GetFileProperties_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/GetFilePropertiesResponse" message="tns:IDirectumsService_GetFileProperties_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UpdateFileProperties">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/UpdateFileProperties" message="tns:IDirectumsService_UpdateFileProperties_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/UpdateFilePropertiesResponse" message="tns:IDirectumsService_UpdateFileProperties_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Connect">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/Connect" message="tns:IDirectumsService_Connect_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/ConnectResponse" message="tns:IDirectumsService_Connect_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Disconnect">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/Disconnect" message="tns:IDirectumsService_Disconnect_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/DisconnectResponse" message="tns:IDirectumsService_Disconnect_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetCurrentUser">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/GetCurrentUser" message="tns:IDirectumsService_GetCurrentUser_InputMessage" />
@@ -194,9 +257,11 @@
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="ResetUserPassword">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/ResetUserPassword" message="tns:IDirectumsService_ResetUserPassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/ResetUserPasswordResponse" message="tns:IDirectumsService_ResetUserPassword_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UpdateUser">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/UpdateUser" message="tns:IDirectumsService_UpdateUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/UpdateUserResponse" message="tns:IDirectumsService_UpdateUser_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetDirs">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/GetDirs" message="tns:IDirectumsService_GetDirs_InputMessage" />
@@ -208,6 +273,7 @@
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UpdateUserStatus">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/UpdateUserStatus" message="tns:IDirectumsService_UpdateUserStatus_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/UpdateUserStatusResponse" message="tns:IDirectumsService_UpdateUserStatus_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="FindGroups">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/FindGroups" message="tns:IDirectumsService_FindGroups_InputMessage" />
@@ -241,6 +307,26 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/AddVersion" message="tns:IDirectumsService_AddVersion_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/AddVersionResponse" message="tns:IDirectumsService_AddVersion_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetAccessRights">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/GetAccessRights" message="tns:IDirectumsService_GetAccessRights_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/GetAccessRightsResponse" message="tns:IDirectumsService_GetAccessRights_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SetAccessRights">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/SetAccessRights" message="tns:IDirectumsService_SetAccessRights_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/SetAccessRightsResponse" message="tns:IDirectumsService_SetAccessRights_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetTags">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/GetTags" message="tns:IDirectumsService_GetTags_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/GetTagsResponse" message="tns:IDirectumsService_GetTags_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetTagList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/GetTagList" message="tns:IDirectumsService_GetTagList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/GetTagListResponse" message="tns:IDirectumsService_GetTagList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SetTags">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/SetTags" message="tns:IDirectumsService_SetTags_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/SetTagsResponse" message="tns:IDirectumsService_SetTags_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UserConnected">
       <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/UserConnected" message="tns:IDirectumsService_UserConnected_OutputCallbackMessage" />
     </wsdl:operation>
@@ -255,6 +341,24 @@
     <wsp:PolicyReference URI="#NetTcpBinding_IDirectumsService_policy">
     </wsp:PolicyReference>
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="GetFileProperties">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/GetFileProperties" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFileProperties">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/UpdateFileProperties" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Connect">
       <soap12:operation soapAction="http://tempuri.org/IDirectumsService/Connect" style="document" />
       <wsdl:input>
@@ -269,6 +373,9 @@
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetCurrentUser">
       <soap12:operation soapAction="http://tempuri.org/IDirectumsService/GetCurrentUser" style="document" />
@@ -344,12 +451,18 @@
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="UpdateUser">
       <soap12:operation soapAction="http://tempuri.org/IDirectumsService/UpdateUser" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetDirs">
       <soap12:operation soapAction="http://tempuri.org/IDirectumsService/GetDirs" style="document" />
@@ -374,6 +487,9 @@
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="FindGroups">
       <soap12:operation soapAction="http://tempuri.org/IDirectumsService/FindGroups" style="document" />
@@ -440,6 +556,51 @@
     </wsdl:operation>
     <wsdl:operation name="AddVersion">
       <soap12:operation soapAction="http://tempuri.org/IDirectumsService/AddVersion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccessRights">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/GetAccessRights" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetAccessRights">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/SetAccessRights" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTags">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/GetTags" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTagList">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/GetTagList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetTags">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/SetTags" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

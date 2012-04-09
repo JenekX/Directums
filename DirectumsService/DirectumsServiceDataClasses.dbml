@@ -2,7 +2,7 @@
   <Connection Mode="AppSettings" ConnectionString="Data Source=JENEKX-PC;Initial Catalog=Files;Persist Security Info=True;User ID=sa" SettingsObjectName="Directums.Service.Properties.Settings" SettingsPropertyName="FilesConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.AccessRights" Member="AccessRights">
     <Type Name="AccessRight">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="IdFile" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IdUser" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="IdGroup" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -143,8 +143,7 @@
   </Table>
   <Table Name="dbo.Options" Member="Options">
     <Type Name="Option">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(64) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(64) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Value" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>

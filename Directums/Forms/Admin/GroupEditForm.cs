@@ -24,7 +24,7 @@ namespace Directums.Client.Forms.Admin
                 return false;
             }
 
-            if (request && tbName.Text != group.Name && !Config.Client.IsGroupNameEmpty(tbName.Text))
+            if (request && tbName.Text != group.Group.Name && !Config.Client.IsGroupNameEmpty(tbName.Text))
             {
                 lbNameStatus.Text = "Группа с таким наименованием уже есть";
                 lbNameStatus.Visible = true;
@@ -71,7 +71,7 @@ namespace Directums.Client.Forms.Admin
                 return;
             }
 
-            var groupInfo = Config.Client.GetGroup(group.Id);
+            var groupInfo = Config.Client.GetGroup(group.Group.Id);
 
             tbName.Text = groupInfo.Group.Name;
             if (groupInfo.Group.Status)
@@ -128,14 +128,14 @@ namespace Directums.Client.Forms.Admin
         {
             bool enabled = GetSelectedIndex() != -1;
 
-            tsmAdd.Enabled = group == null || group.Id != Config.Options.IdAllUsersGroup;
+            tsmAdd.Enabled = group == null || group.Group.Id != Config.Options.IdAllUsersGroup;
             tsmEdit.Enabled = enabled;
             tsmExclude.Enabled = tsmAdd.Enabled && enabled;
         }
 
         private void RefreshInterface()
         {
-            tbName.Enabled = gbStatus.Enabled = group == null || group.Id != Config.Options.IdAllUsersGroup;
+            tbName.Enabled = gbStatus.Enabled = group == null || group.Group.Id != Config.Options.IdAllUsersGroup;
 
             btnOk.Enabled = valid;
         }
@@ -244,7 +244,7 @@ namespace Directums.Client.Forms.Admin
             }
             else
             {
-                result = Config.Client.UpdateGroup(group.Id, tbName.Text, rbStatus1.Checked, users);
+                result = Config.Client.UpdateGroup(group.Group.Id, tbName.Text, rbStatus1.Checked, users);
             }
 
             if (!result)

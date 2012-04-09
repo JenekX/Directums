@@ -12,6 +12,8 @@ namespace Directums.Client.Classes
             InstanceContext instanceContext = new InstanceContext(new DirectumsCallbacks());
             Client = new DirectumsServiceClient(instanceContext);
 
+            Tags = Client.GetTagList();
+
             User = null;
             Options = null;
 
@@ -48,5 +50,7 @@ namespace Directums.Client.Classes
         public User User { get; private set; }
         public Options Options { get; private set; }
         public bool IsAdmin { get; private set; }
+
+        public string[] Tags { get; private set; }
     }
 }

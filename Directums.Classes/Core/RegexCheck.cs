@@ -13,6 +13,8 @@ namespace Directums.Classes.Core
         private static Regex loginRegex = new Regex(@"^[a-z0-9_\.\-]{3,32}$", RegexOptions.IgnoreCase);
         private static Regex emailRegex = new Regex(@"^[a-z0-9_\.\-]{1,20}@[a-z0-9\.\-]{1,20}\.[a-z]{2,4}$", RegexOptions.IgnoreCase);
 
+        private static Regex fileNameRegex = new Regex("^[^\\|/\":*?<>]{1,256}$");
+
         public static bool CheckDigits(string checkingString)
         {
             return digits.Match(checkingString).Success;
@@ -41,6 +43,11 @@ namespace Directums.Classes.Core
         public static bool CheckEmail(string email)
         {
             return emailRegex.Match(email).Success;
+        }
+
+        public static bool CheckFileName(string name)
+        {
+            return fileNameRegex.Match(name).Success;
         }
     }
 }
