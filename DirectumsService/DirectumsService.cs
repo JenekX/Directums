@@ -16,9 +16,8 @@ namespace Directums.Service
     {
         private static DirectumsServiceDataClassesDataContext context = new DirectumsServiceDataClassesDataContext();
         private static Dictionary<int, IDirectumsServiceCallback> connected = new Dictionary<int, IDirectumsServiceCallback>();
-
+        
         private const int takeCount = 2;
-        private const int allGroupId = 1;
 
         private User user = null;
         private IDirectumsServiceCallback callback = null;
@@ -38,6 +37,11 @@ namespace Directums.Service
             }
         }
 
+        private int GetIdAllGroup()
+        {
+            return Convert.ToInt32(context.Options.Single(x => x.Name == "IdAllGroup").Value);
+        }
+
         public bool Connect(string login, string passwordHash)
         {
             if (user != null)
@@ -49,9 +53,9 @@ namespace Directums.Service
             {
                 user = context.Users.FirstOrDefault(x => x.Login == login && x.PasswordHash == passwordHash);
             }
-            catch
+            catch (Exception e)
             {
-                // Ошибка запроса к БД
+                LogManager.AddException(e);
 
                 return false;
             }
@@ -72,9 +76,9 @@ namespace Directums.Service
             {
                 connected.ToList().ForEach(x => x.Value.UserConnected(user.Id));
             }
-            catch
+            catch (Exception e)
             {
-                // Обработка исключения
+                LogManager.AddException(e);
             }
 
             connected.Add(user.Id, callback);
@@ -82,7 +86,7 @@ namespace Directums.Service
             return true;
         }
 
-        public void Disconnect()
+        public bool Disconnect()
         {
             IsAllowAction(AccessType.Authorized);
 
@@ -94,41 +98,74 @@ namespace Directums.Service
                 {
                     connected.ToList().ForEach(x => x.Value.UserDisconnected(user.Id));
                 }
-                catch
+                catch (Exception e)
                 {
-                    // Обработка исключения
+                    LogManager.AddException(e);
+
+                    return false;
                 }
 
                 user = null;
                 callback = null;
             }
+
+            return true;
         }
 
         public User GetCurrentUser()
         {
             IsAllowAction(AccessType.Authorized);
 
-            return context.Users.SingleOrDefault(x => x.Id == user.Id);
+            try
+            {
+                return context.Users.SingleOrDefault(x => x.Id == user.Id);
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return null;
+            }
         }
 
         public Options GetOptions()
         {
-            var result = new Options()
+            try
             {
-                IdAllUsersGroup = allGroupId
-            };
+                var options = context.Options.ToDictionary(x => x.Name, x => x.Value);
 
-            return result;
+                var result = new Options()
+                {
+                    IdAllUsersGroup = Convert.ToInt32(options["IdAllGroup"])
+                };
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return null;
+            }
         }
 
         public User[] UserList()
         {
             IsAllowAction(AccessType.Admin, AccessStatus.Active);
 
-            var users = connected.Select(x => x.Key);
-            var result = context.Users.Where(x => users.Contains(x.Id)).ToArray();
+            try
+            {
+                var users = connected.Select(x => x.Key);
+                var result = context.Users.Where(x => users.Contains(x.Id)).ToArray();
 
-            return result;
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return null;
+            }
         }
 
         public bool AddUser(string login, string email, string passwordHash)
@@ -137,7 +174,7 @@ namespace Directums.Service
             {
                 Item item = new Item() { Type = Item.UserFolder, IdParent = null, IdFile = null, IdItem = null };
                 User user = new User() { Login = login, Email = email, PasswordHash = passwordHash, Surname = "", Name = "", Patronymic = "", BornDate = null, Status = 0, Item = item, IsAdmin = false };
-                Group group = context.Groups.Single(x => x.Id == allGroupId);
+                Group group = context.Groups.Single(x => x.Id == GetIdAllGroup());
                 UserGroup userGroup = new UserGroup() { Group = group, User = user };
 
                 if (user.CheckOnRegister() && IsLoginEmpty(login) && IsEmailEmpty(email))
@@ -156,9 +193,9 @@ namespace Directums.Service
                     return false;
                 }
             }
-            catch
+            catch (Exception e)
             {
-                // Ошибка доступа к БД
+                LogManager.AddException(e);
 
                 return false;
             }
@@ -166,12 +203,30 @@ namespace Directums.Service
 
         public bool IsLoginEmpty(string login)
         {
-            return context.Users.Count(x => x.Login == login) == 0;
+            try
+            {
+                return context.Users.Count(x => x.Login == login) == 0;
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return false;
+            }
         }
 
         public bool IsEmailEmpty(string email)
         {
-            return context.Users.Count(x => x.Email == email) == 0;
+            try
+            {
+                return context.Users.Count(x => x.Email == email) == 0;
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return false;
+            }
         }
 
         public void AddMessage(int idUserFor, string text)
@@ -198,9 +253,11 @@ namespace Directums.Service
                 {
                     connected[idUserFor].NewMessageReceive(user.Id, text);
                 }
-                catch
+                catch (Exception e)
                 {
-                    // Обработка исключения
+                    LogManager.AddException(e);
+
+                    return;
                 }
             }
         }
@@ -267,18 +324,27 @@ namespace Directums.Service
                 filterBornDateTo = x => x.BornDate <= filter.BornDateTo.Value;
             }
 
-            var query = context.Users.Where(filterId).Where(filterLogin).Where(filterEmail).Where(filterSurname).Where(filterName).Where(filterPatronymic).
-                Where(filterStatus).Where(filterBornDateFrom).Where(filterBornDateTo);
-            var result = new FindUsersResult()
+            try
             {
-                PageCount = Math.Max((int)Math.Ceiling((double)query.Count() / takeCount), 1),
-                Users = query.Skip((page - 1) * takeCount).Take(takeCount).ToArray()
-            };
+                var query = context.Users.Where(filterId).Where(filterLogin).Where(filterEmail).Where(filterSurname).Where(filterName).Where(filterPatronymic).
+                    Where(filterStatus).Where(filterBornDateFrom).Where(filterBornDateTo);
+                var result = new FindUsersResult()
+                {
+                    PageCount = Math.Max((int)Math.Ceiling((double)query.Count() / takeCount), 1),
+                    Users = query.Skip((page - 1) * takeCount).Take(takeCount).ToArray()
+                };
 
-            return result;
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return null;
+            }
         }
 
-        public void ResetUserPassword(int idUser)
+        public bool ResetUserPassword(int idUser)
         {
             IsAllowAction(AccessType.Admin, AccessStatus.Active);
 
@@ -289,20 +355,24 @@ namespace Directums.Service
                 {
                     // Попытка хака
 
-                    return;
+                    return false;
                 }
 
                 user.PasswordHash = HashHelper.StringHash("");
 
                 context.SubmitChanges();
+
+                return true;
             }
-            catch
+            catch (Exception e)
             {
-                // ошибка доступа к БД.
+                LogManager.AddException(e);
+
+                return false;
             }
         }
 
-        public void UpdateUser(int idUser, string login, string email, byte status)
+        public bool UpdateUser(int idUser, string login, string email, byte status)
         {
             IsAllowAction(AccessType.Admin, AccessStatus.Active);
 
@@ -313,7 +383,7 @@ namespace Directums.Service
                 {
                     // Попытка хака
 
-                    return;
+                    return false;
                 }
 
                 if (user.CheckOnAdminEdit() && (user.Login == login || IsLoginEmpty(login)) && (user.Email == email || IsEmailEmpty(email)))
@@ -323,17 +393,21 @@ namespace Directums.Service
                     user.Status = status;
 
                     context.SubmitChanges();
+
+                    return true;
                 }
                 else
                 {
                     // Попытка хака
 
-                    return;
+                    return false;
                 }
             }
-            catch
+            catch (Exception e)
             {
-                // ошибка доступа к БД.
+                LogManager.AddException(e);
+
+                return false;
             }
         }
 
@@ -382,7 +456,7 @@ namespace Directums.Service
                 .Join(context.Files, prevFile => prevFile.Id, file => file.Id, (prevFile, file) => new GetFilesResult((Int32)file.Id, file.Name, file.Extension.Name, (DateTime)file.Created)).ToArray();
         }
 
-        public void UpdateUserStatus(int idUser, byte status)
+        public bool UpdateUserStatus(int idUser, byte status)
         {
             IsAllowAction(AccessType.Admin, AccessStatus.Active);
 
@@ -393,16 +467,20 @@ namespace Directums.Service
                 {
                     // Попытка хака
 
-                    return;
+                    return false;
                 }
 
                 user.Status = status;
 
                 context.SubmitChanges();
+
+                return true;
             }
-            catch
+            catch (Exception e)
             {
-                // ошибка доступа к БД.
+                LogManager.AddException(e);
+
+                return false;
             }
         }
 
@@ -418,11 +496,11 @@ namespace Directums.Service
 
             try
             {
-                return context.Groups.Where(filterFunc).Select(x => new FindGroupsResult() { Id = x.Id, Name = x.Name, Status = x.Status, UserCount = x.UserGroups.Count }).ToArray();
+                return context.Groups.Where(filterFunc).Select(x => new FindGroupsResult() { Group = x, UserCount = x.UserGroups.Count }).ToArray();
             }
-            catch
+            catch (Exception e)
             {
-                // Ошибка доступа к БД
+                LogManager.AddException(e);
 
                 return null;
             }
@@ -450,9 +528,9 @@ namespace Directums.Service
 
                 return result;
             }
-            catch
+            catch (Exception e)
             {
-                // ошибка доступа к БД
+                LogManager.AddException(e);
 
                 return null;
             }
@@ -466,9 +544,9 @@ namespace Directums.Service
             {
                 return context.Groups.Count(x => x.Name == name) == 0;
             }
-            catch
+            catch (Exception e)
             {
-                // ошибка доступа к БД
+                LogManager.AddException(e);
 
                 return false;
             }
@@ -501,9 +579,9 @@ namespace Directums.Service
             {
                 context.SubmitChanges();
             }
-            catch
+            catch (Exception e)
             {
-                // ошибка доступа к БД
+                LogManager.AddException(e);
 
                 return false;
             }
@@ -555,9 +633,9 @@ namespace Directums.Service
             {
                 context.SubmitChanges();
             }
-            catch
+            catch (Exception e)
             {
-                // ошибка доступа к БД
+                LogManager.AddException(e);
 
                 return false;
             }
@@ -583,9 +661,9 @@ namespace Directums.Service
 
                 context.SubmitChanges();
             }
-            catch
+            catch (Exception e)
             {
-                // ошибка доступа к БД
+                LogManager.AddException(e);
 
                 return false;
             }
@@ -608,17 +686,17 @@ namespace Directums.Service
 
                 File file = new File() { Extension = extensionRecord, User = user, Name = name, Type = 0, Created = DateTime.Now, Description = "" };
                 Item item = new Item() { File = file, Type = 0, IdParent = parent };
-                AccessRight right = new AccessRight() { User = user, File = file, Type = 1 };
                 FileVersion version = new FileVersion() { File = file, Number = 0, Created = DateTime.Now, Data = b };
 
                 context.Files.InsertOnSubmit(file);
                 context.Items.InsertOnSubmit(item);
-                context.AccessRights.InsertOnSubmit(right);
                 context.FileVersions.InsertOnSubmit(version);
                 context.SubmitChanges();
             }
-            catch
+            catch (Exception e)
             {
+                LogManager.AddException(e);
+
                 return false;
             }
 
@@ -655,12 +733,258 @@ namespace Directums.Service
                     return false;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                LogManager.AddException(e);
+
                 return false;
             }
 
             return true;
+        }
+
+        public GetAccessRightsResult[] GetAccessRights(int idFile)
+        {
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
+
+            try
+            {
+                var file = context.Files.SingleOrDefault(x => x.Id == idFile);
+                if (file == null || file.IdOwner != user.Id)
+                {
+                    // Хакерская атака
+
+                    return null;
+                }
+
+                return file.AccessRights.Select(x => new GetAccessRightsResult() { IsUser = x.IdUser.HasValue, IdItem = x.IdUser.HasValue ? x.IdUser.Value : x.IdGroup.Value,
+                    Name = x.IdUser.HasValue ? x.User.GetLoginWithName() : x.Group.Name, Type = x.Type }).ToArray();
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return null;
+            }
+        }
+
+        public bool SetAccessRights(int idFile, GetAccessRightsResult[] rights)
+        {
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
+
+            try
+            {
+                var file = context.Files.SingleOrDefault(x => x.Id == idFile);
+                if (file == null || file.IdOwner != user.Id)
+                {
+                    // Хакерская атака
+
+                    return false;
+                }
+
+                var rightsToAdd = rights.ToList();
+
+                foreach (var accessRight in file.AccessRights)
+                {
+                    var right = rights.SingleOrDefault(x => x.IsUser == accessRight.IdUser.HasValue && x.IdItem == (x.IsUser ? accessRight.IdUser : accessRight.IdGroup));
+                    if (right != null)
+                    {
+                        rightsToAdd.Remove(right);
+                    }
+                    else
+                    {
+                        context.AccessRights.DeleteOnSubmit(accessRight);
+                    }
+                }
+
+                foreach (var right in rightsToAdd)
+                {
+                    var accessRight = new AccessRight()
+                    {
+                        File = file,
+                        IdUser = null,
+                        IdGroup = null,
+                        Type = right.Type
+                    };
+
+                    if (right.IsUser)
+                    {
+                        accessRight.IdUser = right.IdItem;
+                    }
+                    else
+                    {
+                        accessRight.IdGroup = right.IdItem;
+                    }
+
+                    context.AccessRights.InsertOnSubmit(accessRight);
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return false;
+            }
+        }
+
+        public Tag[] GetTags(int idFile)
+        {
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
+
+            try
+            {
+                var file = context.Files.SingleOrDefault(x => x.Id == idFile);
+                if (file == null)
+                {
+                    // Хакерская атака
+
+                    return null;
+                }
+
+                return file.FileTags.Select(x => x.Tag).ToArray();
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return null;
+            }
+        }
+
+        public string[] GetTagList()
+        {
+            try
+            {
+                return context.Tags.Select(x => x.Name).ToArray();
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return null;
+            }
+        }
+
+        public bool SetTags(int idFile, string[] tags)
+        {
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
+
+            try
+            {
+                var file = context.Files.SingleOrDefault(x => x.Id == idFile);
+                if (file == null || file.IdOwner != user.Id)
+                {
+                    // Хакерская атака
+
+                    return false;
+                }
+
+                var tagsToAdd = tags.ToList();
+
+                foreach (var fileTag in file.FileTags)
+                {
+                    if (tags.Contains(fileTag.Tag.Name))
+                    {
+                        tagsToAdd.Remove(fileTag.Tag.Name);
+                    }
+                    else
+                    {
+                        context.FileTags.DeleteOnSubmit(fileTag);
+                    }
+                }
+
+                foreach (string tagName in tagsToAdd)
+                {
+                    Tag tag = context.Tags.SingleOrDefault(x => x.Name == tagName);
+                    if (tag == null)
+                    {
+                        tag = new Tag() { Name = tagName };
+
+                        context.Tags.InsertOnSubmit(tag);
+                    }
+
+                    var fileTag = new FileTag()
+                    {
+                        Tag = tag,
+                        File = file
+                    };
+
+                    context.FileTags.InsertOnSubmit(fileTag);
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return false;
+            }
+        }
+
+        public GetFilePropertiesResult GetFileProperties(int idFile)
+        {
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
+
+            try
+            {
+                var file = context.Files.SingleOrDefault(x => x.Id == idFile);
+                if (file == null)
+                {
+                    // Хакерская атака
+
+                    return null;
+                }
+
+                var result = new GetFilePropertiesResult()
+                {
+                    Type = file.Type,
+                    Name = file.Name,
+                    Extension = file.Extension.Name,
+                    Description = file.Description,
+                    Owner = file.User,
+                    Created = file.Created
+                };
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return null;
+            }
+        }
+
+        public bool UpdateFileProperties(int idFile, string name, string description)
+        {
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
+
+            try
+            {
+                var file = context.Files.SingleOrDefault(x => x.Id == idFile);
+                if (file == null || !RegexCheck.CheckFileName(file.Name))
+                {
+                    // Хакерская атака
+
+                    return false;
+                }
+
+                file.Name = name;
+                file.Description = description;
+
+                context.SubmitChanges();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return false;
+            }
         }
     }
 }

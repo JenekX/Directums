@@ -43,6 +43,7 @@
             this.scWorkArea = new System.Windows.Forms.SplitContainer();
             this.tvDirs = new System.Windows.Forms.TreeView();
             this.lvFiles = new System.Windows.Forms.ListView();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.tsMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scWorkArea)).BeginInit();
             this.scWorkArea.Panel1.SuspendLayout();
@@ -62,7 +63,8 @@
             this.copyToolStripButton,
             this.pasteToolStripButton,
             this.toolStripSeparator1,
-            this.helpToolStripButton});
+            this.helpToolStripButton,
+            this.toolStripButton1});
             this.tsMenu.Location = new System.Drawing.Point(0, 0);
             this.tsMenu.Name = "tsMenu";
             this.tsMenu.Size = new System.Drawing.Size(659, 25);
@@ -193,6 +195,16 @@
             this.lvFiles.SelectedIndexChanged += new System.EventHandler(this.lvFiles_SelectedIndexChanged);
             this.lvFiles.Leave += new System.EventHandler(this.lvFiles_Leave);
             // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -229,5 +241,6 @@
         private System.Windows.Forms.SplitContainer scWorkArea;
         private System.Windows.Forms.TreeView tvDirs;
         private System.Windows.Forms.ListView lvFiles;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }

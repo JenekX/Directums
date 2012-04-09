@@ -73,11 +73,14 @@
     <Compile Include="AccessFailureException.cs" />
     <Compile Include="AccessTypes.cs" />
     <Compile Include="Classes\BinaryPatchUtility.cs" />
+    <Compile Include="Classes\GetAccessRightsResult.cs" />
+    <Compile Include="Classes\GetFilePropertiesResult.cs" />
     <Compile Include="Classes\GetGroupResult.cs" />
     <Compile Include="Classes\FindGroupsResult.cs" />
     <Compile Include="Classes\FindUsersResult.cs" />
     <Compile Include="Classes\GetDirsResult.cs" />
     <Compile Include="Classes\GetFilesResult.cs" />
+    <Compile Include="Classes\LogManager.cs" />
     <Compile Include="Classes\Options.cs" />
     <Compile Include="DirectumsServiceDataClasses.cs">
       <DependentUpon>DirectumsServiceDataClasses.dbml</DependentUpon>

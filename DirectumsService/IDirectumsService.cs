@@ -12,8 +12,8 @@ namespace Directums.Service
         [OperationContract]
         bool Connect(string login, string passwordHash);
 
-        [OperationContract(IsOneWay = true)]
-        void Disconnect();
+        [OperationContract]
+        bool Disconnect();
 
         [OperationContract]
         User GetCurrentUser();
@@ -39,11 +39,11 @@ namespace Directums.Service
         [OperationContract]
         FindUsersResult FindUsers(int page, UserFilter filter);
 
-        [OperationContract(IsOneWay = true)]
-        void ResetUserPassword(int idUser);
+        [OperationContract]
+        bool ResetUserPassword(int idUser);
 
-        [OperationContract(IsOneWay = true)]
-        void UpdateUser(int idUser, string login, string email, byte status);
+        [OperationContract]
+        bool UpdateUser(int idUser, string login, string email, byte status);
 
         [OperationContract]
         GetDirsResult[] GetDirs();
@@ -51,8 +51,8 @@ namespace Directums.Service
         [OperationContract]
         GetFilesResult[] GetFiles(Int32 dirId);
 
-        [OperationContract(IsOneWay = true)]
-        void UpdateUserStatus(int idUser, byte status);
+        [OperationContract]
+        bool UpdateUserStatus(int idUser, byte status);
 
         [OperationContract]
         FindGroupsResult[] FindGroups(string filter);
@@ -77,5 +77,26 @@ namespace Directums.Service
 
         [OperationContract]
         bool AddVersion(Int32 file, byte[] b);
+
+        [OperationContract]
+        GetAccessRightsResult[] GetAccessRights(int idFile);
+
+        [OperationContract]
+        bool SetAccessRights(int idFile, GetAccessRightsResult[] rights);
+
+        [OperationContract]
+        Tag[] GetTags(int idFile);
+
+        [OperationContract]
+        string[] GetTagList();
+
+        [OperationContract]
+        bool SetTags(int idFile, string[] tags);
+
+        [OperationContract]
+        GetFilePropertiesResult GetFileProperties(int idFile);
+
+        [OperationContract]
+        bool UpdateFileProperties(int idFile, string name, string description);
     }
 }

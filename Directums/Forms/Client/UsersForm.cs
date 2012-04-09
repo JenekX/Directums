@@ -106,17 +106,17 @@ namespace Directums.Client.Forms.Client
             form.ShowDialog(ownerForm);
         }
 
-        public static int ExecuteSelect(DirectumsForm ownerForm)
+        public static User ExecuteSelect(DirectumsForm ownerForm)
         {
             UsersForm form = new UsersForm(ownerForm.Config);
             form.Initialize(true);
 
             if (form.ShowDialog(ownerForm) == DialogResult.OK)
             {
-                return form.GetSelectedUser().Id;
+                return form.GetSelectedUser();
             }
 
-            return 0;
+            return null;
         }
 
         private void btnFilter_Click(object sender, EventArgs e)

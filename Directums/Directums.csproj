@@ -69,6 +69,19 @@
     <Compile Include="Classes\DirectumsForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Classes\Reference.cs" />
+    <Compile Include="Controls\Client\TagsPicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Client\TagsPicker.Designer.cs">
+      <DependentUpon>TagsPicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Client\UserPicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Client\UserPicker.Designer.cs">
+      <DependentUpon>UserPicker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Admin\GroupEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,6 +100,18 @@
     <Compile Include="Forms\Admin\UserEditForm.Designer.cs">
       <DependentUpon>UserEditForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Client\FileAccessRightsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Client\FileAccessRightsForm.Designer.cs">
+      <DependentUpon>FileAccessRightsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Client\FilePropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Client\FilePropertiesForm.Designer.cs">
+      <DependentUpon>FilePropertiesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Client\GroupsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,11 +124,29 @@
     <Compile Include="Forms\Client\GroupViewForm.Designer.cs">
       <DependentUpon>GroupViewForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Client\EditTagForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Client\EditTagForm.Designer.cs">
+      <DependentUpon>EditTagForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Client\TagsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Client\TagsForm.Designer.cs">
+      <DependentUpon>TagsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Client\UsersForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Client\UsersForm.Designer.cs">
       <DependentUpon>UsersForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Common\InputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Common\InputBox.Designer.cs">
+      <DependentUpon>InputBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Common\UserFilterForm.cs">
       <SubType>Form</SubType>
@@ -142,6 +185,12 @@
     <Compile Include="SignUpForm.Designer.cs">
       <DependentUpon>SignUpForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\Client\TagsPicker.resx">
+      <DependentUpon>TagsPicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Client\UserPicker.resx">
+      <DependentUpon>UserPicker.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Admin\GroupEditForm.resx">
       <DependentUpon>GroupEditForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -151,14 +200,29 @@
     <EmbeddedResource Include="Forms\Admin\UserEditForm.resx">
       <DependentUpon>UserEditForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Client\FileAccessRightsForm.resx">
+      <DependentUpon>FileAccessRightsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Client\FilePropertiesForm.resx">
+      <DependentUpon>FilePropertiesForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Client\GroupsForm.resx">
       <DependentUpon>GroupsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Client\GroupViewForm.resx">
       <DependentUpon>GroupViewForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Client\EditTagForm.resx">
+      <DependentUpon>EditTagForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Client\TagsForm.resx">
+      <DependentUpon>TagsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Client\UsersForm.resx">
       <DependentUpon>UsersForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Common\InputBox.resx">
+      <DependentUpon>InputBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Common\UserFilterForm.resx">
       <DependentUpon>UserFilterForm.cs</DependentUpon>
@@ -207,7 +271,13 @@
     <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.FindUsersResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetAccessRightsResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetDirsResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetFilePropertiesResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetFilesResult.datasource">
@@ -217,6 +287,9 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.Options.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.Tag.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.User.datasource">
@@ -288,6 +361,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

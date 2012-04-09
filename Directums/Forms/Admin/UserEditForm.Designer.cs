@@ -74,7 +74,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbLogin.Location = new System.Drawing.Point(12, 9);
             this.lbLogin.Name = "lbLogin";
-            this.lbLogin.Size = new System.Drawing.Size(56, 13);
+            this.lbLogin.Size = new System.Drawing.Size(285, 13);
             this.lbLogin.TabIndex = 0;
             this.lbLogin.Text = "Логин:";
             // 

@@ -12,14 +12,14 @@ namespace Directums.Client.Forms.Admin
             var groups = Config.Client.FindGroups(tbQuickFilter.Text);
 
             lvGroups.Items.Clear();
-            foreach (var group in groups)
+            foreach (var g in groups)
             {
-                var item = lvGroups.Items.Add("", group.Status ? 1 : 0);
+                var item = lvGroups.Items.Add("", g.Group.Status ? 1 : 0);
 
-                item.Tag = group;
-                item.SubItems.Add(group.Id.ToString());
-                item.SubItems.Add(group.Name);
-                item.SubItems.Add(group.UserCount.ToString());
+                item.Tag = g;
+                item.SubItems.Add(g.Group.Id.ToString());
+                item.SubItems.Add(g.Group.Name);
+                item.SubItems.Add(g.UserCount.ToString());
             }
         }
 
@@ -39,7 +39,7 @@ namespace Directums.Client.Forms.Admin
             bool enabled = group != null;
 
             tsmEdit.Enabled = enabled;
-            tsmChangeStatus.Text = enabled && group.Status ? "Заблокировать" : "Активировать";
+            tsmChangeStatus.Text = enabled && group.Group.Status ? "Заблокировать" : "Активировать";
             tsmChangeStatus.Enabled = enabled;
         }
 
@@ -94,7 +94,7 @@ namespace Directums.Client.Forms.Admin
         {
             var group = GetSelectedGroup();
 
-            if (Config.Client.ChangeGroupStatus(group.Id))
+            if (Config.Client.ChangeGroupStatus(group.Group.Id))
             {
                 FillGroups();
             }
