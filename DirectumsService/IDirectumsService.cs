@@ -98,5 +98,8 @@ namespace Directums.Service
 
         [OperationContract]
         bool UpdateFileProperties(int idFile, string name, string description);
+
+        [OperationContract]
+        bool UpdateProfile(int idUser, string surname, string name, string patronymic, DateTime birthday,string passwordHash);
     }
 }
