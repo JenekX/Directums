@@ -33,6 +33,12 @@
   <wsdl:message name="IDirectumsService_UpdateFileProperties_OutputMessage">
     <wsdl:part name="parameters" element="tns:UpdateFilePropertiesResponse" />
   </wsdl:message>
+  <wsdl:message name="IDirectumsService_UpdateProfile_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateProfile" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_UpdateProfile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateProfileResponse" />
+  </wsdl:message>
   <wsdl:message name="IDirectumsService_Connect_InputMessage">
     <wsdl:part name="parameters" element="tns:Connect" />
   </wsdl:message>
@@ -216,6 +222,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/UpdateFileProperties" message="tns:IDirectumsService_UpdateFileProperties_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/UpdateFilePropertiesResponse" message="tns:IDirectumsService_UpdateFileProperties_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UpdateProfile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/UpdateProfile" message="tns:IDirectumsService_UpdateProfile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/UpdateProfileResponse" message="tns:IDirectumsService_UpdateProfile_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Connect">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/Connect" message="tns:IDirectumsService_Connect_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/ConnectResponse" message="tns:IDirectumsService_Connect_OutputMessage" />
@@ -352,6 +362,15 @@
     </wsdl:operation>
     <wsdl:operation name="UpdateFileProperties">
       <soap12:operation soapAction="http://tempuri.org/IDirectumsService/UpdateFileProperties" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateProfile">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/UpdateProfile" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

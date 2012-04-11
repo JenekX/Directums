@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Directums.Classes.Core;
 using Directums.Client.Classes;
 using Directums.Client.DirectumsService;
+using Directums.Client.Forms.Client;
 using IO = System.IO;
 
 namespace Directums.Client
@@ -140,6 +141,14 @@ namespace Directums.Client
             int idFile = (int)lvFiles.SelectedItems[0].Tag;
 
             Directums.Client.Forms.Client.FilePropertiesForm.Execute(this, idFile);
+        }
+
+        private void profileToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (EditProfileForm.Execute(this))
+            {
+                MessageBox.Show("Изменения сохранены");
+            }                       
         }
     }
 }

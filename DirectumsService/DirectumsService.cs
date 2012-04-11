@@ -986,5 +986,49 @@ namespace Directums.Service
                 return false;
             }
         }
+
+        public bool UpdateProfile(int idUser, string surname, string name, string patronymic, DateTime birthday, string passwordHash)
+        {
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
+            try
+            {
+                var user = context.Users.SingleOrDefault(x => x.Id == idUser);
+                if (user == null)
+                {
+                    // Попытка хака
+
+                    return false;
+                }
+                //Валидация данных от пользователя
+                if ((passwordHash.Length == 32 || passwordHash.Length == 0)&& (RegexCheck.CheckNames(surname) || surname.Length == 0) && (RegexCheck.CheckNames(name) || name.Length == 0) && (RegexCheck.CheckNames(patronymic) || patronymic.Length == 0))
+                {
+                    user.Surname = surname;
+                    user.Name = name;
+                    user.Patronymic = patronymic;
+                    user.BornDate = birthday;
+                    if (passwordHash.Length != 0)
+                    {
+                        user.PasswordHash = passwordHash;
+                    }
+
+                    context.SubmitChanges();
+
+                    return true;
+                }
+                else
+                {
+                    // Попытка хака
+
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return false;
+            }
+
+        }
     }
 }

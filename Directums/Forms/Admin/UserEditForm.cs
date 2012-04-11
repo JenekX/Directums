@@ -123,7 +123,7 @@ namespace Directums.Client.Forms.Admin
         {
             UserEditForm form = new UserEditForm(ownerForm.Config);
             form.Initialize(user);
-
+            
             return form.ShowDialog(ownerForm) == DialogResult.OK;
         }
 
