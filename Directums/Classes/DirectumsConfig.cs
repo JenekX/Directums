@@ -19,6 +19,8 @@ namespace Directums.Client.Classes
 
             string[] arguments = Environment.GetCommandLineArgs();
             IsAdmin = arguments.Count(x => x == "/admin" || x == "-admin") == 1;
+
+            NotificationTime = 10000;
         }
 
         public bool Connect(string login, string passwordHash)
@@ -52,5 +54,7 @@ namespace Directums.Client.Classes
         public bool IsAdmin { get; private set; }
 
         public string[] Tags { get; private set; }
+
+        public int NotificationTime { get; private set; }
     }
 }
