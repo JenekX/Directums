@@ -41,7 +41,7 @@
         <xs:element minOccurs="0" name="surname" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="patronymic" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="birthday" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="birthday" nillable="true" type="xs:dateTime" />
         <xs:element minOccurs="0" name="passwordHash" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>

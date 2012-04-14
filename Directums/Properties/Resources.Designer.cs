@@ -60,9 +60,23 @@ namespace Directums.Client.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap convert {
+            get {
+                object obj = ResourceManager.GetObject("convert", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap i {
             get {
                 object obj = ResourceManager.GetObject("i", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap i1 {
+            get {
+                object obj = ResourceManager.GetObject("i1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

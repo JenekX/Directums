@@ -149,8 +149,11 @@
             // 
             // dtpBirthday
             // 
+            this.dtpBirthday.Checked = false;
             this.dtpBirthday.Location = new System.Drawing.Point(84, 116);
+            this.dtpBirthday.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dtpBirthday.Name = "dtpBirthday";
+            this.dtpBirthday.ShowCheckBox = true;
             this.dtpBirthday.Size = new System.Drawing.Size(234, 20);
             this.dtpBirthday.TabIndex = 10;
             // 
@@ -215,9 +218,9 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(29, 264);
+            this.btnOK.Location = new System.Drawing.Point(84, 264);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(114, 34);
+            this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 17;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
@@ -226,9 +229,9 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(194, 264);
+            this.btnCancel.Location = new System.Drawing.Point(195, 264);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(115, 34);
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 18;
             this.btnCancel.Text = "Отмена";
             this.btnCancel.UseVisualStyleBackColor = true;

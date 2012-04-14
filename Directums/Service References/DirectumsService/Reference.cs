@@ -2409,7 +2409,7 @@ namespace Directums.Client.DirectumsService {
         bool UpdateFileProperties(int idFile, string name, string description);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/UpdateProfile", ReplyAction="http://tempuri.org/IDirectumsService/UpdateProfileResponse")]
-        bool UpdateProfile(int idUser, string surname, string name, string patronymic, System.DateTime birthday, string passwordHash);
+        bool UpdateProfile(int idUser, string surname, string name, string patronymic, System.Nullable<System.DateTime> birthday, string passwordHash);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/Connect", ReplyAction="http://tempuri.org/IDirectumsService/ConnectResponse")]
         bool Connect(string login, string passwordHash);
@@ -2545,7 +2545,7 @@ namespace Directums.Client.DirectumsService {
             return base.Channel.UpdateFileProperties(idFile, name, description);
         }
         
-        public bool UpdateProfile(int idUser, string surname, string name, string patronymic, System.DateTime birthday, string passwordHash) {
+        public bool UpdateProfile(int idUser, string surname, string name, string patronymic, System.Nullable<System.DateTime> birthday, string passwordHash) {
             return base.Channel.UpdateProfile(idUser, surname, name, patronymic, birthday, passwordHash);
         }
         

@@ -49,8 +49,11 @@ namespace Directums.Client.Forms.Client
             tbSurname.Text = user.Surname;
             tbName.Text = user.Name;
             tbPatronymic.Text = user.Patronymic;
-            dtpBirthday.Value = (DateTime) (user.BornDate ?? DateTime.Now);
-
+            if (user.BornDate != null)
+            {
+                dtpBirthday.Value = (DateTime) (user.BornDate ?? DateTime.Now);
+                dtpBirthday.Checked = true;
+            }        
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -60,8 +63,8 @@ namespace Directums.Client.Forms.Client
                 DialogResult = System.Windows.Forms.DialogResult.None;
             }
             else
-            {
-                MessageBox.Show(Config.Client.UpdateProfile(user.Id, tbSurname.Text, tbName.Text, tbPatronymic.Text, dtpBirthday.Value, ((tbPass.Text.Length == 0) ? "" : HashHelper.StringHash(tbPass.Text))).ToString());
+            {              
+                Config.Client.UpdateProfile(user.Id, tbSurname.Text, tbName.Text, tbPatronymic.Text, (dtpBirthday.Checked) ? (new DateTime?(dtpBirthday.Value)) : null, ((tbPass.Text.Length == 0) ? "" : HashHelper.StringHash(tbPass.Text)));
                 DialogResult = System.Windows.Forms.DialogResult.OK;
             }
         }
