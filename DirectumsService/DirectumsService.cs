@@ -1223,7 +1223,7 @@ namespace Directums.Service
             }
         }
 
-        public bool UpdateProfile(int idUser, string surname, string name, string patronymic, DateTime birthday, string passwordHash)
+        public bool UpdateProfile(int idUser, string surname, string name, string patronymic, DateTime? birthday, string passwordHash)
         {
             IsAllowAction(AccessType.Authorized, AccessStatus.Active);
             try
@@ -1242,7 +1242,12 @@ namespace Directums.Service
                     user.Surname = surname;
                     user.Name = name;
                     user.Patronymic = patronymic;
-                    user.BornDate = birthday;
+
+                    if (birthday != null)
+                    {
+                        user.BornDate = birthday;
+                    }
+
                     if (passwordHash.Length != 0)
                     {
                         user.PasswordHash = passwordHash;

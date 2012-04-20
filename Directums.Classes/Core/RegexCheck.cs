@@ -15,7 +15,7 @@ namespace Directums.Classes.Core
 
         private static Regex fileNameRegex = new Regex("^[^\\|/\":*?<>]{1,256}$");
 
-        private static Regex names = new Regex(@"[а-яА-Яё\-\ ]");
+        private static Regex names = new Regex(@"^[а-яА-ЯёЁ\-\ ]{1,64}$");
 
         public static bool CheckDigits(string checkingString)
         {
