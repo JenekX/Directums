@@ -26,22 +26,32 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="FindUsersResult" nillable="true" type="tns:FindUsersResult" />
-  <xs:complexType name="ArrayOfGetDirsResult">
+  <xs:complexType name="ArrayOfGetFoldersResult">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="GetDirsResult" nillable="true" type="tns:GetDirsResult" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="GetFoldersResult" nillable="true" type="tns:GetFoldersResult" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ArrayOfGetDirsResult" nillable="true" type="tns:ArrayOfGetDirsResult" />
-  <xs:complexType name="GetDirsResult">
+  <xs:element name="ArrayOfGetFoldersResult" nillable="true" type="tns:ArrayOfGetFoldersResult" />
+  <xs:complexType name="GetFoldersResult">
     <xs:sequence>
       <xs:element minOccurs="0" name="Id" type="xs:int" />
-      <xs:element minOccurs="0" name="IdItem" type="xs:int" />
-      <xs:element minOccurs="0" name="IdParent" type="xs:int" />
+      <xs:element minOccurs="0" name="IdFile" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="IdParent" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="typeAccess" type="xs:int" />
+      <xs:element minOccurs="0" name="ReadOnly" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Type" type="tns:GetFoldersResultType" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="GetDirsResult" nillable="true" type="tns:GetDirsResult" />
+  <xs:element name="GetFoldersResult" nillable="true" type="tns:GetFoldersResult" />
+  <xs:simpleType name="GetFoldersResultType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SharedFolder" />
+      <xs:enumeration value="RootUserFolder" />
+      <xs:enumeration value="Folder" />
+      <xs:enumeration value="FolderRef" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="GetFoldersResultType" nillable="true" type="tns:GetFoldersResultType" />
   <xs:complexType name="ArrayOfGetFilesResult">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="GetFilesResult" nillable="true" type="tns:GetFilesResult" />
@@ -50,13 +60,27 @@
   <xs:element name="ArrayOfGetFilesResult" nillable="true" type="tns:ArrayOfGetFilesResult" />
   <xs:complexType name="GetFilesResult">
     <xs:sequence>
-      <xs:element minOccurs="0" name="CreatedTime" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Created" type="xs:dateTime" />
       <xs:element minOccurs="0" name="Extension" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IdFile" type="xs:int" />
+      <xs:element minOccurs="0" name="IdOwner" type="xs:int" />
       <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OwnerName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ReadOnly" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Type" type="tns:GetFilesResultType" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="GetFilesResult" nillable="true" type="tns:GetFilesResult" />
+  <xs:simpleType name="GetFilesResultType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="File" />
+      <xs:enumeration value="Folder" />
+      <xs:enumeration value="FileRef" />
+      <xs:enumeration value="FolderRef" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="GetFilesResultType" nillable="true" type="tns:GetFilesResultType" />
   <xs:complexType name="ArrayOfFindGroupsResult">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="FindGroupsResult" nillable="true" type="tns:FindGroupsResult" />

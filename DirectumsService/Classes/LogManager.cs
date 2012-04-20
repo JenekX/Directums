@@ -7,7 +7,7 @@ namespace Directums.Service.Classes
 {
     public class LogManager
     {
-        private static string logFolder = ConfigurationSettings.AppSettings.Get("LogFolder");
+        private static string logFolder = ConfigurationManager.AppSettings.Get("LogFolder");
 
         public static bool AddException(Exception e)
         {

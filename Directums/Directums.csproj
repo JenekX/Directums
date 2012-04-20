@@ -49,6 +49,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="OSIcon">
+      <HintPath>..\..\..\..\..\Desktop\OSIcon_src_v2.0\OSIcon\OSIcon\bin\Release\OSIcon.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -69,6 +72,7 @@
     <Compile Include="Classes\DirectumsForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Classes\IconExtractor.cs" />
     <Compile Include="Classes\Reference.cs" />
     <Compile Include="Controls\Client\TagsPicker.cs">
       <SubType>UserControl</SubType>
@@ -283,13 +287,13 @@
     <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetAccessRightsResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetDirsResult.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetFilePropertiesResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetFilesResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetFoldersResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetGroupResult.datasource">

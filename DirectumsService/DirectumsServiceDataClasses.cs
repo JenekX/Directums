@@ -45,4 +45,16 @@ namespace Directums.Service
         public const byte UserFolder = 2;
         public const byte ObjectRef = 3;
     }
+
+	partial class File
+	{
+		public const byte TypeFile = 0;
+		public const byte TypeFolder = 1;
+	}
+
+    partial class AccessRight
+    {
+        public const byte ReadOnly = 0;
+        public const byte ReadWrite = 1;
+    }
 }

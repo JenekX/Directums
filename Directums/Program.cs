@@ -16,9 +16,18 @@ namespace Directums.Client
             Application.SetCompatibleTextRenderingDefault(false);
 
             DirectumsConfig config = new DirectumsConfig();
-            LoginForm form = new LoginForm(config);
 
-            Application.Run(form);
+            bool allowChangeUser = true;
+            while (allowChangeUser && LoginForm.Execute(config))
+            {
+                var form = new MainForm(config);
+                form.Initialize();
+                Application.Run(form);
+
+                allowChangeUser = form.AllowChangeUser;
+
+                config.Client.Disconnect();
+            }
         }
     }
 }

@@ -945,7 +945,7 @@ namespace Directums.Service
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_User", Storage="_Item", ThisKey="IdRootFolder", OtherKey="Id", IsForeignKey=true)]
-		public Item Item
+		public Item RootFolder
 		{
 			get
 			{
@@ -973,7 +973,7 @@ namespace Directums.Service
 					{
 						this._IdRootFolder = default(int);
 					}
-					this.SendPropertyChanged("Item");
+					this.SendPropertyChanged("RootFolder");
 				}
 			}
 		}
@@ -1270,7 +1270,7 @@ namespace Directums.Service
 		
 		private string _Name;
 		
-		private int _IdExtension;
+		private System.Nullable<int> _IdExtension;
 		
 		private string _Description;
 		
@@ -1304,7 +1304,7 @@ namespace Directums.Service
     partial void OnTypeChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
-    partial void OnIdExtensionChanging(int value);
+    partial void OnIdExtensionChanging(System.Nullable<int> value);
     partial void OnIdExtensionChanged();
     partial void OnDescriptionChanging(string value);
     partial void OnDescriptionChanged();
@@ -1405,9 +1405,9 @@ namespace Directums.Service
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdExtension", DbType="Int NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdExtension", DbType="Int")]
 		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5)]
-		public int IdExtension
+		public System.Nullable<int> IdExtension
 		{
 			get
 			{
@@ -1594,7 +1594,7 @@ namespace Directums.Service
 					}
 					else
 					{
-						this._IdExtension = default(int);
+						this._IdExtension = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("Extension");
 				}
@@ -1970,6 +1970,10 @@ namespace Directums.Service
 		
 		private byte _Number;
 		
+		private string _Description;
+		
+		private bool _IsHidden;
+		
 		private System.Data.Linq.Binary _Data;
 		
 		private System.DateTime _Created;
@@ -1986,6 +1990,10 @@ namespace Directums.Service
     partial void OnIdFileChanged();
     partial void OnNumberChanging(byte value);
     partial void OnNumberChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnIsHiddenChanging(bool value);
+    partial void OnIsHiddenChanged();
     partial void OnDataChanging(System.Data.Linq.Binary value);
     partial void OnDataChanged();
     partial void OnCreatedChanging(System.DateTime value);
@@ -2064,8 +2072,50 @@ namespace Directums.Service
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="Image NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="Text NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
 		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4)]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsHidden", DbType="Bit NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5)]
+		public bool IsHidden
+		{
+			get
+			{
+				return this._IsHidden;
+			}
+			set
+			{
+				if ((this._IsHidden != value))
+				{
+					this.OnIsHiddenChanging(value);
+					this.SendPropertyChanging();
+					this._IsHidden = value;
+					this.SendPropertyChanged("IsHidden");
+					this.OnIsHiddenChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="Image NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=6)]
 		public System.Data.Linq.Binary Data
 		{
 			get
@@ -2086,7 +2136,7 @@ namespace Directums.Service
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Created", DbType="DateTime NOT NULL")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=7)]
 		public System.DateTime Created
 		{
 			get
@@ -3161,7 +3211,7 @@ namespace Directums.Service
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_Item1", Storage="_Items1", ThisKey="Id", OtherKey="IdParent")]
 		[global::System.Runtime.Serialization.DataMemberAttribute(Order=8, EmitDefaultValue=false)]
-		public EntitySet<Item> Items1
+		public EntitySet<Item> Childs
 		{
 			get
 			{
@@ -3247,7 +3297,7 @@ namespace Directums.Service
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_Item1", Storage="_Item2", ThisKey="IdParent", OtherKey="Id", IsForeignKey=true)]
-		public Item Item2
+		public Item Parent
 		{
 			get
 			{
@@ -3263,19 +3313,19 @@ namespace Directums.Service
 					if ((previousValue != null))
 					{
 						this._Item2.Entity = null;
-						previousValue.Items1.Remove(this);
+						previousValue.Childs.Remove(this);
 					}
 					this._Item2.Entity = value;
 					if ((value != null))
 					{
-						value.Items1.Add(this);
+						value.Childs.Add(this);
 						this._IdParent = value.Id;
 					}
 					else
 					{
 						this._IdParent = default(Nullable<int>);
 					}
-					this.SendPropertyChanged("Item2");
+					this.SendPropertyChanged("Parent");
 				}
 			}
 		}
@@ -3303,13 +3353,13 @@ namespace Directums.Service
 		private void attach_Users(User entity)
 		{
 			this.SendPropertyChanging();
-			entity.Item = this;
+			entity.RootFolder = this;
 		}
 		
 		private void detach_Users(User entity)
 		{
 			this.SendPropertyChanging();
-			entity.Item = null;
+			entity.RootFolder = null;
 		}
 		
 		private void attach_Items(Item entity)
@@ -3327,13 +3377,13 @@ namespace Directums.Service
 		private void attach_Items1(Item entity)
 		{
 			this.SendPropertyChanging();
-			entity.Item2 = this;
+			entity.Parent = this;
 		}
 		
 		private void detach_Items1(Item entity)
 		{
 			this.SendPropertyChanging();
-			entity.Item2 = null;
+			entity.Parent = null;
 		}
 		
 		private void Initialize()

@@ -1,6 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Directums.Service" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Directums.Service" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="http://schemas.datacontract.org/2004/07/System.Data.Linq" />
+  <xs:complexType name="ArrayOfTag">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Tag" nillable="true" type="tns:Tag" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTag" nillable="true" type="tns:ArrayOfTag" />
+  <xs:complexType name="Tag">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FileTags" nillable="true" type="tns:ArrayOfFileTag">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+            </DefaultValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Tag" nillable="true" type="tns:Tag" />
+  <xs:complexType name="ArrayOfFileTag">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FileTag" nillable="true" type="tns:FileTag" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFileTag" nillable="true" type="tns:ArrayOfFileTag" />
+  <xs:complexType name="FileTag">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IdFile" type="xs:int" />
+      <xs:element minOccurs="0" name="IdTag" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FileTag" nillable="true" type="tns:FileTag" />
   <xs:complexType name="User">
     <xs:sequence>
       <xs:element minOccurs="0" name="Id" type="xs:int" />
@@ -93,7 +128,7 @@
       <xs:element minOccurs="0" name="IdOwner" type="xs:int" />
       <xs:element minOccurs="0" name="Type" type="xs:unsignedByte" />
       <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="IdExtension" type="xs:int" />
+      <xs:element minOccurs="0" name="IdExtension" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Created" type="xs:dateTime" />
       <xs:element minOccurs="0" name="AccessRights" nillable="true" type="tns:ArrayOfAccessRight">
@@ -139,20 +174,6 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="File" nillable="true" type="tns:File" />
-  <xs:complexType name="ArrayOfFileTag">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="FileTag" nillable="true" type="tns:FileTag" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfFileTag" nillable="true" type="tns:ArrayOfFileTag" />
-  <xs:complexType name="FileTag">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Id" type="xs:int" />
-      <xs:element minOccurs="0" name="IdFile" type="xs:int" />
-      <xs:element minOccurs="0" name="IdTag" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="FileTag" nillable="true" type="tns:FileTag" />
   <xs:complexType name="ArrayOfFileVersion">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="FileVersion" nillable="true" type="tns:FileVersion" />
@@ -164,6 +185,8 @@
       <xs:element minOccurs="0" name="Id" type="xs:int" />
       <xs:element minOccurs="0" name="IdFile" type="xs:int" />
       <xs:element minOccurs="0" name="Number" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsHidden" type="xs:boolean" />
       <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/System.Data.Linq" minOccurs="0" name="Data" nillable="true" type="q1:Binary" />
       <xs:element minOccurs="0" name="Created" type="xs:dateTime" />
     </xs:sequence>
@@ -216,7 +239,7 @@
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element minOccurs="0" name="Items1" nillable="true" type="tns:ArrayOfItem">
+      <xs:element minOccurs="0" name="Childs" nillable="true" type="tns:ArrayOfItem">
         <xs:annotation>
           <xs:appinfo>
             <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
@@ -315,25 +338,4 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Group" nillable="true" type="tns:Group" />
-  <xs:complexType name="ArrayOfTag">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="Tag" nillable="true" type="tns:Tag" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfTag" nillable="true" type="tns:ArrayOfTag" />
-  <xs:complexType name="Tag">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Id" type="xs:int" />
-      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="FileTags" nillable="true" type="tns:ArrayOfFileTag">
-        <xs:annotation>
-          <xs:appinfo>
-            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
-            </DefaultValue>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="Tag" nillable="true" type="tns:Tag" />
 </xs:schema>

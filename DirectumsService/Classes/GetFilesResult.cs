@@ -6,27 +6,43 @@ using System.Runtime.Serialization;
 
 namespace Directums.Service.Classes
 {
-    [DataContract]
+    public enum GetFilesResultType
+    {
+        Folder,
+        FolderRef,
+        File,
+        FileRef
+    }
+
     public class GetFilesResult
     {
-        [DataMember]
-        public Int32 Id { get; set; }
+        public int Id { get; set; }
+        public int IdFile { get; set; }
+        public GetFilesResultType Type { get; set; }
+        public int IdOwner { get; set; }
+        public string OwnerName { get; set; }
+        public string Name { get; set; }
+        public string Extension { get; set; }
+        public bool ReadOnly { get; set; }
+        public DateTime Created { get; set; }
+    }
 
-        [DataMember]
-        public String Name { get; set; }
-        
-        [DataMember]
-        public String Extension { get; set; }
-
-        [DataMember]
-        public DateTime CreatedTime { get; set; }
-
-        public GetFilesResult(Int32 id, String name, String ex, DateTime time)
+    public class GetFilesResultTypeComparer : IComparer<GetFilesResultType>
+    {
+        public int Compare(GetFilesResultType x, GetFilesResultType y)
         {
-            Id = id;
-            Name = name;
-            Extension = ex;
-            CreatedTime = time;
+            if ((x == GetFilesResultType.Folder || x == GetFilesResultType.FolderRef) && (y == GetFilesResultType.File || y == GetFilesResultType.FileRef))
+            {
+                return -1;
+            }
+            else if ((x == GetFilesResultType.File || x == GetFilesResultType.FileRef) && (y == GetFilesResultType.Folder || y == GetFilesResultType.FolderRef))
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

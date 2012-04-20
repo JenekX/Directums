@@ -28,73 +28,90 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tsMenu = new System.Windows.Forms.ToolStrip();
-            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsdbAdd = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tsMenuAddDocument = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsMenuAddVersion = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsMenuAddFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.scWorkArea = new System.Windows.Forms.SplitContainer();
             this.tvDirs = new System.Windows.Forms.TreeView();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.lvFiles = new System.Windows.Forms.ListView();
-            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.profileToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.copyToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.chName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.cbOwner = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.cbCreated = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.filesContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmOpenDocument = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmFileProperties = new System.Windows.Forms.ToolStripMenuItem();
+            this.создатьВерсиюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainMenu = new System.Windows.Forms.MenuStrip();
+            this.tsmFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmChangeUser = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmView = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmRefresh = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmAdmin = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmAdminUsers = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmAdminGroups = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tsMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scWorkArea)).BeginInit();
             this.scWorkArea.Panel1.SuspendLayout();
             this.scWorkArea.Panel2.SuspendLayout();
             this.scWorkArea.SuspendLayout();
+            this.filesContextMenu.SuspendLayout();
+            this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // tsMenu
             // 
             this.tsMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripButton,
-            this.openToolStripButton,
-            this.saveToolStripButton,
-            this.printToolStripButton,
-            this.toolStripSeparator,
-            this.profileToolStripButton,
-            this.copyToolStripButton,
-            this.pasteToolStripButton,
-            this.toolStripSeparator1,
-            this.helpToolStripButton,
-            this.toolStripButton1});
-            this.tsMenu.Location = new System.Drawing.Point(0, 0);
+            this.tsdbAdd});
+            this.tsMenu.Location = new System.Drawing.Point(0, 24);
             this.tsMenu.Name = "tsMenu";
             this.tsMenu.Size = new System.Drawing.Size(659, 25);
             this.tsMenu.TabIndex = 0;
             this.tsMenu.Text = "toolStrip1";
             // 
-            // openToolStripButton
+            // tsdbAdd
             // 
-            this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.openToolStripButton.Name = "openToolStripButton";
-            this.openToolStripButton.Size = new System.Drawing.Size(90, 22);
-            this.openToolStripButton.Text = "Добавить файл";
-            this.openToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-            this.openToolStripButton.Click += new System.EventHandler(this.openToolStripButton_Click);
+            this.tsdbAdd.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsMenuAddFolder,
+            this.tsMenuAddDocument,
+            this.tsMenuAddVersion});
+            this.tsdbAdd.Image = ((System.Drawing.Image)(resources.GetObject("tsdbAdd.Image")));
+            this.tsdbAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsdbAdd.Name = "tsdbAdd";
+            this.tsdbAdd.Size = new System.Drawing.Size(88, 22);
+            this.tsdbAdd.Text = "Добавить";
             // 
-            // toolStripSeparator
+            // tsMenuAddDocument
             // 
-            this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(6, 25);
+            this.tsMenuAddDocument.Name = "tsMenuAddDocument";
+            this.tsMenuAddDocument.Size = new System.Drawing.Size(152, 22);
+            this.tsMenuAddDocument.Text = "Документ";
+            this.tsMenuAddDocument.Click += new System.EventHandler(this.tsMenuAddDocument_Click);
             // 
-            // toolStripSeparator1
+            // tsMenuAddVersion
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.tsMenuAddVersion.Name = "tsMenuAddVersion";
+            this.tsMenuAddVersion.Size = new System.Drawing.Size(152, 22);
+            this.tsMenuAddVersion.Text = "Версия";
+            this.tsMenuAddVersion.Click += new System.EventHandler(this.tsMenuAddVersion_Click);
+            // 
+            // tsMenuAddFolder
+            // 
+            this.tsMenuAddFolder.Name = "tsMenuAddFolder";
+            this.tsMenuAddFolder.Size = new System.Drawing.Size(152, 22);
+            this.tsMenuAddFolder.Text = "Директория";
+            this.tsMenuAddFolder.Click += new System.EventHandler(this.tsMenuAddFolder_Click);
             // 
             // scWorkArea
             // 
             this.scWorkArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scWorkArea.Location = new System.Drawing.Point(0, 25);
+            this.scWorkArea.Location = new System.Drawing.Point(0, 49);
             this.scWorkArea.Name = "scWorkArea";
             // 
             // scWorkArea.Panel1
@@ -104,107 +121,168 @@
             // scWorkArea.Panel2
             // 
             this.scWorkArea.Panel2.Controls.Add(this.lvFiles);
-            this.scWorkArea.Size = new System.Drawing.Size(659, 391);
+            this.scWorkArea.Size = new System.Drawing.Size(659, 367);
             this.scWorkArea.SplitterDistance = 219;
             this.scWorkArea.TabIndex = 1;
             // 
             // tvDirs
             // 
             this.tvDirs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvDirs.FullRowSelect = true;
+            this.tvDirs.HideSelection = false;
+            this.tvDirs.ImageIndex = 0;
+            this.tvDirs.ImageList = this.imageList;
             this.tvDirs.Location = new System.Drawing.Point(0, 0);
             this.tvDirs.Name = "tvDirs";
-            this.tvDirs.Size = new System.Drawing.Size(219, 391);
+            this.tvDirs.SelectedImageIndex = 0;
+            this.tvDirs.Size = new System.Drawing.Size(219, 367);
             this.tvDirs.TabIndex = 0;
             this.tvDirs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvDirs_AfterSelect);
             // 
+            // imageList
+            // 
+            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
+            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList.Images.SetKeyName(0, "user_folder");
+            this.imageList.Images.SetKeyName(1, "shared_folder");
+            // 
             // lvFiles
             // 
+            this.lvFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chName,
+            this.cbOwner,
+            this.cbCreated});
+            this.lvFiles.ContextMenuStrip = this.filesContextMenu;
             this.lvFiles.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvFiles.FullRowSelect = true;
             this.lvFiles.Location = new System.Drawing.Point(0, 0);
             this.lvFiles.MinimumSize = new System.Drawing.Size(50, 50);
+            this.lvFiles.MultiSelect = false;
             this.lvFiles.Name = "lvFiles";
-            this.lvFiles.Size = new System.Drawing.Size(436, 391);
+            this.lvFiles.Size = new System.Drawing.Size(436, 367);
+            this.lvFiles.SmallImageList = this.imageList;
             this.lvFiles.TabIndex = 0;
             this.lvFiles.UseCompatibleStateImageBehavior = false;
-            this.lvFiles.SelectedIndexChanged += new System.EventHandler(this.lvFiles_SelectedIndexChanged);
-            this.lvFiles.Leave += new System.EventHandler(this.lvFiles_Leave);
+            this.lvFiles.View = System.Windows.Forms.View.Details;
+            this.lvFiles.DoubleClick += new System.EventHandler(this.lvFiles_DoubleClick);
             // 
-            // newToolStripButton
+            // chName
             // 
-            this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
-            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.newToolStripButton.Name = "newToolStripButton";
-            this.newToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.newToolStripButton.Text = "&New";
+            this.chName.Text = "Имя";
+            this.chName.Width = 158;
             // 
-            // saveToolStripButton
+            // cbOwner
             // 
-            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.saveToolStripButton.Enabled = false;
-            this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
-            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveToolStripButton.Name = "saveToolStripButton";
-            this.saveToolStripButton.Size = new System.Drawing.Size(95, 22);
-            this.saveToolStripButton.Text = "Сохранить файл";
-            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
+            this.cbOwner.Text = "Владелец";
+            this.cbOwner.Width = 141;
             // 
-            // printToolStripButton
+            // cbCreated
             // 
-            this.printToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.printToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripButton.Image")));
-            this.printToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.printToolStripButton.Name = "printToolStripButton";
-            this.printToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.printToolStripButton.Text = "&Print";
-            this.printToolStripButton.Click += new System.EventHandler(this.printToolStripButton_Click);
+            this.cbCreated.Text = "Создан";
+            this.cbCreated.Width = 111;
             // 
-            // profileToolStripButton
+            // filesContextMenu
             // 
-            this.profileToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.profileToolStripButton.Image = global::Directums.Client.Properties.Resources.kdmconfig;
-            this.profileToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.profileToolStripButton.Name = "profileToolStripButton";
-            this.profileToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.profileToolStripButton.Text = "C&ut";
-            this.profileToolStripButton.Click += new System.EventHandler(this.profileToolStripButton_Click);
+            this.filesContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmOpenDocument,
+            this.tsmFileProperties,
+            this.создатьВерсиюToolStripMenuItem});
+            this.filesContextMenu.Name = "filesContextMenu";
+            this.filesContextMenu.Size = new System.Drawing.Size(163, 70);
             // 
-            // copyToolStripButton
+            // tsmOpenDocument
             // 
-            this.copyToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.copyToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("copyToolStripButton.Image")));
-            this.copyToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.copyToolStripButton.Name = "copyToolStripButton";
-            this.copyToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.copyToolStripButton.Text = "&Copy";
+            this.tsmOpenDocument.Name = "tsmOpenDocument";
+            this.tsmOpenDocument.Size = new System.Drawing.Size(162, 22);
+            this.tsmOpenDocument.Text = "Открыть";
+            this.tsmOpenDocument.Click += new System.EventHandler(this.tsmOpenDocument_Click);
             // 
-            // pasteToolStripButton
+            // tsmFileProperties
             // 
-            this.pasteToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.pasteToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("pasteToolStripButton.Image")));
-            this.pasteToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.pasteToolStripButton.Name = "pasteToolStripButton";
-            this.pasteToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.pasteToolStripButton.Text = "&Paste";
+            this.tsmFileProperties.Name = "tsmFileProperties";
+            this.tsmFileProperties.Size = new System.Drawing.Size(162, 22);
+            this.tsmFileProperties.Text = "Свойства";
+            this.tsmFileProperties.Click += new System.EventHandler(this.tsmFileProperties_Click);
             // 
-            // helpToolStripButton
+            // создатьВерсиюToolStripMenuItem
             // 
-            this.helpToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.helpToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("helpToolStripButton.Image")));
-            this.helpToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.helpToolStripButton.Name = "helpToolStripButton";
-            this.helpToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.helpToolStripButton.Text = "He&lp";
+            this.создатьВерсиюToolStripMenuItem.Name = "создатьВерсиюToolStripMenuItem";
+            this.создатьВерсиюToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.создатьВерсиюToolStripMenuItem.Text = "Создать версию";
+            this.создатьВерсиюToolStripMenuItem.Click += new System.EventHandler(this.tsMenuAddVersion_Click);
             // 
-            // toolStripButton1
+            // mainMenu
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmFile,
+            this.tsmView,
+            this.tsmAdmin});
+            this.mainMenu.Location = new System.Drawing.Point(0, 0);
+            this.mainMenu.Name = "mainMenu";
+            this.mainMenu.Size = new System.Drawing.Size(659, 24);
+            this.mainMenu.TabIndex = 2;
+            this.mainMenu.Text = "menuStrip1";
+            // 
+            // tsmFile
+            // 
+            this.tsmFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmChangeUser,
+            this.tsmExit});
+            this.tsmFile.Name = "tsmFile";
+            this.tsmFile.Size = new System.Drawing.Size(48, 20);
+            this.tsmFile.Text = "Файл";
+            // 
+            // tsmChangeUser
+            // 
+            this.tsmChangeUser.Name = "tsmChangeUser";
+            this.tsmChangeUser.Size = new System.Drawing.Size(188, 22);
+            this.tsmChangeUser.Text = "Смена пользователя";
+            this.tsmChangeUser.Click += new System.EventHandler(this.tsmChangeUser_Click);
+            // 
+            // tsmExit
+            // 
+            this.tsmExit.Name = "tsmExit";
+            this.tsmExit.Size = new System.Drawing.Size(188, 22);
+            this.tsmExit.Text = "Выход";
+            this.tsmExit.Click += new System.EventHandler(this.tsmExit_Click);
+            // 
+            // tsmView
+            // 
+            this.tsmView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmRefresh});
+            this.tsmView.Name = "tsmView";
+            this.tsmView.Size = new System.Drawing.Size(39, 20);
+            this.tsmView.Text = "Вид";
+            // 
+            // tsmRefresh
+            // 
+            this.tsmRefresh.Name = "tsmRefresh";
+            this.tsmRefresh.Size = new System.Drawing.Size(128, 22);
+            this.tsmRefresh.Text = "Обновить";
+            this.tsmRefresh.Click += new System.EventHandler(this.tsmRefresh_Click);
+            // 
+            // tsmAdmin
+            // 
+            this.tsmAdmin.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmAdminUsers,
+            this.tsmAdminGroups});
+            this.tsmAdmin.Name = "tsmAdmin";
+            this.tsmAdmin.Size = new System.Drawing.Size(134, 20);
+            this.tsmAdmin.Text = "Администрирование";
+            // 
+            // tsmAdminUsers
+            // 
+            this.tsmAdminUsers.Name = "tsmAdminUsers";
+            this.tsmAdminUsers.Size = new System.Drawing.Size(152, 22);
+            this.tsmAdminUsers.Text = "Пользователи";
+            this.tsmAdminUsers.Click += new System.EventHandler(this.tsmAdminUsers_Click);
+            // 
+            // tsmAdminGroups
+            // 
+            this.tsmAdminGroups.Name = "tsmAdminGroups";
+            this.tsmAdminGroups.Size = new System.Drawing.Size(152, 22);
+            this.tsmAdminGroups.Text = "Группы";
+            this.tsmAdminGroups.Click += new System.EventHandler(this.tsmAdminGroups_Click);
             // 
             // MainForm
             // 
@@ -213,14 +291,18 @@
             this.ClientSize = new System.Drawing.Size(659, 416);
             this.Controls.Add(this.scWorkArea);
             this.Controls.Add(this.tsMenu);
+            this.Controls.Add(this.mainMenu);
             this.Name = "MainForm";
-            this.Text = "MainForm";
+            this.Text = "Directums";
             this.tsMenu.ResumeLayout(false);
             this.tsMenu.PerformLayout();
             this.scWorkArea.Panel1.ResumeLayout(false);
             this.scWorkArea.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scWorkArea)).EndInit();
             this.scWorkArea.ResumeLayout(false);
+            this.filesContextMenu.ResumeLayout(false);
+            this.mainMenu.ResumeLayout(false);
+            this.mainMenu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -229,19 +311,30 @@
         #endregion
 
         private System.Windows.Forms.ToolStrip tsMenu;
-        private System.Windows.Forms.ToolStripButton newToolStripButton;
-        private System.Windows.Forms.ToolStripButton openToolStripButton;
-        private System.Windows.Forms.ToolStripButton saveToolStripButton;
-        private System.Windows.Forms.ToolStripButton printToolStripButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
-        private System.Windows.Forms.ToolStripButton profileToolStripButton;
-        private System.Windows.Forms.ToolStripButton copyToolStripButton;
-        private System.Windows.Forms.ToolStripButton pasteToolStripButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton helpToolStripButton;
         private System.Windows.Forms.SplitContainer scWorkArea;
         private System.Windows.Forms.TreeView tvDirs;
         private System.Windows.Forms.ListView lvFiles;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.MenuStrip mainMenu;
+        private System.Windows.Forms.ToolStripMenuItem tsmFile;
+        private System.Windows.Forms.ToolStripMenuItem tsmChangeUser;
+        private System.Windows.Forms.ToolStripMenuItem tsmExit;
+        private System.Windows.Forms.ToolStripMenuItem tsmAdmin;
+        private System.Windows.Forms.ToolStripMenuItem tsmAdminUsers;
+        private System.Windows.Forms.ToolStripMenuItem tsmAdminGroups;
+        private System.Windows.Forms.ContextMenuStrip filesContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem tsmOpenDocument;
+        private System.Windows.Forms.ImageList imageList;
+        private System.Windows.Forms.ToolStripMenuItem tsmFileProperties;
+        private System.Windows.Forms.ColumnHeader chName;
+        private System.Windows.Forms.ToolStripDropDownButton tsdbAdd;
+        private System.Windows.Forms.ToolStripMenuItem tsMenuAddDocument;
+        private System.Windows.Forms.ToolStripMenuItem tsMenuAddVersion;
+        private System.Windows.Forms.ToolStripMenuItem tsMenuAddFolder;
+        private System.Windows.Forms.ToolStripMenuItem создатьВерсиюToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.ColumnHeader cbCreated;
+        private System.Windows.Forms.ToolStripMenuItem tsmView;
+        private System.Windows.Forms.ToolStripMenuItem tsmRefresh;
+        private System.Windows.Forms.ColumnHeader cbOwner;
     }
 }

@@ -201,7 +201,7 @@
             this.tsmEdit,
             this.tsmStatus});
             this.cmUsers.Name = "cmGroups";
-            this.cmUsers.Size = new System.Drawing.Size(159, 98);
+            this.cmUsers.Size = new System.Drawing.Size(159, 76);
             this.cmUsers.Opening += new System.ComponentModel.CancelEventHandler(this.cmUsers_Opening);
             // 
             // tsmSelect
@@ -256,6 +256,7 @@
             this.btnSelect.TabIndex = 10;
             this.btnSelect.Text = "Выбрать";
             this.btnSelect.UseVisualStyleBackColor = true;
+            this.btnSelect.Visible = false;
             // 
             // UserManagementForm
             // 
