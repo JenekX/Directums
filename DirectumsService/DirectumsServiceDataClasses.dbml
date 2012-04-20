@@ -31,7 +31,7 @@
       <Association Name="User_Message" Member="Messages" ThisKey="Id" OtherKey="IdUserFrom" Type="Message" />
       <Association Name="User_Message1" Member="Messages1" ThisKey="Id" OtherKey="IdUserFor" Type="Message" />
       <Association Name="User_UserGroup" Member="UserGroups" ThisKey="Id" OtherKey="IdUser" Type="UserGroup" />
-      <Association Name="Item_User" Member="Item" ThisKey="IdRootFolder" OtherKey="Id" Type="Item" IsForeignKey="true" />
+      <Association Name="Item_User" Member="RootFolder" Storage="_Item" ThisKey="IdRootFolder" OtherKey="Id" Type="Item" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Extensions" Member="Extensions">
@@ -47,7 +47,7 @@
       <Column Name="IdOwner" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Type" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="IdExtension" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdExtension" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Description" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
       <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="File_AccessRight" Member="AccessRights" ThisKey="Id" OtherKey="IdFile" Type="AccessRight" />
@@ -73,6 +73,8 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="IdFile" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Number" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="IsHidden" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="Data" Type="System.Data.Linq.Binary" DbType="Image NOT NULL" CanBeNull="false" UpdateCheck="Never" />
       <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="File_FileVersion" Member="File" ThisKey="IdFile" OtherKey="Id" Type="File" IsForeignKey="true" />
@@ -121,10 +123,10 @@
       <Column Name="IdItem" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Item_User" Member="Users" ThisKey="Id" OtherKey="IdRootFolder" Type="User" />
       <Association Name="Item_Item" Member="Items" ThisKey="Id" OtherKey="IdItem" Type="Item" />
-      <Association Name="Item_Item1" Member="Items1" ThisKey="Id" OtherKey="IdParent" Type="Item" />
+      <Association Name="Item_Item1" Member="Childs" Storage="_Items1" ThisKey="Id" OtherKey="IdParent" Type="Item" />
       <Association Name="File_Item" Member="File" ThisKey="IdFile" OtherKey="Id" Type="File" IsForeignKey="true" />
       <Association Name="Item_Item" Member="Item1" ThisKey="IdItem" OtherKey="Id" Type="Item" IsForeignKey="true" />
-      <Association Name="Item_Item1" Member="Item2" ThisKey="IdParent" OtherKey="Id" Type="Item" IsForeignKey="true" />
+      <Association Name="Item_Item1" Member="Parent" Storage="_Item2" ThisKey="IdParent" OtherKey="Id" Type="Item" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Messages" Member="Messages">

@@ -113,17 +113,24 @@ namespace Directums.Client
             btnOK.Enabled = valids.Count(x => x) == valids.Length;
         }
 
-        public SignUpForm(DirectumsConfig config)
-            : base(config)
+        public SignUpForm(DirectumsConfig config) : base(config)
         {
             InitializeComponent();
 
             lbLoginStatus.Text = lbPassStatus.Text = lbConfirmPassStatus.Text = lbEmailStatus.Text = "";
         }
 
+        public static bool Execute(DirectumsForm ownerForm)
+        {
+            var form = new SignUpForm(ownerForm.Config);
+
+            return form.ShowDialog() == DialogResult.OK;
+        }
+
         private void btnOK_Click(object sender, EventArgs e)
         {
             bool result = Config.Client.AddUser(tbLogin.Text, tbEmail.Text, HashHelper.StringHash(tbPass.Text));
+
             if (result)
             {
                 DialogHelper.Information(this, "Новый пользователь зарегистрирован. Вы может войти с указанным вами логином и паролем");

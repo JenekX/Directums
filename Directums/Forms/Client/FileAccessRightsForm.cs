@@ -187,7 +187,7 @@ namespace Directums.Client.Forms.Client
             var index = GetSelectedIndex();
             var item = GetSelectedItem();
 
-            item.Type = (byte)(item.Type == 1 ? 2 : 1);
+            item.Type = (byte)(item.Type == 1 ? 0 : 1);
             UpdateItem(index);
         }
     }

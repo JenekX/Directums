@@ -13,10 +13,8 @@ namespace Directums.Client
             btnOK.Enabled = tbLogin.TextLength > 0;
         }
 
-        public LoginForm(DirectumsConfig config) : base(config)
+        private void Initialize()
         {
-            InitializeComponent();
-
             if (Config.IsAdmin)
             {
                 lbSignUp.Visible = false;
@@ -25,41 +23,39 @@ namespace Directums.Client
             RefreshInterface();
         }
 
-        private void btnOK_Click(object sender, EventArgs e)
+        public LoginForm(DirectumsConfig config) : base(config)
         {
-            bool connected = Config.Connect(tbLogin.Text, HashHelper.StringHash(tbPass.Text));
+            InitializeComponent();
+        }
 
-            if (connected)
-            {
-                // Тут переход в главную форму
-                //DialogHelper.Information(this, "все чОтко!");
+        public static bool Execute(DirectumsConfig config)
+        {
+            LoginForm form = new LoginForm(config);
+            form.Initialize();
 
-                MainForm mf = new MainForm(Config);
-                //this.Close();
-                mf.ShowDialog();
-
-                Config.Client.Disconnect();
-            }
-            else
-            {
-                DialogHelper.Error(this, "Пользователь с таким логином и паролем не зарегистрирован в системе");
-            }
+            return form.ShowDialog() == DialogResult.OK;
         }
 
         private void lbSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            SignUpForm signupForm = new SignUpForm(Config);
-            signupForm.ShowDialog();
-        }
-
-        private void btnExit_Click(object sender, EventArgs e)
-        {
-            Close();
+            SignUpForm.Execute(this);
         }
 
         private void tbLogin_TextChanged(object sender, EventArgs e)
         {
             RefreshInterface();
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            bool connected = Config.Connect(tbLogin.Text, HashHelper.StringHash(tbPass.Text));
+
+            if (!connected)
+            {
+                DialogHelper.Error(this, "Пользователь с таким логином и паролем не зарегистрирован в системе");
+
+                DialogResult = DialogResult.None;
+            }
         }
     }
 }

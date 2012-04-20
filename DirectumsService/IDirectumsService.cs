@@ -10,6 +10,9 @@ namespace Directums.Service
     public interface IDirectumsService
     {
         [OperationContract]
+        Options GetOptions();
+
+        [OperationContract]
         bool Connect(string login, string passwordHash);
 
         [OperationContract]
@@ -17,9 +20,6 @@ namespace Directums.Service
 
         [OperationContract]
         User GetCurrentUser();
-
-        [OperationContract]
-        Options GetOptions();
 
         [OperationContract]
         User[] UserList();
@@ -46,10 +46,10 @@ namespace Directums.Service
         bool UpdateUser(int idUser, string login, string email, byte status);
 
         [OperationContract]
-        GetDirsResult[] GetDirs();
+        GetFoldersResult[] GetFolders();
 
         [OperationContract]
-        GetFilesResult[] GetFiles(Int32 dirId);
+        GetFilesResult[] GetFiles(int idParent);
 
         [OperationContract]
         bool UpdateUserStatus(int idUser, byte status);
@@ -73,10 +73,19 @@ namespace Directums.Service
         bool ChangeGroupStatus(int idGroup);
 
         [OperationContract]
-        bool AddFile(String name, String ex, Int32 parent, byte[] b);
+        int AddFile(string fileName, string extension, int idParent, byte[] data);
 
+		[OperationContract]
+		GetFilesResult AddFolder(string folderName, int idParent);
+
+		[OperationContract]
+        byte[] GetFile(int idFile, byte version);
+		
         [OperationContract]
-        bool AddVersion(Int32 file, byte[] b);
+        bool AddVersion(int idFile);
+        
+        [OperationContract]
+        bool UpdateVersion(int idFile, byte[] data);
 
         [OperationContract]
         GetAccessRightsResult[] GetAccessRights(int idFile);

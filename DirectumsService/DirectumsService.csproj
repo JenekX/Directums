@@ -56,6 +56,7 @@
       <HintPath>Libs\Logos.Utility.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
@@ -75,10 +76,10 @@
     <Compile Include="Classes\BinaryPatchUtility.cs" />
     <Compile Include="Classes\GetAccessRightsResult.cs" />
     <Compile Include="Classes\GetFilePropertiesResult.cs" />
+    <Compile Include="Classes\GetFoldersResult.cs" />
     <Compile Include="Classes\GetGroupResult.cs" />
     <Compile Include="Classes\FindGroupsResult.cs" />
     <Compile Include="Classes\FindUsersResult.cs" />
-    <Compile Include="Classes\GetDirsResult.cs" />
     <Compile Include="Classes\GetFilesResult.cs" />
     <Compile Include="Classes\LogManager.cs" />
     <Compile Include="Classes\Options.cs" />

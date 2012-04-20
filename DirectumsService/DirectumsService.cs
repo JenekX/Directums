@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.ServiceModel;
 using System.Collections.Generic;
@@ -15,8 +15,9 @@ namespace Directums.Service
     public class DirectumsService : IDirectumsService
     {
         private static DirectumsServiceDataClassesDataContext context = new DirectumsServiceDataClassesDataContext();
+        private static Options options = null;
         private static Dictionary<int, IDirectumsServiceCallback> connected = new Dictionary<int, IDirectumsServiceCallback>();
-        
+
         private const int takeCount = 2;
 
         private User user = null;
@@ -37,9 +38,30 @@ namespace Directums.Service
             }
         }
 
-        private int GetIdAllGroup()
+        public DirectumsService()
         {
-            return Convert.ToInt32(context.Options.Single(x => x.Name == "IdAllGroup").Value);
+            options = GetOptions();
+        }
+
+        public Options GetOptions()
+        {
+            try
+            {
+                var options = context.Options.ToDictionary(x => x.Name, x => x.Value);
+
+                var result = new Options()
+                {
+                    IdAllUsersGroup = Convert.ToInt32(options["IdAllGroup"])
+                };
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return null;
+            }
         }
 
         public bool Connect(string login, string passwordHash)
@@ -118,28 +140,9 @@ namespace Directums.Service
 
             try
             {
-                return context.Users.SingleOrDefault(x => x.Id == user.Id);
-            }
-            catch (Exception e)
-            {
-                LogManager.AddException(e);
+                user = context.Users.Single(x => x.Id == user.Id);
 
-                return null;
-            }
-        }
-
-        public Options GetOptions()
-        {
-            try
-            {
-                var options = context.Options.ToDictionary(x => x.Name, x => x.Value);
-
-                var result = new Options()
-                {
-                    IdAllUsersGroup = Convert.ToInt32(options["IdAllGroup"])
-                };
-
-                return result;
+                return user;
             }
             catch (Exception e)
             {
@@ -173,8 +176,8 @@ namespace Directums.Service
             try
             {
                 Item item = new Item() { Type = Item.UserFolder, IdParent = null, IdFile = null, IdItem = null };
-                User user = new User() { Login = login, Email = email, PasswordHash = passwordHash, Surname = "", Name = "", Patronymic = "", BornDate = null, Status = 0, Item = item, IsAdmin = false };
-                Group group = context.Groups.Single(x => x.Id == GetIdAllGroup());
+                User user = new User() { Login = login, Email = email, PasswordHash = passwordHash, Surname = "", Name = "", Patronymic = "", BornDate = null, Status = 0, RootFolder = item, IsAdmin = false };
+                Group group = context.Groups.Single(x => x.Id == options.IdAllUsersGroup);
                 UserGroup userGroup = new UserGroup() { Group = group, User = user };
 
                 if (user.CheckOnRegister() && IsLoginEmpty(login) && IsEmailEmpty(email))
@@ -262,9 +265,6 @@ namespace Directums.Service
             }
         }
 
-        /**
-         * Тут говнокод
-         */
         public FindUsersResult FindUsers(int page, UserFilter filter)
         {
             IsAllowAction(AccessType.Authorized, AccessStatus.Active);
@@ -411,49 +411,122 @@ namespace Directums.Service
             }
         }
 
-        public GetDirsResult[] GetDirs()
+        public GetFoldersResult[] GetFolders()
         {
-            //Получение доступных директорий конкретно для пользователя            
-            var dirs = context.AccessRights.Where(x => x.IdUser == user.Id).
-                Join(context.Files, access => access.IdFile, file => file.Id, (access, file) => new { Id = file.Id, Name = file.Name, FileType = file.Type, AccType = access.Type }).
-                Where(x => x.FileType == 1).
-                Join(context.Items, file => file.Id, item => item.IdFile, (file, item) => new GetDirsResult((Int32)file.Id, file.Name, (Int32)item.IdParent, (Int32)item.Id, item.Type)).ToList();
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
 
-            //Получение доступных директорий для группы пользователей, в которой состоит данные пользователь
-            dirs.AddRange(context.UserGroups.Where(x => x.IdUser == user.Id).
-                Join(context.AccessRights, groups => groups.IdGroup, access => access.IdGroup, (groups, access) => new { IdFile = access.IdFile, AccType = access.Type, IdUser = access.IdUser }).
-                Where(x => x.IdUser == null).
-                Join(context.Files, access => access.IdFile, file => file.Id, (access, file) => new { Id = file.Id, Name = file.Name, FileType = file.Type, AccType = access.AccType }).
-                Where(x => x.FileType == 1).
-                Join(context.Items, file => file.Id, item => item.IdFile, (file, item) => new GetDirsResult((Int32)file.Id, file.Name, (Int32)item.IdParent, (Int32)item.Id, item.Type)).ToList());
-
-            //Получение расшаренной папки всей конторы
-            var shared = context.Items.FirstOrDefault(x => x.Type == 1);
-
-            if (shared != null)
+            try
             {
-                //GetFilesResult fileRoot = new GetFilesResult(-1, "Корневая папка пользователя", -1, root.IdRootFolder);
-                dirs.Add(new GetDirsResult(-1, "Общая папка", -1, shared.Id));
+                var ownedDirs = context.Files.Where(x => x.Type == File.TypeFolder && x.IdOwner == user.Id).Select(x => new { IdFile = x.Id, ReadOnly = false, Name = x.Name });
+
+                var allowUserDirs = context.AccessRights.Where(x => x.IdUser == user.Id).Join(context.Files.Where(x => x.Type == File.TypeFolder), right => right.IdFile,
+                    file => file.Id, (right, file) => new { IdFile = file.Id, ReadOnly = right.Type == 0, Name = file.Name });
+
+                var allowGroupDirs = context.Groups.Where(x => x.UserGroups.Count(y => y.IdUser == user.Id) > 0).Join(context.AccessRights, group => group.Id, right => right.IdGroup,
+                    (group, right) => right).Join(context.Files.Where(x => x.Type == File.TypeFolder), right => right.IdFile,
+                    file => file.Id, (right, file) => new { IdFile = file.Id, ReadOnly = right.Type == 0, Name = file.Name });
+
+                var dirs = ownedDirs.Union(allowUserDirs).Union(allowGroupDirs).Distinct();
+
+                List<GetFoldersResult> result = new List<GetFoldersResult>();
+
+                // вынести получение кода расшаренной папки на старт сессии - только 1 раз
+                result.Add(new GetFoldersResult() { Type = GetFoldersResultType.SharedFolder, Id = context.Items.Single(x => x.Type == Item.SharedFolder).Id });
+                result.Add(new GetFoldersResult() { Type = GetFoldersResultType.RootUserFolder, Id = user.IdRootFolder });
+
+                var foldersResult = context.Items.Where(x => x.Type == Item.FileOrFolder).Join(dirs, item => item.IdFile, dir => dir.IdFile, (item, dir) =>
+                    new GetFoldersResult() { Type = GetFoldersResultType.Folder, Id = item.Id, IdParent = item.IdParent, IdFile = dir.IdFile, Name = dir.Name, ReadOnly = dir.ReadOnly });
+
+                var refResult = context.Items.Where(x => x.Type == Item.ObjectRef).Join(foldersResult, item => item.IdItem, dir => dir.Id, (item, dir) =>
+                    new GetFoldersResult() { Type = GetFoldersResultType.FolderRef, Id = item.Id, IdParent = item.IdParent, IdFile = dir.IdFile, Name = dir.Name, ReadOnly = dir.ReadOnly });
+
+                result.AddRange(foldersResult);
+                result.AddRange(refResult);
+
+                return result.ToArray();
             }
-
-            //Получение корневой папки пользователя
-            var root = context.Users.FirstOrDefault(x => x.Id == user.Id);
-
-            if (root != null)
+            catch (Exception e)
             {
-                //GetFilesResult fileRoot = new GetFilesResult(-1, "Корневая папка пользователя", -1, root.IdRootFolder);
-                dirs.Add(new GetDirsResult(-1, "Корневая папка пользователя", -1, root.IdRootFolder));
-            }
+                LogManager.AddException(e);
 
-            return dirs.ToArray();
+                return null;
+            }
         }
 
-        public GetFilesResult[] GetFiles(Int32 dirId)
+        public GetFilesResult[] GetFiles(int idParent)
         {
-            return context.Items.Where(x => x.IdParent == dirId && x.Type == 0).
-                Join(context.Files, item => item.IdFile, file => file.Id, (item, file) => new { Id = (Int32)file.Id, FileType = file.Type }).
-                Where(x => x.FileType == 0)
-                .Join(context.Files, prevFile => prevFile.Id, file => file.Id, (prevFile, file) => new GetFilesResult((Int32)file.Id, file.Name, file.Extension.Name, (DateTime)file.Created)).ToArray();
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
+
+            // TODO: проверка на допустимость idParent и права доступа к ней 
+
+            try
+            {
+                var files = context.Items.Where(x => x.Type == Item.FileOrFolder && x.IdParent == idParent).Join(context.Files, item => item.IdFile, file => file.Id,
+                    (item, file) => new
+                    {
+                        Id = item.Id,
+                        Type = file.Type == File.TypeFile ? GetFilesResultType.File : GetFilesResultType.Folder,
+                        File = file
+                    });
+
+                var refs = context.Items.Where(x => x.Type == Item.ObjectRef && x.IdParent == idParent).Join(context.Items, item => item.IdItem, source => source.Id,
+                    (item, source) => source).Join(context.Files, item => item.IdFile, file => file.Id,
+                    (item, file) => new
+                    {
+                        Id = item.Id,
+                        Type = file.Type == File.TypeFile ? GetFilesResultType.FileRef : GetFilesResultType.FolderRef,
+                        File = file
+                    });
+
+                var result = new List<GetFilesResult>();
+
+                var groups = context.UserGroups.Where(x => x.IdUser == user.Id).Select(x => x.IdGroup).Distinct();
+
+                files = files.Union(refs);
+                foreach (var file in files)
+                {
+                    bool readOnly = false;
+                    bool allowAdd = file.File.IdOwner == user.Id;
+                    if (!allowAdd)
+                    {
+                        var rights = file.File.AccessRights.FirstOrDefault(x => x.IdUser.HasValue && x.IdUser == user.Id);
+                        if (rights == null)
+                        {
+                            rights = file.File.AccessRights.FirstOrDefault(x => x.IdGroup.HasValue && groups.Contains(x.IdGroup.Value));
+                        }
+
+                        if (rights != null)
+                        {
+                            readOnly = rights.Type == AccessRight.ReadOnly;
+                            allowAdd = true;
+                        }
+                    }
+
+                    if (allowAdd)
+                    {
+                        result.Add(new GetFilesResult()
+                        {
+                            Id = file.Id,
+                            IdFile = file.File.Id,
+                            Type = file.Type,
+                            IdOwner = file.File.IdOwner,
+                            OwnerName = file.File.User.GetLoginWithName(),
+                            Name = file.File.Name,
+                            Extension = file.File.Type == File.TypeFile ? file.File.Extension.Name : "",
+                            ReadOnly = readOnly,
+                            Created = file.File.Created
+                        });
+                    }
+                }
+
+                return result.OrderBy(x => x.Type, new GetFilesResultTypeComparer()).ThenBy(x => x.Name).ToArray();
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return null;
+            }
         }
 
         public bool UpdateUserStatus(int idUser, byte status)
@@ -671,25 +744,179 @@ namespace Directums.Service
             return true;
         }
 
-        public bool AddFile(String name, String ex, Int32 parent, byte[] b)
+        // Extension с точкой
+        // файл создается с версией 1
+        // 0 - ошибка; > 0 - id созданного файла.
+        public int AddFile(string fileName, string extension, int idParent, byte[] data)
         {
-            IsAllowAction(AccessType.Authorized);
-            
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
+
+            if (!RegexCheck.CheckFileName(fileName))
+            {
+                // Хакерская атака
+
+                return 0;
+            }
+
             try
             {
-                Extension extensionRecord = context.Extensions.FirstOrDefault(x => x.Name == ex);
+                Extension extensionRecord = context.Extensions.FirstOrDefault(x => x.Name == extension);
                 if (extensionRecord == null)
                 {
-                    extensionRecord = new Extension() { Name = ex };
+                    extensionRecord = new Extension() { Name = extension };
                     context.Extensions.InsertOnSubmit(extensionRecord);
                 }
 
-                File file = new File() { Extension = extensionRecord, User = user, Name = name, Type = 0, Created = DateTime.Now, Description = "" };
-                Item item = new Item() { File = file, Type = 0, IdParent = parent };
-                FileVersion version = new FileVersion() { File = file, Number = 0, Created = DateTime.Now, Data = b };
+                File file = new File() { Extension = extensionRecord, IdOwner = user.Id, Name = fileName, Type = File.TypeFile, Created = DateTime.Now, Description = "" };
+                Item item = new Item() { File = file, Type = Item.FileOrFolder, IdParent = idParent };
+                FileVersion version = new FileVersion() { File = file, Number = 1, Description = "", IsHidden = false, Data = data, Created = DateTime.Now };
 
                 context.Files.InsertOnSubmit(file);
                 context.Items.InsertOnSubmit(item);
+                context.FileVersions.InsertOnSubmit(version);
+                context.SubmitChanges();
+
+                return file.Id;
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return 0;
+            }
+        }
+
+        public GetFilesResult AddFolder(string folderName, int idParent)
+        {
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
+
+            if (!RegexCheck.CheckFileName(folderName))
+            {
+                // Хакерская атака
+
+                return null;
+            }
+
+            try
+            {
+                File folder = new File() { IdExtension = null, IdOwner = user.Id, Name = folderName, Type = File.TypeFolder, Created = DateTime.Now, Description = "" };
+                Item item = new Item() { File = folder, Type = Item.FileOrFolder, IdParent = idParent };
+
+                context.Files.InsertOnSubmit(folder);
+                context.Items.InsertOnSubmit(item);
+                context.SubmitChanges();
+
+                return new GetFilesResult()
+                {
+                    Id = item.Id,
+                    IdFile = folder.Id,
+                    Type = GetFilesResultType.Folder,
+                    IdOwner = folder.IdOwner,
+                    OwnerName = user.GetLoginWithName(),
+                    Name = folderName,
+                    Extension = "",
+                    ReadOnly = false,
+                    Created = folder.Created
+                };
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return null;
+            }
+        }
+
+        // Версия имеет номер, начинающийся с 1. если 0, то получить последнюю версию
+        public byte[] GetFile(int idFile, byte version)
+        {
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
+
+            try
+            {
+                var file = context.Files.SingleOrDefault(x => x.Id == idFile);
+                if (file == null || file.IdOwner != user.Id) // еще нужна проверка на права доступа к файлу
+                {
+                    // Хакерская атака
+
+                    return null;
+                }
+
+                byte toVersion = version;
+                if (toVersion == 0)
+                {
+                    toVersion = file.FileVersions.Max(x => x.Number);
+                }
+                else
+                {
+                    if (file.FileVersions.Count(x => x.Number == toVersion) == 0)
+                    {
+                        // Хакерская атака
+
+                        return null;
+                    }
+                }
+
+                var firstVersion = file.FileVersions.OrderBy(x => x.Number).First();
+                var result = new MemoryStream(firstVersion.Data.ToArray());
+
+                byte fromVersion = (byte)(toVersion >= 5 ? toVersion - toVersion % 5 : 1);
+
+                if (toVersion >= 5)
+                {
+                    var middleVersion = file.FileVersions.Single(x => x.Number == fromVersion);
+
+                    var tmp = new MemoryStream();
+                    BinaryPatchUtility.Apply(result, () => new MemoryStream(middleVersion.Data.ToArray()), tmp);
+                    result = tmp;
+                }
+
+                for (byte i = (byte)(fromVersion + 1); i <= toVersion; i++)
+                {
+                    var currentVersion = file.FileVersions.Single(x => x.Number == i);
+
+                    var tmp = new MemoryStream();
+                    BinaryPatchUtility.Apply(result, () => new MemoryStream(currentVersion.Data.ToArray()), tmp);
+                    result = tmp;
+                }
+
+                return result.ToArray();
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return null;
+            }
+        }
+
+        // пока что версии может создавать только автор. в дальнейшем нужно чтобы мог и редактор.
+        public bool AddVersion(int idFile)
+        {
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
+
+            try
+            {
+                var file = context.Files.SingleOrDefault(x => x.Id == idFile);
+                if (file == null || file.IdOwner != user.Id)
+                {
+                    // Хакерская атака
+
+                    return false;
+                }
+
+                byte versionNumber = (byte)(file.FileVersions.Max(x => x.Number) + 1);
+                byte oldNumber = (byte)(versionNumber % 5 == 0 ? 1 : versionNumber - 1);
+
+                MemoryStream output = new MemoryStream();
+
+                var oldData = GetFile(idFile, oldNumber);
+                var newData = GetFile(idFile, (byte)(versionNumber - 1));
+
+                BinaryPatchUtility.Create(oldData, newData, output);
+
+                FileVersion version = new FileVersion() { IdFile = idFile, Number = versionNumber, Description = "", IsHidden = false, Data = output.ToArray(), Created = DateTime.Now };
+
                 context.FileVersions.InsertOnSubmit(version);
                 context.SubmitChanges();
             }
@@ -703,35 +930,39 @@ namespace Directums.Service
             return true;
         }
 
-        public bool AddVersion(Int32 file, byte[] b)
+        // пока что версии может изменять только автор. в дальнейшем нужно чтобы мог и редактор.
+        // можно обновить только последнюю версию.
+        public bool UpdateVersion(int idFile, byte[] data)
         {
-            IsAllowAction(AccessType.Authorized);
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
 
             try
             {
-                var oldFile = context.FileVersions.FirstOrDefault(x => x.IdFile == file);
-                if (oldFile != null)
+                var file = context.Files.SingleOrDefault(x => x.Id == idFile);
+                if (file == null || file.IdOwner != user.Id)
                 {
-                    FileVersion version;
+                    // Хакерская атака
 
-                    if ((oldFile.Number++) % 5 == 0)
-                    {
-                        version = new FileVersion() { IdFile = file, Number = ++oldFile.Number, Created = DateTime.Now, Data = b };
-                    }
-                    else
-                    {
-                        MemoryStream output = new MemoryStream();
-                        version = new FileVersion() { IdFile = file, Number = ++oldFile.Number, Created = DateTime.Now, Data = BinaryPatchUtility.Create(oldFile.Data.ToArray(), b, output).ToArray() };
-                    }
-
-                    context.FileVersions.InsertOnSubmit(version);
-                    context.SubmitChanges();
-                }
-                else
-                {
-                    //файл не загружен
                     return false;
                 }
+
+                byte versionNumber = file.FileVersions.Max(x => x.Number);
+                byte oldNumber = (byte)(versionNumber % 5 == 0 ? 1 : versionNumber);
+
+                byte[] output = data;
+
+                if (versionNumber > 1)
+                {
+                    var oldData = GetFile(idFile, oldNumber);
+
+                    var outStream = new MemoryStream();
+                    BinaryPatchUtility.Create(oldData, output, outStream);
+                    output = outStream.ToArray();
+                }
+
+                file.FileVersions.OrderByDescending(x => x.Number).First().Data = output;
+
+                context.SubmitChanges();
             }
             catch (Exception e)
             {
@@ -757,8 +988,13 @@ namespace Directums.Service
                     return null;
                 }
 
-                return file.AccessRights.Select(x => new GetAccessRightsResult() { IsUser = x.IdUser.HasValue, IdItem = x.IdUser.HasValue ? x.IdUser.Value : x.IdGroup.Value,
-                    Name = x.IdUser.HasValue ? x.User.GetLoginWithName() : x.Group.Name, Type = x.Type }).ToArray();
+                return file.AccessRights.Select(x => new GetAccessRightsResult()
+                {
+                    IsUser = x.IdUser.HasValue,
+                    IdItem = x.IdUser.HasValue ? x.IdUser.Value : x.IdGroup.Value,
+                    Name = x.IdUser.HasValue ? x.User.GetLoginWithName() : x.Group.Name,
+                    Type = x.Type
+                }).ToArray();
             }
             catch (Exception e)
             {
@@ -942,7 +1178,7 @@ namespace Directums.Service
                 {
                     Type = file.Type,
                     Name = file.Name,
-                    Extension = file.Extension.Name,
+                    Extension = file.Extension != null ? file.Extension.Name : "",
                     Description = file.Description,
                     Owner = file.User,
                     Created = file.Created
@@ -999,8 +1235,9 @@ namespace Directums.Service
 
                     return false;
                 }
+
                 //Валидация данных от пользователя
-                if ((passwordHash.Length == 32 || passwordHash.Length == 0)&& (RegexCheck.CheckNames(surname) || surname.Length == 0) && (RegexCheck.CheckNames(name) || name.Length == 0) && (RegexCheck.CheckNames(patronymic) || patronymic.Length == 0))
+                if ((passwordHash.Length == 32 || passwordHash.Length == 0) && (RegexCheck.CheckNames(surname) || surname.Length == 0) && (RegexCheck.CheckNames(name) || name.Length == 0) && (RegexCheck.CheckNames(patronymic) || patronymic.Length == 0))
                 {
                     user.Surname = surname;
                     user.Name = name;
