@@ -302,6 +302,9 @@
     <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetFilesResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetFileVersionsResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetFoldersResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

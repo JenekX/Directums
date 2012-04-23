@@ -23,6 +23,7 @@ namespace Directums.Service.Classes
         public string OwnerName { get; set; }
         public string Name { get; set; }
         public string Extension { get; set; }
+        public int Size { get; set; }
         public bool ReadOnly { get; set; }
         public DateTime Created { get; set; }
     }

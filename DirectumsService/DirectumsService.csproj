@@ -76,6 +76,7 @@
     <Compile Include="Classes\BinaryPatchUtility.cs" />
     <Compile Include="Classes\GetAccessRightsResult.cs" />
     <Compile Include="Classes\GetFilePropertiesResult.cs" />
+    <Compile Include="Classes\GetFileVersionsResult.cs" />
     <Compile Include="Classes\GetFoldersResult.cs" />
     <Compile Include="Classes\GetGroupResult.cs" />
     <Compile Include="Classes\FindGroupsResult.cs" />

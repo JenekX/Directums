@@ -24,9 +24,9 @@
     <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="3d7e63f5-57f6-4370-a3bd-3148d49c39d0" SourceId="1" SourceUrl="net.tcp://localhost:8000/DirectumsService/mex" />
     <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="6da90dc0-93b1-4891-b3ac-477824c5cd2a" SourceId="1" SourceUrl="net.tcp://localhost:8000/DirectumsService/mex" />
     <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="f84394d5-c94d-46a2-989e-c7ab9037924c" SourceId="1" SourceUrl="net.tcp://localhost:8000/DirectumsService/mex" />
+    <MetadataFile FileName="Directums.Service.Classes.xsd" MetadataType="Schema" ID="b8cadf69-b307-42ad-94d5-f2e118ab7ac3" SourceId="1" SourceUrl="net.tcp://localhost:8000/DirectumsService/mex" />
     <MetadataFile FileName="Directums.Service.xsd" MetadataType="Schema" ID="6c14e0d1-9f7e-4b64-b6a3-9f35d0b03361" SourceId="1" SourceUrl="net.tcp://localhost:8000/DirectumsService/mex" />
     <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="0f349614-a81a-4b01-afb2-a7fd129ebe44" SourceId="1" SourceUrl="net.tcp://localhost:8000/DirectumsService/mex" />
-    <MetadataFile FileName="Directums.Service.Classes.xsd" MetadataType="Schema" ID="b8cadf69-b307-42ad-94d5-f2e118ab7ac3" SourceId="1" SourceUrl="net.tcp://localhost:8000/DirectumsService/mex" />
     <MetadataFile FileName="System.Data.Linq.xsd" MetadataType="Schema" ID="5f24acaa-d4d7-41e3-8888-68edc42397c4" SourceId="1" SourceUrl="net.tcp://localhost:8000/DirectumsService/mex" />
     <MetadataFile FileName="Directums.Classes.xsd" MetadataType="Schema" ID="0ca94b7a-1f0f-4350-af8e-e72c44ba3ea1" SourceId="1" SourceUrl="net.tcp://localhost:8000/DirectumsService/mex" />
   </Metadata>
