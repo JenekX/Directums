@@ -15,6 +15,99 @@ namespace Directums.Client.DirectumsService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="GetAccessRightsResult", Namespace="http://schemas.datacontract.org/2004/07/Directums.Service.Classes")]
+    [System.SerializableAttribute()]
+    public partial class GetAccessRightsResult : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdItemField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsUserField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private byte TypeField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int IdItem {
+            get {
+                return this.IdItemField;
+            }
+            set {
+                if ((this.IdItemField.Equals(value) != true)) {
+                    this.IdItemField = value;
+                    this.RaisePropertyChanged("IdItem");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsUser {
+            get {
+                return this.IsUserField;
+            }
+            set {
+                if ((this.IsUserField.Equals(value) != true)) {
+                    this.IsUserField = value;
+                    this.RaisePropertyChanged("IsUser");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte Type {
+            get {
+                return this.TypeField;
+            }
+            set {
+                if ((this.TypeField.Equals(value) != true)) {
+                    this.TypeField = value;
+                    this.RaisePropertyChanged("Type");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="Tag", Namespace="http://schemas.datacontract.org/2004/07/Directums.Service")]
     [System.SerializableAttribute()]
     public partial class Tag : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -341,6 +434,9 @@ namespace Directums.Client.DirectumsService {
         private Directums.Client.DirectumsService.File[] FilesField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Directums.Client.DirectumsService.FileVersion[] FileVersionsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private Directums.Client.DirectumsService.HistoryUser[] HistoryUsersField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -532,6 +628,19 @@ namespace Directums.Client.DirectumsService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=13)]
+        public Directums.Client.DirectumsService.FileVersion[] FileVersions {
+            get {
+                return this.FileVersionsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FileVersionsField, value) != true)) {
+                    this.FileVersionsField = value;
+                    this.RaisePropertyChanged("FileVersions");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=14)]
         public Directums.Client.DirectumsService.HistoryUser[] HistoryUsers {
             get {
                 return this.HistoryUsersField;
@@ -544,7 +653,7 @@ namespace Directums.Client.DirectumsService {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=14)]
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=15)]
         public Directums.Client.DirectumsService.Message[] Messages {
             get {
                 return this.MessagesField;
@@ -557,7 +666,7 @@ namespace Directums.Client.DirectumsService {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=15)]
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=16)]
         public Directums.Client.DirectumsService.Message[] Messages1 {
             get {
                 return this.Messages1Field;
@@ -570,7 +679,7 @@ namespace Directums.Client.DirectumsService {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=16)]
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=17)]
         public Directums.Client.DirectumsService.UserGroup[] UserGroups {
             get {
                 return this.UserGroupsField;
@@ -909,6 +1018,179 @@ namespace Directums.Client.DirectumsService {
                 if ((object.ReferenceEquals(this.ItemsField, value) != true)) {
                     this.ItemsField = value;
                     this.RaisePropertyChanged("Items");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="FileVersion", Namespace="http://schemas.datacontract.org/2004/07/Directums.Service")]
+    [System.SerializableAttribute()]
+    public partial class FileVersion : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdFileField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int NumberField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Directums.Client.DirectumsService.Binary DataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int SizeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsHiddenField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime CreatedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdOwnerField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int IdFile {
+            get {
+                return this.IdFileField;
+            }
+            set {
+                if ((this.IdFileField.Equals(value) != true)) {
+                    this.IdFileField = value;
+                    this.RaisePropertyChanged("IdFile");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Number {
+            get {
+                return this.NumberField;
+            }
+            set {
+                if ((this.NumberField.Equals(value) != true)) {
+                    this.NumberField = value;
+                    this.RaisePropertyChanged("Number");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=3)]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=4)]
+        public Directums.Client.DirectumsService.Binary Data {
+            get {
+                return this.DataField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DataField, value) != true)) {
+                    this.DataField = value;
+                    this.RaisePropertyChanged("Data");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=5)]
+        public int Size {
+            get {
+                return this.SizeField;
+            }
+            set {
+                if ((this.SizeField.Equals(value) != true)) {
+                    this.SizeField = value;
+                    this.RaisePropertyChanged("Size");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=6)]
+        public bool IsHidden {
+            get {
+                return this.IsHiddenField;
+            }
+            set {
+                if ((this.IsHiddenField.Equals(value) != true)) {
+                    this.IsHiddenField = value;
+                    this.RaisePropertyChanged("IsHidden");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=7)]
+        public System.DateTime Created {
+            get {
+                return this.CreatedField;
+            }
+            set {
+                if ((this.CreatedField.Equals(value) != true)) {
+                    this.CreatedField = value;
+                    this.RaisePropertyChanged("Created");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=8)]
+        public int IdOwner {
+            get {
+                return this.IdOwnerField;
+            }
+            set {
+                if ((this.IdOwnerField.Equals(value) != true)) {
+                    this.IdOwnerField = value;
+                    this.RaisePropertyChanged("IdOwner");
                 }
             }
         }
@@ -1284,147 +1566,6 @@ namespace Directums.Client.DirectumsService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="FileVersion", Namespace="http://schemas.datacontract.org/2004/07/Directums.Service")]
-    [System.SerializableAttribute()]
-    public partial class FileVersion : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdFileField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private byte NumberField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string DescriptionField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool IsHiddenField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Directums.Client.DirectumsService.Binary DataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.DateTime CreatedField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int IdFile {
-            get {
-                return this.IdFileField;
-            }
-            set {
-                if ((this.IdFileField.Equals(value) != true)) {
-                    this.IdFileField = value;
-                    this.RaisePropertyChanged("IdFile");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public byte Number {
-            get {
-                return this.NumberField;
-            }
-            set {
-                if ((this.NumberField.Equals(value) != true)) {
-                    this.NumberField = value;
-                    this.RaisePropertyChanged("Number");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Order=3)]
-        public string Description {
-            get {
-                return this.DescriptionField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
-                    this.DescriptionField = value;
-                    this.RaisePropertyChanged("Description");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Order=4)]
-        public bool IsHidden {
-            get {
-                return this.IsHiddenField;
-            }
-            set {
-                if ((this.IsHiddenField.Equals(value) != true)) {
-                    this.IsHiddenField = value;
-                    this.RaisePropertyChanged("IsHidden");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Order=5)]
-        public Directums.Client.DirectumsService.Binary Data {
-            get {
-                return this.DataField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.DataField, value) != true)) {
-                    this.DataField = value;
-                    this.RaisePropertyChanged("Data");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Order=6)]
-        public System.DateTime Created {
-            get {
-                return this.CreatedField;
-            }
-            set {
-                if ((this.CreatedField.Equals(value) != true)) {
-                    this.CreatedField = value;
-                    this.RaisePropertyChanged("Created");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="HistoryFile", Namespace="http://schemas.datacontract.org/2004/07/Directums.Service")]
     [System.SerializableAttribute()]
     public partial class HistoryFile : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -1595,7 +1736,7 @@ namespace Directums.Client.DirectumsService {
         private Directums.Client.DirectumsService.Item[] ItemsField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Directums.Client.DirectumsService.Item[] ChildsField;
+        private Directums.Client.DirectumsService.Item[] Items1Field;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -1699,14 +1840,14 @@ namespace Directums.Client.DirectumsService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=7)]
-        public Directums.Client.DirectumsService.Item[] Childs {
+        public Directums.Client.DirectumsService.Item[] Items1 {
             get {
-                return this.ChildsField;
+                return this.Items1Field;
             }
             set {
-                if ((object.ReferenceEquals(this.ChildsField, value) != true)) {
-                    this.ChildsField = value;
-                    this.RaisePropertyChanged("Childs");
+                if ((object.ReferenceEquals(this.Items1Field, value) != true)) {
+                    this.Items1Field = value;
+                    this.RaisePropertyChanged("Items1");
                 }
             }
         }
@@ -1768,6 +1909,147 @@ namespace Directums.Client.DirectumsService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="GetFileVersionsResult", Namespace="http://schemas.datacontract.org/2004/07/Directums.Service.Classes")]
+    [System.SerializableAttribute()]
+    public partial class GetFileVersionsResult : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime CreatedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsHiddenField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int NumberField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string OwnerNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int SizeField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Created {
+            get {
+                return this.CreatedField;
+            }
+            set {
+                if ((this.CreatedField.Equals(value) != true)) {
+                    this.CreatedField = value;
+                    this.RaisePropertyChanged("Created");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsHidden {
+            get {
+                return this.IsHiddenField;
+            }
+            set {
+                if ((this.IsHiddenField.Equals(value) != true)) {
+                    this.IsHiddenField = value;
+                    this.RaisePropertyChanged("IsHidden");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Number {
+            get {
+                return this.NumberField;
+            }
+            set {
+                if ((this.NumberField.Equals(value) != true)) {
+                    this.NumberField = value;
+                    this.RaisePropertyChanged("Number");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string OwnerName {
+            get {
+                return this.OwnerNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.OwnerNameField, value) != true)) {
+                    this.OwnerNameField = value;
+                    this.RaisePropertyChanged("OwnerName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Size {
+            get {
+                return this.SizeField;
+            }
+            set {
+                if ((this.SizeField.Equals(value) != true)) {
+                    this.SizeField = value;
+                    this.RaisePropertyChanged("Size");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="Options", Namespace="http://schemas.datacontract.org/2004/07/Directums.Service.Classes")]
     [System.SerializableAttribute()]
     public partial class Options : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -1777,6 +2059,9 @@ namespace Directums.Client.DirectumsService {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int IdAllUsersGroupField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdSharedFolderField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int MaxFileSizeField;
@@ -1800,6 +2085,19 @@ namespace Directums.Client.DirectumsService {
                 if ((this.IdAllUsersGroupField.Equals(value) != true)) {
                     this.IdAllUsersGroupField = value;
                     this.RaisePropertyChanged("IdAllUsersGroup");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int IdSharedFolder {
+            get {
+                return this.IdSharedFolderField;
+            }
+            set {
+                if ((this.IdSharedFolderField.Equals(value) != true)) {
+                    this.IdSharedFolderField = value;
+                    this.RaisePropertyChanged("IdSharedFolder");
                 }
             }
         }
@@ -2064,6 +2362,9 @@ namespace Directums.Client.DirectumsService {
         private bool ReadOnlyField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int SizeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private Directums.Client.DirectumsService.GetFilesResultType TypeField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
@@ -2181,6 +2482,19 @@ namespace Directums.Client.DirectumsService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Size {
+            get {
+                return this.SizeField;
+            }
+            set {
+                if ((this.SizeField.Equals(value) != true)) {
+                    this.SizeField = value;
+                    this.RaisePropertyChanged("Size");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public Directums.Client.DirectumsService.GetFilesResultType Type {
             get {
                 return this.TypeField;
@@ -2208,16 +2522,16 @@ namespace Directums.Client.DirectumsService {
     public enum GetFilesResultType : int {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        File = 0,
+        Folder = 0,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        Folder = 1,
+        FolderRef = 1,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        FileRef = 2,
+        File = 2,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        FolderRef = 3,
+        FileRef = 3,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -2467,102 +2781,12 @@ namespace Directums.Client.DirectumsService {
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="GetAccessRightsResult", Namespace="http://schemas.datacontract.org/2004/07/Directums.Service.Classes")]
-    [System.SerializableAttribute()]
-    public partial class GetAccessRightsResult : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdItemField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool IsUserField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NameField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private byte TypeField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int IdItem {
-            get {
-                return this.IdItemField;
-            }
-            set {
-                if ((this.IdItemField.Equals(value) != true)) {
-                    this.IdItemField = value;
-                    this.RaisePropertyChanged("IdItem");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool IsUser {
-            get {
-                return this.IsUserField;
-            }
-            set {
-                if ((this.IsUserField.Equals(value) != true)) {
-                    this.IsUserField = value;
-                    this.RaisePropertyChanged("IsUser");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Name {
-            get {
-                return this.NameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NameField, value) != true)) {
-                    this.NameField = value;
-                    this.RaisePropertyChanged("Name");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public byte Type {
-            get {
-                return this.TypeField;
-            }
-            set {
-                if ((this.TypeField.Equals(value) != true)) {
-                    this.TypeField = value;
-                    this.RaisePropertyChanged("Type");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="DirectumsService.IDirectumsService", CallbackContract=typeof(Directums.Client.DirectumsService.IDirectumsServiceCallback), SessionMode=System.ServiceModel.SessionMode.Required)]
     public interface IDirectumsService {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/SetAccessRights", ReplyAction="http://tempuri.org/IDirectumsService/SetAccessRightsResponse")]
+        bool SetAccessRights(int idFile, Directums.Client.DirectumsService.GetAccessRightsResult[] rights);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/GetTags", ReplyAction="http://tempuri.org/IDirectumsService/GetTagsResponse")]
         Directums.Client.DirectumsService.Tag[] GetTags(int idFile);
@@ -2578,6 +2802,9 @@ namespace Directums.Client.DirectumsService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/UpdateFileProperties", ReplyAction="http://tempuri.org/IDirectumsService/UpdateFilePropertiesResponse")]
         bool UpdateFileProperties(int idFile, string name, string description);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/GetFileVersions", ReplyAction="http://tempuri.org/IDirectumsService/GetFileVersionsResponse")]
+        Directums.Client.DirectumsService.GetFileVersionsResult[] GetFileVersions(int idFile);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/UpdateProfile", ReplyAction="http://tempuri.org/IDirectumsService/UpdateProfileResponse")]
         bool UpdateProfile(int idUser, string surname, string name, string patronymic, System.Nullable<System.DateTime> birthday, string passwordHash);
@@ -2646,25 +2873,25 @@ namespace Directums.Client.DirectumsService {
         bool ChangeGroupStatus(int idGroup);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/AddFile", ReplyAction="http://tempuri.org/IDirectumsService/AddFileResponse")]
-        int AddFile(string fileName, string extension, int idParent, byte[] data);
+        Directums.Client.DirectumsService.GetFilesResult AddFile(string fileName, string extension, int idParent, byte[] data);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/AddFolder", ReplyAction="http://tempuri.org/IDirectumsService/AddFolderResponse")]
         Directums.Client.DirectumsService.GetFilesResult AddFolder(string folderName, int idParent);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/GetFile", ReplyAction="http://tempuri.org/IDirectumsService/GetFileResponse")]
-        byte[] GetFile(int idFile, byte version);
+        byte[] GetFile(int idFile, int version);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/AddVersion", ReplyAction="http://tempuri.org/IDirectumsService/AddVersionResponse")]
-        bool AddVersion(int idFile);
+        bool AddVersion(int idFile, int baseVersionNumber);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/UpdateVersion", ReplyAction="http://tempuri.org/IDirectumsService/UpdateVersionResponse")]
-        bool UpdateVersion(int idFile, byte[] data);
+        bool UpdateVersion(int idFile, int versionNumber, byte[] data);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/UpdateVersionProperties", ReplyAction="http://tempuri.org/IDirectumsService/UpdateVersionPropertiesResponse")]
+        bool UpdateVersionProperties(int idFile, int versionNumber, string description, bool isHidden);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/GetAccessRights", ReplyAction="http://tempuri.org/IDirectumsService/GetAccessRightsResponse")]
         Directums.Client.DirectumsService.GetAccessRightsResult[] GetAccessRights(int idFile);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectumsService/SetAccessRights", ReplyAction="http://tempuri.org/IDirectumsService/SetAccessRightsResponse")]
-        bool SetAccessRights(int idFile, Directums.Client.DirectumsService.GetAccessRightsResult[] rights);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -2708,6 +2935,10 @@ namespace Directums.Client.DirectumsService {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
+        public bool SetAccessRights(int idFile, Directums.Client.DirectumsService.GetAccessRightsResult[] rights) {
+            return base.Channel.SetAccessRights(idFile, rights);
+        }
+        
         public Directums.Client.DirectumsService.Tag[] GetTags(int idFile) {
             return base.Channel.GetTags(idFile);
         }
@@ -2726,6 +2957,10 @@ namespace Directums.Client.DirectumsService {
         
         public bool UpdateFileProperties(int idFile, string name, string description) {
             return base.Channel.UpdateFileProperties(idFile, name, description);
+        }
+        
+        public Directums.Client.DirectumsService.GetFileVersionsResult[] GetFileVersions(int idFile) {
+            return base.Channel.GetFileVersions(idFile);
         }
         
         public bool UpdateProfile(int idUser, string surname, string name, string patronymic, System.Nullable<System.DateTime> birthday, string passwordHash) {
@@ -2816,7 +3051,7 @@ namespace Directums.Client.DirectumsService {
             return base.Channel.ChangeGroupStatus(idGroup);
         }
         
-        public int AddFile(string fileName, string extension, int idParent, byte[] data) {
+        public Directums.Client.DirectumsService.GetFilesResult AddFile(string fileName, string extension, int idParent, byte[] data) {
             return base.Channel.AddFile(fileName, extension, idParent, data);
         }
         
@@ -2824,24 +3059,24 @@ namespace Directums.Client.DirectumsService {
             return base.Channel.AddFolder(folderName, idParent);
         }
         
-        public byte[] GetFile(int idFile, byte version) {
+        public byte[] GetFile(int idFile, int version) {
             return base.Channel.GetFile(idFile, version);
         }
         
-        public bool AddVersion(int idFile) {
-            return base.Channel.AddVersion(idFile);
+        public bool AddVersion(int idFile, int baseVersionNumber) {
+            return base.Channel.AddVersion(idFile, baseVersionNumber);
         }
         
-        public bool UpdateVersion(int idFile, byte[] data) {
-            return base.Channel.UpdateVersion(idFile, data);
+        public bool UpdateVersion(int idFile, int versionNumber, byte[] data) {
+            return base.Channel.UpdateVersion(idFile, versionNumber, data);
+        }
+        
+        public bool UpdateVersionProperties(int idFile, int versionNumber, string description, bool isHidden) {
+            return base.Channel.UpdateVersionProperties(idFile, versionNumber, description, isHidden);
         }
         
         public Directums.Client.DirectumsService.GetAccessRightsResult[] GetAccessRights(int idFile) {
             return base.Channel.GetAccessRights(idFile);
-        }
-        
-        public bool SetAccessRights(int idFile, Directums.Client.DirectumsService.GetAccessRightsResult[] rights) {
-            return base.Channel.SetAccessRights(idFile, rights);
         }
     }
 }

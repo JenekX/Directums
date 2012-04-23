@@ -73,19 +73,22 @@ namespace Directums.Service
         bool ChangeGroupStatus(int idGroup);
 
         [OperationContract]
-        int AddFile(string fileName, string extension, int idParent, byte[] data);
+        GetFilesResult AddFile(string fileName, string extension, int idParent, byte[] data);
 
 		[OperationContract]
 		GetFilesResult AddFolder(string folderName, int idParent);
 
 		[OperationContract]
-        byte[] GetFile(int idFile, byte version);
+        byte[] GetFile(int idFile, int version);
 		
         [OperationContract]
-        bool AddVersion(int idFile);
+        bool AddVersion(int idFile, int baseVersionNumber);
         
         [OperationContract]
-        bool UpdateVersion(int idFile, byte[] data);
+        bool UpdateVersion(int idFile, int versionNumber, byte[] data);
+
+        [OperationContract]
+        bool UpdateVersionProperties(int idFile, int versionNumber, string description, bool isHidden);
 
         [OperationContract]
         GetAccessRightsResult[] GetAccessRights(int idFile);
@@ -107,6 +110,9 @@ namespace Directums.Service
 
         [OperationContract]
         bool UpdateFileProperties(int idFile, string name, string description);
+
+        [OperationContract]
+        GetFileVersionsResult[] GetFileVersions(int idFile);
 
         [OperationContract]
         bool UpdateProfile(int idUser, string surname, string name, string patronymic, DateTime? birthday,string passwordHash);

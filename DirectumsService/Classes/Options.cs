@@ -6,12 +6,10 @@ using System.Runtime.Serialization;
 
 namespace Directums.Service.Classes
 {
-    [DataContract]
     public class Options
     {
-        [DataMember]
         public int IdAllUsersGroup { get; set; }
-        [DataMember]
+        public int IdSharedFolder { get; set; }
         public int MaxFileSize { get; set; }
     }
 }

@@ -219,23 +219,7 @@ namespace Directums.Client
         {
             var file = GetSelectedFile();
 
-            var fileData = Config.Client.GetFile(file.IdFile, 0);
-            var fileName = Path.Combine(Path.GetTempPath(), file.Name + file.Extension);
-
-            IO.File.WriteAllBytes(fileName, fileData);
-
-            Process process = new Process();
-
-            process.StartInfo.FileName = fileName;
-            process.EnableRaisingEvents = true;
-            
-            process.Exited += delegate(object obj, EventArgs args)
-            {
-                var data = IO.File.ReadAllBytes(fileName);
-                Config.Client.UpdateVersion(file.IdFile, data);
-            };
-
-            process.Start();
+            ExecuteFile(file.IdFile, 0, file.Name, file.Extension, false);
         }
 
         private void tsMenuAddDocument_Click(object sender, EventArgs e)
@@ -250,10 +234,10 @@ namespace Directums.Client
             string extension = Path.GetExtension(openFileDialog.FileName);
             var data = IO.File.ReadAllBytes(openFileDialog.FileName);
 
-            int idFile = Config.Client.AddFile(fileName, extension, idParent, data);
-            if (idFile > 0)
+            var result = Config.Client.AddFile(fileName, extension, idParent, data);
+            if (result != null)
             {
-                FilePropertiesForm.Execute(this, idFile);
+                FilePropertiesForm.Execute(this, result.IdFile);
 
                 ShowFiles();
             }
@@ -267,7 +251,7 @@ namespace Directums.Client
         {
             int idFile = GetSelectedFile().IdFile;
 
-            bool result = Config.Client.AddVersion(idFile);
+            bool result = Config.Client.AddVersion(idFile, 0);
             if (result)
             {
                 tsmOpenDocument.PerformClick();
