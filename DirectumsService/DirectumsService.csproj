@@ -82,6 +82,9 @@
     <Compile Include="Classes\FindGroupsResult.cs" />
     <Compile Include="Classes\FindUsersResult.cs" />
     <Compile Include="Classes\GetFilesResult.cs" />
+    <Compile Include="Classes\GetGroupContentResult.cs" />
+    <Compile Include="Classes\GetMessagesResult.cs" />
+    <Compile Include="Classes\GetUserMessagesResult.cs" />
     <Compile Include="Classes\LogManager.cs" />
     <Compile Include="Classes\Options.cs" />
     <Compile Include="DirectumsServiceDataClasses.cs">

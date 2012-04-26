@@ -64,7 +64,7 @@ namespace Directums.Client.Forms.Client
             }
             else
             {              
-                Config.Client.UpdateProfile(user.Id, tbSurname.Text, tbName.Text, tbPatronymic.Text, (dtpBirthday.Checked) ? (new DateTime?(dtpBirthday.Value)) : null, ((tbPass.Text.Length == 0) ? "" : HashHelper.StringHash(tbPass.Text)));
+                Config.Client.UpdateProfile(tbSurname.Text, tbName.Text, tbPatronymic.Text, (dtpBirthday.Checked) ? (new DateTime?(dtpBirthday.Value)) : null, ((tbPass.Text.Length == 0) ? "" : HashHelper.StringHash(tbPass.Text)));
                 DialogResult = System.Windows.Forms.DialogResult.OK;
             }
         }

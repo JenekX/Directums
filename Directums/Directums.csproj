@@ -54,6 +54,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing.Html">
+      <HintPath>D:\C# components\System.Drawing.Html.002\System.Drawing.Html\System.Drawing.Html\bin\Release\System.Drawing.Html.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
@@ -139,6 +142,18 @@
     </Compile>
     <Compile Include="Forms\Client\EditTagForm.Designer.cs">
       <DependentUpon>EditTagForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Client\MessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Client\MessageForm.Designer.cs">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Client\MessagesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Client\MessagesForm.Designer.cs">
+      <DependentUpon>MessagesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Client\NotificationForm.cs">
       <SubType>Form</SubType>
@@ -234,6 +249,12 @@
     <EmbeddedResource Include="Forms\Client\EditTagForm.resx">
       <DependentUpon>EditTagForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Client\MessageForm.resx">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Client\MessagesForm.resx">
+      <DependentUpon>MessagesForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Client\NotificationForm.resx">
       <DependentUpon>NotificationForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -308,7 +329,16 @@
     <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetFoldersResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetGroupContentResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetGroupResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.GetMessagesResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.Message.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\DirectumsService\Directums.Client.DirectumsService.Options.datasource">

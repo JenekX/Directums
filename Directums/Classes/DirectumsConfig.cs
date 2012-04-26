@@ -9,7 +9,7 @@ namespace Directums.Client.Classes
     {
         public DirectumsConfig()
         {
-            InstanceContext instanceContext = new InstanceContext(new DirectumsCallbacks());
+            InstanceContext instanceContext = new InstanceContext(new DirectumsCallbacks(this));
             Client = new DirectumsServiceClient(instanceContext);
 
             Tags = Client.GetTagList();

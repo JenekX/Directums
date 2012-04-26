@@ -69,6 +69,36 @@
   <wsdl:message name="IDirectumsService_UpdateProfile_OutputMessage">
     <wsdl:part name="parameters" element="tns:UpdateProfileResponse" />
   </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetGroupsContent_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupsContent" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetGroupsContent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupsContentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_IsHasNewMessages_InputMessage">
+    <wsdl:part name="parameters" element="tns:IsHasNewMessages" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_IsHasNewMessages_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IsHasNewMessagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetMessages_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMessages" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetMessages_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMessagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetUserMessages_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserMessages" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetUserMessages_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserMessagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_AddMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddMessage" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_AddMessage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddMessageResponse" />
+  </wsdl:message>
   <wsdl:message name="IDirectumsService_GetOptions_InputMessage">
     <wsdl:part name="parameters" element="tns:GetOptions" />
   </wsdl:message>
@@ -93,6 +123,12 @@
   <wsdl:message name="IDirectumsService_GetCurrentUser_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetCurrentUserResponse" />
   </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetUserInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserInfo" />
+  </wsdl:message>
+  <wsdl:message name="IDirectumsService_GetUserInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserInfoResponse" />
+  </wsdl:message>
   <wsdl:message name="IDirectumsService_UserList_InputMessage">
     <wsdl:part name="parameters" element="tns:UserList" />
   </wsdl:message>
@@ -116,9 +152,6 @@
   </wsdl:message>
   <wsdl:message name="IDirectumsService_IsEmailEmpty_OutputMessage">
     <wsdl:part name="parameters" element="tns:IsEmailEmptyResponse" />
-  </wsdl:message>
-  <wsdl:message name="IDirectumsService_AddMessage_InputMessage">
-    <wsdl:part name="parameters" element="tns:AddMessage" />
   </wsdl:message>
   <wsdl:message name="IDirectumsService_FindUsers_InputMessage">
     <wsdl:part name="parameters" element="tns:FindUsers" />
@@ -276,6 +309,26 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/UpdateProfile" message="tns:IDirectumsService_UpdateProfile_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/UpdateProfileResponse" message="tns:IDirectumsService_UpdateProfile_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetGroupsContent">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/GetGroupsContent" message="tns:IDirectumsService_GetGroupsContent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/GetGroupsContentResponse" message="tns:IDirectumsService_GetGroupsContent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="IsHasNewMessages">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/IsHasNewMessages" message="tns:IDirectumsService_IsHasNewMessages_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/IsHasNewMessagesResponse" message="tns:IDirectumsService_IsHasNewMessages_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetMessages">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/GetMessages" message="tns:IDirectumsService_GetMessages_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/GetMessagesResponse" message="tns:IDirectumsService_GetMessages_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetUserMessages">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/GetUserMessages" message="tns:IDirectumsService_GetUserMessages_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/GetUserMessagesResponse" message="tns:IDirectumsService_GetUserMessages_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="AddMessage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/AddMessage" message="tns:IDirectumsService_AddMessage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/AddMessageResponse" message="tns:IDirectumsService_AddMessage_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetOptions">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/GetOptions" message="tns:IDirectumsService_GetOptions_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/GetOptionsResponse" message="tns:IDirectumsService_GetOptions_OutputMessage" />
@@ -292,6 +345,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/GetCurrentUser" message="tns:IDirectumsService_GetCurrentUser_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/GetCurrentUserResponse" message="tns:IDirectumsService_GetCurrentUser_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetUserInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/GetUserInfo" message="tns:IDirectumsService_GetUserInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/GetUserInfoResponse" message="tns:IDirectumsService_GetUserInfo_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UserList">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/UserList" message="tns:IDirectumsService_UserList_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/UserListResponse" message="tns:IDirectumsService_UserList_OutputMessage" />
@@ -307,9 +364,6 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="IsEmailEmpty">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/IsEmailEmpty" message="tns:IDirectumsService_IsEmailEmpty_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IDirectumsService/IsEmailEmptyResponse" message="tns:IDirectumsService_IsEmailEmpty_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="AddMessage">
-      <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/AddMessage" message="tns:IDirectumsService_AddMessage_InputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="FindUsers">
       <wsdl:input wsaw:Action="http://tempuri.org/IDirectumsService/FindUsers" message="tns:IDirectumsService_FindUsers_InputMessage" />
@@ -473,6 +527,51 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetGroupsContent">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/GetGroupsContent" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsHasNewMessages">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/IsHasNewMessages" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMessages">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/GetMessages" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserMessages">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/GetUserMessages" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMessage">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/AddMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetOptions">
       <soap12:operation soapAction="http://tempuri.org/IDirectumsService/GetOptions" style="document" />
       <wsdl:input>
@@ -502,6 +601,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetCurrentUser">
       <soap12:operation soapAction="http://tempuri.org/IDirectumsService/GetCurrentUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserInfo">
+      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/GetUserInfo" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -544,12 +652,6 @@
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="AddMessage">
-      <soap12:operation soapAction="http://tempuri.org/IDirectumsService/AddMessage" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="FindUsers">
       <soap12:operation soapAction="http://tempuri.org/IDirectumsService/FindUsers" style="document" />

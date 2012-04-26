@@ -32,9 +32,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tsMenu = new System.Windows.Forms.ToolStrip();
             this.tsdbAdd = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tsMenuAddFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.tsMenuAddDocument = new System.Windows.Forms.ToolStripMenuItem();
             this.tsMenuAddVersion = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsMenuAddFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.scWorkArea = new System.Windows.Forms.SplitContainer();
             this.tvDirs = new System.Windows.Forms.TreeView();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
@@ -56,6 +56,7 @@
             this.tsmAdminUsers = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmAdminGroups = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.tsmMessages = new System.Windows.Forms.ToolStripMenuItem();
             this.tsMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scWorkArea)).BeginInit();
             this.scWorkArea.Panel1.SuspendLayout();
@@ -87,26 +88,26 @@
             this.tsdbAdd.Size = new System.Drawing.Size(88, 22);
             this.tsdbAdd.Text = "Добавить";
             // 
+            // tsMenuAddFolder
+            // 
+            this.tsMenuAddFolder.Name = "tsMenuAddFolder";
+            this.tsMenuAddFolder.Size = new System.Drawing.Size(140, 22);
+            this.tsMenuAddFolder.Text = "Директория";
+            this.tsMenuAddFolder.Click += new System.EventHandler(this.tsMenuAddFolder_Click);
+            // 
             // tsMenuAddDocument
             // 
             this.tsMenuAddDocument.Name = "tsMenuAddDocument";
-            this.tsMenuAddDocument.Size = new System.Drawing.Size(152, 22);
+            this.tsMenuAddDocument.Size = new System.Drawing.Size(140, 22);
             this.tsMenuAddDocument.Text = "Документ";
             this.tsMenuAddDocument.Click += new System.EventHandler(this.tsMenuAddDocument_Click);
             // 
             // tsMenuAddVersion
             // 
             this.tsMenuAddVersion.Name = "tsMenuAddVersion";
-            this.tsMenuAddVersion.Size = new System.Drawing.Size(152, 22);
+            this.tsMenuAddVersion.Size = new System.Drawing.Size(140, 22);
             this.tsMenuAddVersion.Text = "Версия";
             this.tsMenuAddVersion.Click += new System.EventHandler(this.tsMenuAddVersion_Click);
-            // 
-            // tsMenuAddFolder
-            // 
-            this.tsMenuAddFolder.Name = "tsMenuAddFolder";
-            this.tsMenuAddFolder.Size = new System.Drawing.Size(152, 22);
-            this.tsMenuAddFolder.Text = "Директория";
-            this.tsMenuAddFolder.Click += new System.EventHandler(this.tsMenuAddFolder_Click);
             // 
             // scWorkArea
             // 
@@ -216,7 +217,8 @@
             this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmFile,
             this.tsmView,
-            this.tsmAdmin});
+            this.tsmAdmin,
+            this.tsmMessages});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.Size = new System.Drawing.Size(659, 24);
@@ -284,6 +286,13 @@
             this.tsmAdminGroups.Text = "Группы";
             this.tsmAdminGroups.Click += new System.EventHandler(this.tsmAdminGroups_Click);
             // 
+            // tsmMessages
+            // 
+            this.tsmMessages.Name = "tsmMessages";
+            this.tsmMessages.Size = new System.Drawing.Size(85, 20);
+            this.tsmMessages.Text = "Сообщения";
+            this.tsmMessages.Click += new System.EventHandler(this.tsmMessages_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -336,5 +345,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsmView;
         private System.Windows.Forms.ToolStripMenuItem tsmRefresh;
         private System.Windows.Forms.ColumnHeader cbOwner;
+        private System.Windows.Forms.ToolStripMenuItem tsmMessages;
     }
 }

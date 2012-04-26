@@ -57,6 +57,14 @@
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
+      <xs:element minOccurs="0" name="UserGroups" nillable="true" type="tns:ArrayOfUserGroup">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+            </DefaultValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
       <xs:element minOccurs="0" name="Files" nillable="true" type="tns:ArrayOfFile">
         <xs:annotation>
           <xs:appinfo>
@@ -97,14 +105,6 @@
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element minOccurs="0" name="UserGroups" nillable="true" type="tns:ArrayOfUserGroup">
-        <xs:annotation>
-          <xs:appinfo>
-            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
-            </DefaultValue>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
     </xs:sequence>
   </xs:complexType>
   <xs:element name="User" nillable="true" type="tns:User" />
@@ -124,6 +124,20 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="AccessRight" nillable="true" type="tns:AccessRight" />
+  <xs:complexType name="ArrayOfUserGroup">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UserGroup" nillable="true" type="tns:UserGroup" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUserGroup" nillable="true" type="tns:ArrayOfUserGroup" />
+  <xs:complexType name="UserGroup">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IdGroup" type="xs:int" />
+      <xs:element minOccurs="0" name="IdUser" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UserGroup" nillable="true" type="tns:UserGroup" />
   <xs:complexType name="ArrayOfFile">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="File" nillable="true" type="tns:File" />
@@ -192,13 +206,13 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="Id" type="xs:int" />
       <xs:element minOccurs="0" name="IdFile" type="xs:int" />
+      <xs:element minOccurs="0" name="IdOwner" type="xs:int" />
       <xs:element minOccurs="0" name="Number" type="xs:int" />
       <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
       <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/System.Data.Linq" minOccurs="0" name="Data" nillable="true" type="q1:Binary" />
       <xs:element minOccurs="0" name="Size" type="xs:int" />
       <xs:element minOccurs="0" name="IsHidden" type="xs:boolean" />
       <xs:element minOccurs="0" name="Created" type="xs:dateTime" />
-      <xs:element minOccurs="0" name="IdOwner" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="FileVersion" nillable="true" type="tns:FileVersion" />
@@ -233,14 +247,6 @@
       <xs:element minOccurs="0" name="IdParent" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="IdFile" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="IdItem" nillable="true" type="xs:int" />
-      <xs:element minOccurs="0" name="Users" nillable="true" type="tns:ArrayOfUser">
-        <xs:annotation>
-          <xs:appinfo>
-            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
-            </DefaultValue>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
       <xs:element minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfItem">
         <xs:annotation>
           <xs:appinfo>
@@ -250,6 +256,14 @@
         </xs:annotation>
       </xs:element>
       <xs:element minOccurs="0" name="Items1" nillable="true" type="tns:ArrayOfItem">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+            </DefaultValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="Users" nillable="true" type="tns:ArrayOfUser">
         <xs:annotation>
           <xs:appinfo>
             <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
@@ -295,41 +309,18 @@
       <xs:element minOccurs="0" name="Id" type="xs:int" />
       <xs:element minOccurs="0" name="IdUserFrom" type="xs:int" />
       <xs:element minOccurs="0" name="IdUserFor" type="xs:int" />
-      <xs:element minOccurs="0" name="IdGroupFor" type="xs:int" />
       <xs:element minOccurs="0" name="Text" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Status" type="xs:unsignedByte" />
-      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/System.Data.Linq" minOccurs="0" name="Created" nillable="true" type="q2:Binary" />
+      <xs:element minOccurs="0" name="Created" type="xs:dateTime" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Message" nillable="true" type="tns:Message" />
-  <xs:complexType name="ArrayOfUserGroup">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="UserGroup" nillable="true" type="tns:UserGroup" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfUserGroup" nillable="true" type="tns:ArrayOfUserGroup" />
-  <xs:complexType name="UserGroup">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Id" type="xs:int" />
-      <xs:element minOccurs="0" name="IdGroup" type="xs:int" />
-      <xs:element minOccurs="0" name="IdUser" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="UserGroup" nillable="true" type="tns:UserGroup" />
   <xs:complexType name="Group">
     <xs:sequence>
       <xs:element minOccurs="0" name="Id" type="xs:int" />
       <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Status" type="xs:boolean" />
       <xs:element minOccurs="0" name="AccessRights" nillable="true" type="tns:ArrayOfAccessRight">
-        <xs:annotation>
-          <xs:appinfo>
-            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
-            </DefaultValue>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-      <xs:element minOccurs="0" name="Messages" nillable="true" type="tns:ArrayOfMessage">
         <xs:annotation>
           <xs:appinfo>
             <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">

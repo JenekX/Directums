@@ -107,7 +107,6 @@
   <xs:element name="UpdateProfile">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="idUser" type="xs:int" />
         <xs:element minOccurs="0" name="surname" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="patronymic" nillable="true" type="xs:string" />
@@ -123,6 +122,71 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="GetGroupsContent">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGroupsContentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="GetGroupsContentResult" nillable="true" type="q7:ArrayOfGetGroupContentResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsHasNewMessages">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsHasNewMessagesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IsHasNewMessagesResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMessages">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMessagesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="GetMessagesResult" nillable="true" type="q8:ArrayOfGetMessagesResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUserMessages">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idUserWith" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUserMessagesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Directums.Service" minOccurs="0" name="GetUserMessagesResult" nillable="true" type="q9:ArrayOfMessage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddMessage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idUserFor" type="xs:int" />
+        <xs:element minOccurs="0" name="text" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddMessageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddMessageResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="GetOptions">
     <xs:complexType>
       <xs:sequence />
@@ -131,7 +195,7 @@
   <xs:element name="GetOptionsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="GetOptionsResult" nillable="true" type="q7:Options" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="GetOptionsResult" nillable="true" type="q10:Options" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -170,7 +234,21 @@
   <xs:element name="GetCurrentUserResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Directums.Service" minOccurs="0" name="GetCurrentUserResult" nillable="true" type="q8:User" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Directums.Service" minOccurs="0" name="GetCurrentUserResult" nillable="true" type="q11:User" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUserInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idUser" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUserInfoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Directums.Service" minOccurs="0" name="GetUserInfoResult" nillable="true" type="q12:User" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -182,7 +260,7 @@
   <xs:element name="UserListResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Directums.Service" minOccurs="0" name="UserListResult" nillable="true" type="q9:ArrayOfUser" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/Directums.Service" minOccurs="0" name="UserListResult" nillable="true" type="q13:ArrayOfUser" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -230,26 +308,18 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="AddMessage">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="idUserFor" type="xs:int" />
-        <xs:element minOccurs="0" name="text" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
   <xs:element name="FindUsers">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="page" type="xs:int" />
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Directums.Classes" minOccurs="0" name="filter" nillable="true" type="q10:UserFilter" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/Directums.Classes" minOccurs="0" name="filter" nillable="true" type="q14:UserFilter" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="FindUsersResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="FindUsersResult" nillable="true" type="q11:FindUsersResult" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="FindUsersResult" nillable="true" type="q15:FindUsersResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -292,7 +362,7 @@
   <xs:element name="GetFoldersResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="GetFoldersResult" nillable="true" type="q12:ArrayOfGetFoldersResult" />
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="GetFoldersResult" nillable="true" type="q16:ArrayOfGetFoldersResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -306,7 +376,7 @@
   <xs:element name="GetFilesResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="GetFilesResult" nillable="true" type="q13:ArrayOfGetFilesResult" />
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="GetFilesResult" nillable="true" type="q17:ArrayOfGetFilesResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -335,7 +405,7 @@
   <xs:element name="FindGroupsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="FindGroupsResult" nillable="true" type="q14:ArrayOfFindGroupsResult" />
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="FindGroupsResult" nillable="true" type="q18:ArrayOfFindGroupsResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -349,7 +419,7 @@
   <xs:element name="GetGroupResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="GetGroupResult" nillable="true" type="q15:GetGroupResult" />
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="GetGroupResult" nillable="true" type="q19:GetGroupResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -372,7 +442,7 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="status" type="xs:boolean" />
-        <xs:element xmlns:q16="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="users" nillable="true" type="q16:ArrayOfint" />
+        <xs:element xmlns:q20="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="users" nillable="true" type="q20:ArrayOfint" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -389,7 +459,7 @@
         <xs:element minOccurs="0" name="id" type="xs:int" />
         <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="status" type="xs:boolean" />
-        <xs:element xmlns:q17="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="users" nillable="true" type="q17:ArrayOfint" />
+        <xs:element xmlns:q21="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="users" nillable="true" type="q21:ArrayOfint" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -427,7 +497,7 @@
   <xs:element name="AddFileResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="AddFileResult" nillable="true" type="q18:GetFilesResult" />
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="AddFileResult" nillable="true" type="q22:GetFilesResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -442,7 +512,7 @@
   <xs:element name="AddFolderResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="AddFolderResult" nillable="true" type="q19:GetFilesResult" />
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="AddFolderResult" nillable="true" type="q23:GetFilesResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -519,7 +589,7 @@
   <xs:element name="GetAccessRightsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="GetAccessRightsResult" nillable="true" type="q20:ArrayOfGetAccessRightsResult" />
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/Directums.Service.Classes" minOccurs="0" name="GetAccessRightsResult" nillable="true" type="q24:ArrayOfGetAccessRightsResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
