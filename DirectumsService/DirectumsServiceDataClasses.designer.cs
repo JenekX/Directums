@@ -34,9 +34,9 @@ namespace Directums.Service
     partial void InsertAccessRight(AccessRight instance);
     partial void UpdateAccessRight(AccessRight instance);
     partial void DeleteAccessRight(AccessRight instance);
-    partial void InsertUser(User instance);
-    partial void UpdateUser(User instance);
-    partial void DeleteUser(User instance);
+    partial void InsertUserGroup(UserGroup instance);
+    partial void UpdateUserGroup(UserGroup instance);
+    partial void DeleteUserGroup(UserGroup instance);
     partial void InsertExtension(Extension instance);
     partial void UpdateExtension(Extension instance);
     partial void DeleteExtension(Extension instance);
@@ -70,9 +70,9 @@ namespace Directums.Service
     partial void InsertTag(Tag instance);
     partial void UpdateTag(Tag instance);
     partial void DeleteTag(Tag instance);
-    partial void InsertUserGroup(UserGroup instance);
-    partial void UpdateUserGroup(UserGroup instance);
-    partial void DeleteUserGroup(UserGroup instance);
+    partial void InsertUser(User instance);
+    partial void UpdateUser(User instance);
+    partial void DeleteUser(User instance);
     #endregion
 		
 		public DirectumsServiceDataClassesDataContext() : 
@@ -113,11 +113,11 @@ namespace Directums.Service
 			}
 		}
 		
-		public System.Data.Linq.Table<User> Users
+		public System.Data.Linq.Table<UserGroup> UserGroups
 		{
 			get
 			{
-				return this.GetTable<User>();
+				return this.GetTable<UserGroup>();
 			}
 		}
 		
@@ -209,11 +209,11 @@ namespace Directums.Service
 			}
 		}
 		
-		public System.Data.Linq.Table<UserGroup> UserGroups
+		public System.Data.Linq.Table<User> Users
 		{
 			get
 			{
-				return this.GetTable<UserGroup>();
+				return this.GetTable<User>();
 			}
 		}
 	}
@@ -235,11 +235,11 @@ namespace Directums.Service
 		
 		private byte _Type;
 		
-		private EntityRef<User> _User;
-		
 		private EntityRef<File> _File;
 		
 		private EntityRef<Group> _Group;
+		
+		private EntityRef<User> _User;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -379,40 +379,6 @@ namespace Directums.Service
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_AccessRight", Storage="_User", ThisKey="IdUser", OtherKey="Id", IsForeignKey=true)]
-		public User User
-		{
-			get
-			{
-				return this._User.Entity;
-			}
-			set
-			{
-				User previousValue = this._User.Entity;
-				if (((previousValue != value) 
-							|| (this._User.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._User.Entity = null;
-						previousValue.AccessRights.Remove(this);
-					}
-					this._User.Entity = value;
-					if ((value != null))
-					{
-						value.AccessRights.Add(this);
-						this._IdUser = value.Id;
-					}
-					else
-					{
-						this._IdUser = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("User");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="File_AccessRight", Storage="_File", ThisKey="IdFile", OtherKey="Id", IsForeignKey=true)]
 		public File File
 		{
@@ -481,6 +447,40 @@ namespace Directums.Service
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_AccessRight", Storage="_User", ThisKey="IdUser", OtherKey="Id", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.AccessRights.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.AccessRights.Add(this);
+						this._IdUser = value.Id;
+					}
+					else
+					{
+						this._IdUser = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -503,9 +503,9 @@ namespace Directums.Service
 		
 		private void Initialize()
 		{
-			this._User = default(EntityRef<User>);
 			this._File = default(EntityRef<File>);
 			this._Group = default(EntityRef<Group>);
+			this._User = default(EntityRef<User>);
 			OnCreated();
 		}
 		
@@ -517,52 +517,22 @@ namespace Directums.Service
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Users")]
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserGroups")]
 	[global::System.Runtime.Serialization.DataContractAttribute()]
-	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class UserGroup : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _Id;
 		
-		private string _Login;
+		private int _IdGroup;
 		
-		private string _PasswordHash;
+		private int _IdUser;
 		
-		private string _Surname;
+		private EntityRef<Group> _Group;
 		
-		private string _Name;
-		
-		private string _Patronymic;
-		
-		private string _Email;
-		
-		private System.Nullable<System.DateTime> _BornDate;
-		
-		private byte _Status;
-		
-		private int _IdRootFolder;
-		
-		private bool _IsAdmin;
-		
-		private EntitySet<AccessRight> _AccessRights;
-		
-		private EntitySet<File> _Files;
-		
-		private EntitySet<FileVersion> _FileVersions;
-		
-		private EntitySet<HistoryUser> _HistoryUsers;
-		
-		private EntitySet<Message> _Messages;
-		
-		private EntitySet<Message> _Messages1;
-		
-		private EntitySet<UserGroup> _UserGroups;
-		
-		private EntityRef<Item> _Item;
-		
-		private bool serializing;
+		private EntityRef<User> _User;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -570,29 +540,13 @@ namespace Directums.Service
     partial void OnCreated();
     partial void OnIdChanging(int value);
     partial void OnIdChanged();
-    partial void OnLoginChanging(string value);
-    partial void OnLoginChanged();
-    partial void OnPasswordHashChanging(string value);
-    partial void OnPasswordHashChanged();
-    partial void OnSurnameChanging(string value);
-    partial void OnSurnameChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnPatronymicChanging(string value);
-    partial void OnPatronymicChanged();
-    partial void OnEmailChanging(string value);
-    partial void OnEmailChanged();
-    partial void OnBornDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnBornDateChanged();
-    partial void OnStatusChanging(byte value);
-    partial void OnStatusChanged();
-    partial void OnIdRootFolderChanging(int value);
-    partial void OnIdRootFolderChanged();
-    partial void OnIsAdminChanging(bool value);
-    partial void OnIsAdminChanged();
+    partial void OnIdGroupChanging(int value);
+    partial void OnIdGroupChanged();
+    partial void OnIdUserChanging(int value);
+    partial void OnIdUserChanged();
     #endregion
 		
-		public User()
+		public UserGroup()
 		{
 			this.Initialize();
 		}
@@ -618,383 +572,120 @@ namespace Directums.Service
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Login", DbType="NVarChar(32) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdGroup", DbType="Int NOT NULL")]
 		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
-		public string Login
+		public int IdGroup
 		{
 			get
 			{
-				return this._Login;
+				return this._IdGroup;
 			}
 			set
 			{
-				if ((this._Login != value))
+				if ((this._IdGroup != value))
 				{
-					this.OnLoginChanging(value);
-					this.SendPropertyChanging();
-					this._Login = value;
-					this.SendPropertyChanged("Login");
-					this.OnLoginChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PasswordHash", DbType="NVarChar(32) NOT NULL", CanBeNull=false)]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
-		public string PasswordHash
-		{
-			get
-			{
-				return this._PasswordHash;
-			}
-			set
-			{
-				if ((this._PasswordHash != value))
-				{
-					this.OnPasswordHashChanging(value);
-					this.SendPropertyChanging();
-					this._PasswordHash = value;
-					this.SendPropertyChanged("PasswordHash");
-					this.OnPasswordHashChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Surname", DbType="NVarChar(64) NOT NULL", CanBeNull=false)]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4)]
-		public string Surname
-		{
-			get
-			{
-				return this._Surname;
-			}
-			set
-			{
-				if ((this._Surname != value))
-				{
-					this.OnSurnameChanging(value);
-					this.SendPropertyChanging();
-					this._Surname = value;
-					this.SendPropertyChanged("Surname");
-					this.OnSurnameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(64) NOT NULL", CanBeNull=false)]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Patronymic", DbType="NVarChar(64) NOT NULL", CanBeNull=false)]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=6)]
-		public string Patronymic
-		{
-			get
-			{
-				return this._Patronymic;
-			}
-			set
-			{
-				if ((this._Patronymic != value))
-				{
-					this.OnPatronymicChanging(value);
-					this.SendPropertyChanging();
-					this._Patronymic = value;
-					this.SendPropertyChanged("Patronymic");
-					this.OnPatronymicChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(64) NOT NULL", CanBeNull=false)]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=7)]
-		public string Email
-		{
-			get
-			{
-				return this._Email;
-			}
-			set
-			{
-				if ((this._Email != value))
-				{
-					this.OnEmailChanging(value);
-					this.SendPropertyChanging();
-					this._Email = value;
-					this.SendPropertyChanged("Email");
-					this.OnEmailChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BornDate", DbType="Date")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=8)]
-		public System.Nullable<System.DateTime> BornDate
-		{
-			get
-			{
-				return this._BornDate;
-			}
-			set
-			{
-				if ((this._BornDate != value))
-				{
-					this.OnBornDateChanging(value);
-					this.SendPropertyChanging();
-					this._BornDate = value;
-					this.SendPropertyChanged("BornDate");
-					this.OnBornDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="TinyInt NOT NULL")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=9)]
-		public byte Status
-		{
-			get
-			{
-				return this._Status;
-			}
-			set
-			{
-				if ((this._Status != value))
-				{
-					this.OnStatusChanging(value);
-					this.SendPropertyChanging();
-					this._Status = value;
-					this.SendPropertyChanged("Status");
-					this.OnStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdRootFolder", DbType="Int NOT NULL")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=10)]
-		public int IdRootFolder
-		{
-			get
-			{
-				return this._IdRootFolder;
-			}
-			set
-			{
-				if ((this._IdRootFolder != value))
-				{
-					if (this._Item.HasLoadedOrAssignedValue)
+					if (this._Group.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnIdRootFolderChanging(value);
+					this.OnIdGroupChanging(value);
 					this.SendPropertyChanging();
-					this._IdRootFolder = value;
-					this.SendPropertyChanged("IdRootFolder");
-					this.OnIdRootFolderChanged();
+					this._IdGroup = value;
+					this.SendPropertyChanged("IdGroup");
+					this.OnIdGroupChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAdmin", DbType="Bit NOT NULL")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=11)]
-		public bool IsAdmin
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdUser", DbType="Int NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
+		public int IdUser
 		{
 			get
 			{
-				return this._IsAdmin;
+				return this._IdUser;
 			}
 			set
 			{
-				if ((this._IsAdmin != value))
+				if ((this._IdUser != value))
 				{
-					this.OnIsAdminChanging(value);
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdUserChanging(value);
 					this.SendPropertyChanging();
-					this._IsAdmin = value;
-					this.SendPropertyChanged("IsAdmin");
-					this.OnIsAdminChanged();
+					this._IdUser = value;
+					this.SendPropertyChanged("IdUser");
+					this.OnIdUserChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_AccessRight", Storage="_AccessRights", ThisKey="Id", OtherKey="IdUser")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=12, EmitDefaultValue=false)]
-		public EntitySet<AccessRight> AccessRights
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Group_UserGroup", Storage="_Group", ThisKey="IdGroup", OtherKey="Id", IsForeignKey=true)]
+		public Group Group
 		{
 			get
 			{
-				if ((this.serializing 
-							&& (this._AccessRights.HasLoadedOrAssignedValues == false)))
-				{
-					return null;
-				}
-				return this._AccessRights;
+				return this._Group.Entity;
 			}
 			set
 			{
-				this._AccessRights.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_File", Storage="_Files", ThisKey="Id", OtherKey="IdOwner")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=13, EmitDefaultValue=false)]
-		public EntitySet<File> Files
-		{
-			get
-			{
-				if ((this.serializing 
-							&& (this._Files.HasLoadedOrAssignedValues == false)))
-				{
-					return null;
-				}
-				return this._Files;
-			}
-			set
-			{
-				this._Files.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_FileVersion", Storage="_FileVersions", ThisKey="Id", OtherKey="IdOwner")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=14, EmitDefaultValue=false)]
-		public EntitySet<FileVersion> FileVersions
-		{
-			get
-			{
-				if ((this.serializing 
-							&& (this._FileVersions.HasLoadedOrAssignedValues == false)))
-				{
-					return null;
-				}
-				return this._FileVersions;
-			}
-			set
-			{
-				this._FileVersions.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_HistoryUser", Storage="_HistoryUsers", ThisKey="Id", OtherKey="IdUser")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=15, EmitDefaultValue=false)]
-		public EntitySet<HistoryUser> HistoryUsers
-		{
-			get
-			{
-				if ((this.serializing 
-							&& (this._HistoryUsers.HasLoadedOrAssignedValues == false)))
-				{
-					return null;
-				}
-				return this._HistoryUsers;
-			}
-			set
-			{
-				this._HistoryUsers.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Message", Storage="_Messages", ThisKey="Id", OtherKey="IdUserFrom")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=16, EmitDefaultValue=false)]
-		public EntitySet<Message> Messages
-		{
-			get
-			{
-				if ((this.serializing 
-							&& (this._Messages.HasLoadedOrAssignedValues == false)))
-				{
-					return null;
-				}
-				return this._Messages;
-			}
-			set
-			{
-				this._Messages.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Message1", Storage="_Messages1", ThisKey="Id", OtherKey="IdUserFor")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=17, EmitDefaultValue=false)]
-		public EntitySet<Message> Messages1
-		{
-			get
-			{
-				if ((this.serializing 
-							&& (this._Messages1.HasLoadedOrAssignedValues == false)))
-				{
-					return null;
-				}
-				return this._Messages1;
-			}
-			set
-			{
-				this._Messages1.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserGroup", Storage="_UserGroups", ThisKey="Id", OtherKey="IdUser")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=18, EmitDefaultValue=false)]
-		public EntitySet<UserGroup> UserGroups
-		{
-			get
-			{
-				if ((this.serializing 
-							&& (this._UserGroups.HasLoadedOrAssignedValues == false)))
-				{
-					return null;
-				}
-				return this._UserGroups;
-			}
-			set
-			{
-				this._UserGroups.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_User", Storage="_Item", ThisKey="IdRootFolder", OtherKey="Id", IsForeignKey=true)]
-		public Item Item
-		{
-			get
-			{
-				return this._Item.Entity;
-			}
-			set
-			{
-				Item previousValue = this._Item.Entity;
+				Group previousValue = this._Group.Entity;
 				if (((previousValue != value) 
-							|| (this._Item.HasLoadedOrAssignedValue == false)))
+							|| (this._Group.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Item.Entity = null;
-						previousValue.Users.Remove(this);
+						this._Group.Entity = null;
+						previousValue.UserGroups.Remove(this);
 					}
-					this._Item.Entity = value;
+					this._Group.Entity = value;
 					if ((value != null))
 					{
-						value.Users.Add(this);
-						this._IdRootFolder = value.Id;
+						value.UserGroups.Add(this);
+						this._IdGroup = value.Id;
 					}
 					else
 					{
-						this._IdRootFolder = default(int);
+						this._IdGroup = default(int);
 					}
-					this.SendPropertyChanged("Item");
+					this.SendPropertyChanged("Group");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserGroup", Storage="_User", ThisKey="IdUser", OtherKey="Id", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.UserGroups.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.UserGroups.Add(this);
+						this._IdUser = value.Id;
+					}
+					else
+					{
+						this._IdUser = default(int);
+					}
+					this.SendPropertyChanged("User");
 				}
 			}
 		}
@@ -1019,100 +710,10 @@ namespace Directums.Service
 			}
 		}
 		
-		private void attach_AccessRights(AccessRight entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_AccessRights(AccessRight entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_Files(File entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_Files(File entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_FileVersions(FileVersion entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_FileVersions(FileVersion entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_HistoryUsers(HistoryUser entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_HistoryUsers(HistoryUser entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_Messages(Message entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_Messages(Message entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_Messages1(Message entity)
-		{
-			this.SendPropertyChanging();
-			entity.User1 = this;
-		}
-		
-		private void detach_Messages1(Message entity)
-		{
-			this.SendPropertyChanging();
-			entity.User1 = null;
-		}
-		
-		private void attach_UserGroups(UserGroup entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_UserGroups(UserGroup entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
 		private void Initialize()
 		{
-			this._AccessRights = new EntitySet<AccessRight>(new Action<AccessRight>(this.attach_AccessRights), new Action<AccessRight>(this.detach_AccessRights));
-			this._Files = new EntitySet<File>(new Action<File>(this.attach_Files), new Action<File>(this.detach_Files));
-			this._FileVersions = new EntitySet<FileVersion>(new Action<FileVersion>(this.attach_FileVersions), new Action<FileVersion>(this.detach_FileVersions));
-			this._HistoryUsers = new EntitySet<HistoryUser>(new Action<HistoryUser>(this.attach_HistoryUsers), new Action<HistoryUser>(this.detach_HistoryUsers));
-			this._Messages = new EntitySet<Message>(new Action<Message>(this.attach_Messages), new Action<Message>(this.detach_Messages));
-			this._Messages1 = new EntitySet<Message>(new Action<Message>(this.attach_Messages1), new Action<Message>(this.detach_Messages1));
-			this._UserGroups = new EntitySet<UserGroup>(new Action<UserGroup>(this.attach_UserGroups), new Action<UserGroup>(this.detach_UserGroups));
-			this._Item = default(EntityRef<Item>);
+			this._Group = default(EntityRef<Group>);
+			this._User = default(EntityRef<User>);
 			OnCreated();
 		}
 		
@@ -1121,20 +722,6 @@ namespace Directums.Service
 		public void OnDeserializing(StreamingContext context)
 		{
 			this.Initialize();
-		}
-		
-		[global::System.Runtime.Serialization.OnSerializingAttribute()]
-		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
-		public void OnSerializing(StreamingContext context)
-		{
-			this.serializing = true;
-		}
-		
-		[global::System.Runtime.Serialization.OnSerializedAttribute()]
-		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
-		public void OnSerialized(StreamingContext context)
-		{
-			this.serializing = false;
 		}
 	}
 	
@@ -2002,6 +1589,8 @@ namespace Directums.Service
 		
 		private int _IdFile;
 		
+		private int _IdOwner;
+		
 		private int _Number;
 		
 		private string _Description;
@@ -2013,8 +1602,6 @@ namespace Directums.Service
 		private bool _IsHidden;
 		
 		private System.DateTime _Created;
-		
-		private int _IdOwner;
 		
 		private EntityRef<File> _File;
 		
@@ -2028,6 +1615,8 @@ namespace Directums.Service
     partial void OnIdChanged();
     partial void OnIdFileChanging(int value);
     partial void OnIdFileChanged();
+    partial void OnIdOwnerChanging(int value);
+    partial void OnIdOwnerChanged();
     partial void OnNumberChanging(int value);
     partial void OnNumberChanged();
     partial void OnDescriptionChanging(string value);
@@ -2040,8 +1629,6 @@ namespace Directums.Service
     partial void OnIsHiddenChanged();
     partial void OnCreatedChanging(System.DateTime value);
     partial void OnCreatedChanged();
-    partial void OnIdOwnerChanging(int value);
-    partial void OnIdOwnerChanged();
     #endregion
 		
 		public FileVersion()
@@ -2095,8 +1682,33 @@ namespace Directums.Service
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdOwner", DbType="Int NOT NULL")]
 		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
+		public int IdOwner
+		{
+			get
+			{
+				return this._IdOwner;
+			}
+			set
+			{
+				if ((this._IdOwner != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdOwnerChanging(value);
+					this.SendPropertyChanging();
+					this._IdOwner = value;
+					this.SendPropertyChanged("IdOwner");
+					this.OnIdOwnerChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4)]
 		public int Number
 		{
 			get
@@ -2117,7 +1729,7 @@ namespace Directums.Service
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="Text NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5)]
 		public string Description
 		{
 			get
@@ -2138,7 +1750,7 @@ namespace Directums.Service
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="Image NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=6)]
 		public System.Data.Linq.Binary Data
 		{
 			get
@@ -2159,7 +1771,7 @@ namespace Directums.Service
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Size", DbType="Int NOT NULL")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=6)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=7)]
 		public int Size
 		{
 			get
@@ -2180,7 +1792,7 @@ namespace Directums.Service
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsHidden", DbType="Bit NOT NULL")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=7)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=8)]
 		public bool IsHidden
 		{
 			get
@@ -2201,7 +1813,7 @@ namespace Directums.Service
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Created", DbType="DateTime NOT NULL")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=8)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=9)]
 		public System.DateTime Created
 		{
 			get
@@ -2217,31 +1829,6 @@ namespace Directums.Service
 					this._Created = value;
 					this.SendPropertyChanged("Created");
 					this.OnCreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdOwner", DbType="Int NOT NULL")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=9)]
-		public int IdOwner
-		{
-			get
-			{
-				return this._IdOwner;
-			}
-			set
-			{
-				if ((this._IdOwner != value))
-				{
-					if (this._User.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdOwnerChanging(value);
-					this.SendPropertyChanging();
-					this._IdOwner = value;
-					this.SendPropertyChanged("IdOwner");
-					this.OnIdOwnerChanged();
 				}
 			}
 		}
@@ -2364,8 +1951,6 @@ namespace Directums.Service
 		
 		private EntitySet<AccessRight> _AccessRights;
 		
-		private EntitySet<Message> _Messages;
-		
 		private EntitySet<UserGroup> _UserGroups;
 		
 		private bool serializing;
@@ -2469,27 +2054,8 @@ namespace Directums.Service
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Group_Message", Storage="_Messages", ThisKey="Id", OtherKey="IdGroupFor")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5, EmitDefaultValue=false)]
-		public EntitySet<Message> Messages
-		{
-			get
-			{
-				if ((this.serializing 
-							&& (this._Messages.HasLoadedOrAssignedValues == false)))
-				{
-					return null;
-				}
-				return this._Messages;
-			}
-			set
-			{
-				this._Messages.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Group_UserGroup", Storage="_UserGroups", ThisKey="Id", OtherKey="IdGroup")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=6, EmitDefaultValue=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5, EmitDefaultValue=false)]
 		public EntitySet<UserGroup> UserGroups
 		{
 			get
@@ -2539,18 +2105,6 @@ namespace Directums.Service
 			entity.Group = null;
 		}
 		
-		private void attach_Messages(Message entity)
-		{
-			this.SendPropertyChanging();
-			entity.Group = this;
-		}
-		
-		private void detach_Messages(Message entity)
-		{
-			this.SendPropertyChanging();
-			entity.Group = null;
-		}
-		
 		private void attach_UserGroups(UserGroup entity)
 		{
 			this.SendPropertyChanging();
@@ -2566,7 +2120,6 @@ namespace Directums.Service
 		private void Initialize()
 		{
 			this._AccessRights = new EntitySet<AccessRight>(new Action<AccessRight>(this.attach_AccessRights), new Action<AccessRight>(this.detach_AccessRights));
-			this._Messages = new EntitySet<Message>(new Action<Message>(this.attach_Messages), new Action<Message>(this.detach_Messages));
 			this._UserGroups = new EntitySet<UserGroup>(new Action<UserGroup>(this.attach_UserGroups), new Action<UserGroup>(this.detach_UserGroups));
 			OnCreated();
 		}
@@ -3144,11 +2697,11 @@ namespace Directums.Service
 		
 		private System.Nullable<int> _IdItem;
 		
-		private EntitySet<User> _Users;
-		
 		private EntitySet<Item> _Items;
 		
 		private EntitySet<Item> _Items1;
+		
+		private EntitySet<User> _Users;
 		
 		private EntityRef<File> _File;
 		
@@ -3296,27 +2849,8 @@ namespace Directums.Service
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_User", Storage="_Users", ThisKey="Id", OtherKey="IdRootFolder")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=6, EmitDefaultValue=false)]
-		public EntitySet<User> Users
-		{
-			get
-			{
-				if ((this.serializing 
-							&& (this._Users.HasLoadedOrAssignedValues == false)))
-				{
-					return null;
-				}
-				return this._Users;
-			}
-			set
-			{
-				this._Users.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_Item", Storage="_Items", ThisKey="Id", OtherKey="IdItem")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=7, EmitDefaultValue=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=6, EmitDefaultValue=false)]
 		public EntitySet<Item> Items
 		{
 			get
@@ -3335,7 +2869,7 @@ namespace Directums.Service
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_Item1", Storage="_Items1", ThisKey="Id", OtherKey="IdParent")]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=8, EmitDefaultValue=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=7, EmitDefaultValue=false)]
 		public EntitySet<Item> Items1
 		{
 			get
@@ -3350,6 +2884,25 @@ namespace Directums.Service
 			set
 			{
 				this._Items1.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_User", Storage="_Users", ThisKey="Id", OtherKey="IdRootFolder")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=8, EmitDefaultValue=false)]
+		public EntitySet<User> Users
+		{
+			get
+			{
+				if ((this.serializing 
+							&& (this._Users.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
+				return this._Users;
+			}
+			set
+			{
+				this._Users.Assign(value);
 			}
 		}
 		
@@ -3475,18 +3028,6 @@ namespace Directums.Service
 			}
 		}
 		
-		private void attach_Users(User entity)
-		{
-			this.SendPropertyChanging();
-			entity.Item = this;
-		}
-		
-		private void detach_Users(User entity)
-		{
-			this.SendPropertyChanging();
-			entity.Item = null;
-		}
-		
 		private void attach_Items(Item entity)
 		{
 			this.SendPropertyChanging();
@@ -3511,11 +3052,23 @@ namespace Directums.Service
 			entity.Item2 = null;
 		}
 		
+		private void attach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.Item = this;
+		}
+		
+		private void detach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.Item = null;
+		}
+		
 		private void Initialize()
 		{
-			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
 			this._Items = new EntitySet<Item>(new Action<Item>(this.attach_Items), new Action<Item>(this.detach_Items));
 			this._Items1 = new EntitySet<Item>(new Action<Item>(this.attach_Items1), new Action<Item>(this.detach_Items1));
+			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
 			this._File = default(EntityRef<File>);
 			this._Item1 = default(EntityRef<Item>);
 			this._Item2 = default(EntityRef<Item>);
@@ -3557,15 +3110,11 @@ namespace Directums.Service
 		
 		private int _IdUserFor;
 		
-		private int _IdGroupFor;
-		
 		private string _Text;
 		
 		private byte _Status;
 		
-		private System.Data.Linq.Binary _Created;
-		
-		private EntityRef<Group> _Group;
+		private System.DateTime _Created;
 		
 		private EntityRef<User> _User;
 		
@@ -3581,13 +3130,11 @@ namespace Directums.Service
     partial void OnIdUserFromChanged();
     partial void OnIdUserForChanging(int value);
     partial void OnIdUserForChanged();
-    partial void OnIdGroupForChanging(int value);
-    partial void OnIdGroupForChanged();
     partial void OnTextChanging(string value);
     partial void OnTextChanged();
     partial void OnStatusChanging(byte value);
     partial void OnStatusChanged();
-    partial void OnCreatedChanging(System.Data.Linq.Binary value);
+    partial void OnCreatedChanging(System.DateTime value);
     partial void OnCreatedChanged();
     #endregion
 		
@@ -3596,7 +3143,7 @@ namespace Directums.Service
 			this.Initialize();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
 		public int Id
 		{
@@ -3617,7 +3164,7 @@ namespace Directums.Service
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdUserFrom", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdUserFrom", DbType="Int NOT NULL")]
 		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
 		public int IdUserFrom
 		{
@@ -3642,7 +3189,7 @@ namespace Directums.Service
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdUserFor", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdUserFor", DbType="Int NOT NULL")]
 		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
 		public int IdUserFor
 		{
@@ -3667,33 +3214,8 @@ namespace Directums.Service
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdGroupFor", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4)]
-		public int IdGroupFor
-		{
-			get
-			{
-				return this._IdGroupFor;
-			}
-			set
-			{
-				if ((this._IdGroupFor != value))
-				{
-					if (this._Group.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdGroupForChanging(value);
-					this.SendPropertyChanging();
-					this._IdGroupFor = value;
-					this.SendPropertyChanged("IdGroupFor");
-					this.OnIdGroupForChanged();
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Text", DbType="Text NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4)]
 		public string Text
 		{
 			get
@@ -3713,8 +3235,8 @@ namespace Directums.Service
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="TinyInt NOT NULL", UpdateCheck=UpdateCheck.Never)]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=6)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="TinyInt NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5)]
 		public byte Status
 		{
 			get
@@ -3734,9 +3256,9 @@ namespace Directums.Service
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Created", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
-		[global::System.Runtime.Serialization.DataMemberAttribute(Order=7)]
-		public System.Data.Linq.Binary Created
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Created", DbType="DateTime NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=6)]
+		public System.DateTime Created
 		{
 			get
 			{
@@ -3751,40 +3273,6 @@ namespace Directums.Service
 					this._Created = value;
 					this.SendPropertyChanged("Created");
 					this.OnCreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Group_Message", Storage="_Group", ThisKey="IdGroupFor", OtherKey="Id", IsForeignKey=true)]
-		public Group Group
-		{
-			get
-			{
-				return this._Group.Entity;
-			}
-			set
-			{
-				Group previousValue = this._Group.Entity;
-				if (((previousValue != value) 
-							|| (this._Group.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Group.Entity = null;
-						previousValue.Messages.Remove(this);
-					}
-					this._Group.Entity = value;
-					if ((value != null))
-					{
-						value.Messages.Add(this);
-						this._IdGroupFor = value.Id;
-					}
-					else
-					{
-						this._IdGroupFor = default(int);
-					}
-					this.SendPropertyChanged("Group");
 				}
 			}
 		}
@@ -3879,7 +3367,6 @@ namespace Directums.Service
 		
 		private void Initialize()
 		{
-			this._Group = default(EntityRef<Group>);
 			this._User = default(EntityRef<User>);
 			this._User1 = default(EntityRef<User>);
 			OnCreated();
@@ -4145,22 +3632,52 @@ namespace Directums.Service
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserGroups")]
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Users")]
 	[global::System.Runtime.Serialization.DataContractAttribute()]
-	public partial class UserGroup : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _Id;
 		
-		private int _IdGroup;
+		private string _Login;
 		
-		private int _IdUser;
+		private string _PasswordHash;
 		
-		private EntityRef<Group> _Group;
+		private string _Surname;
 		
-		private EntityRef<User> _User;
+		private string _Name;
+		
+		private string _Patronymic;
+		
+		private string _Email;
+		
+		private System.Nullable<System.DateTime> _BornDate;
+		
+		private byte _Status;
+		
+		private int _IdRootFolder;
+		
+		private bool _IsAdmin;
+		
+		private EntitySet<AccessRight> _AccessRights;
+		
+		private EntitySet<UserGroup> _UserGroups;
+		
+		private EntitySet<File> _Files;
+		
+		private EntitySet<FileVersion> _FileVersions;
+		
+		private EntitySet<HistoryUser> _HistoryUsers;
+		
+		private EntitySet<Message> _Messages;
+		
+		private EntitySet<Message> _Messages1;
+		
+		private EntityRef<Item> _Item;
+		
+		private bool serializing;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -4168,13 +3685,29 @@ namespace Directums.Service
     partial void OnCreated();
     partial void OnIdChanging(int value);
     partial void OnIdChanged();
-    partial void OnIdGroupChanging(int value);
-    partial void OnIdGroupChanged();
-    partial void OnIdUserChanging(int value);
-    partial void OnIdUserChanged();
+    partial void OnLoginChanging(string value);
+    partial void OnLoginChanged();
+    partial void OnPasswordHashChanging(string value);
+    partial void OnPasswordHashChanged();
+    partial void OnSurnameChanging(string value);
+    partial void OnSurnameChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnPatronymicChanging(string value);
+    partial void OnPatronymicChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnBornDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnBornDateChanged();
+    partial void OnStatusChanging(byte value);
+    partial void OnStatusChanged();
+    partial void OnIdRootFolderChanging(int value);
+    partial void OnIdRootFolderChanged();
+    partial void OnIsAdminChanging(bool value);
+    partial void OnIsAdminChanged();
     #endregion
 		
-		public UserGroup()
+		public User()
 		{
 			this.Initialize();
 		}
@@ -4200,120 +3733,383 @@ namespace Directums.Service
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdGroup", DbType="Int NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Login", DbType="NVarChar(32) NOT NULL", CanBeNull=false)]
 		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
-		public int IdGroup
+		public string Login
 		{
 			get
 			{
-				return this._IdGroup;
+				return this._Login;
 			}
 			set
 			{
-				if ((this._IdGroup != value))
+				if ((this._Login != value))
 				{
-					if (this._Group.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdGroupChanging(value);
+					this.OnLoginChanging(value);
 					this.SendPropertyChanging();
-					this._IdGroup = value;
-					this.SendPropertyChanged("IdGroup");
-					this.OnIdGroupChanged();
+					this._Login = value;
+					this.SendPropertyChanged("Login");
+					this.OnLoginChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdUser", DbType="Int NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PasswordHash", DbType="NVarChar(32) NOT NULL", CanBeNull=false)]
 		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
-		public int IdUser
+		public string PasswordHash
 		{
 			get
 			{
-				return this._IdUser;
+				return this._PasswordHash;
 			}
 			set
 			{
-				if ((this._IdUser != value))
+				if ((this._PasswordHash != value))
 				{
-					if (this._User.HasLoadedOrAssignedValue)
+					this.OnPasswordHashChanging(value);
+					this.SendPropertyChanging();
+					this._PasswordHash = value;
+					this.SendPropertyChanged("PasswordHash");
+					this.OnPasswordHashChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Surname", DbType="NVarChar(64) NOT NULL", CanBeNull=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4)]
+		public string Surname
+		{
+			get
+			{
+				return this._Surname;
+			}
+			set
+			{
+				if ((this._Surname != value))
+				{
+					this.OnSurnameChanging(value);
+					this.SendPropertyChanging();
+					this._Surname = value;
+					this.SendPropertyChanged("Surname");
+					this.OnSurnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(64) NOT NULL", CanBeNull=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Patronymic", DbType="NVarChar(64) NOT NULL", CanBeNull=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=6)]
+		public string Patronymic
+		{
+			get
+			{
+				return this._Patronymic;
+			}
+			set
+			{
+				if ((this._Patronymic != value))
+				{
+					this.OnPatronymicChanging(value);
+					this.SendPropertyChanging();
+					this._Patronymic = value;
+					this.SendPropertyChanged("Patronymic");
+					this.OnPatronymicChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(64) NOT NULL", CanBeNull=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=7)]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BornDate", DbType="Date")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=8)]
+		public System.Nullable<System.DateTime> BornDate
+		{
+			get
+			{
+				return this._BornDate;
+			}
+			set
+			{
+				if ((this._BornDate != value))
+				{
+					this.OnBornDateChanging(value);
+					this.SendPropertyChanging();
+					this._BornDate = value;
+					this.SendPropertyChanged("BornDate");
+					this.OnBornDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="TinyInt NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=9)]
+		public byte Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdRootFolder", DbType="Int NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=10)]
+		public int IdRootFolder
+		{
+			get
+			{
+				return this._IdRootFolder;
+			}
+			set
+			{
+				if ((this._IdRootFolder != value))
+				{
+					if (this._Item.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnIdUserChanging(value);
+					this.OnIdRootFolderChanging(value);
 					this.SendPropertyChanging();
-					this._IdUser = value;
-					this.SendPropertyChanged("IdUser");
-					this.OnIdUserChanged();
+					this._IdRootFolder = value;
+					this.SendPropertyChanged("IdRootFolder");
+					this.OnIdRootFolderChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Group_UserGroup", Storage="_Group", ThisKey="IdGroup", OtherKey="Id", IsForeignKey=true)]
-		public Group Group
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAdmin", DbType="Bit NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=11)]
+		public bool IsAdmin
 		{
 			get
 			{
-				return this._Group.Entity;
+				return this._IsAdmin;
 			}
 			set
 			{
-				Group previousValue = this._Group.Entity;
-				if (((previousValue != value) 
-							|| (this._Group.HasLoadedOrAssignedValue == false)))
+				if ((this._IsAdmin != value))
 				{
+					this.OnIsAdminChanging(value);
 					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Group.Entity = null;
-						previousValue.UserGroups.Remove(this);
-					}
-					this._Group.Entity = value;
-					if ((value != null))
-					{
-						value.UserGroups.Add(this);
-						this._IdGroup = value.Id;
-					}
-					else
-					{
-						this._IdGroup = default(int);
-					}
-					this.SendPropertyChanged("Group");
+					this._IsAdmin = value;
+					this.SendPropertyChanged("IsAdmin");
+					this.OnIsAdminChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserGroup", Storage="_User", ThisKey="IdUser", OtherKey="Id", IsForeignKey=true)]
-		public User User
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_AccessRight", Storage="_AccessRights", ThisKey="Id", OtherKey="IdUser")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=12, EmitDefaultValue=false)]
+		public EntitySet<AccessRight> AccessRights
 		{
 			get
 			{
-				return this._User.Entity;
+				if ((this.serializing 
+							&& (this._AccessRights.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
+				return this._AccessRights;
 			}
 			set
 			{
-				User previousValue = this._User.Entity;
+				this._AccessRights.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_UserGroup", Storage="_UserGroups", ThisKey="Id", OtherKey="IdUser")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=13, EmitDefaultValue=false)]
+		public EntitySet<UserGroup> UserGroups
+		{
+			get
+			{
+				if ((this.serializing 
+							&& (this._UserGroups.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
+				return this._UserGroups;
+			}
+			set
+			{
+				this._UserGroups.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_File", Storage="_Files", ThisKey="Id", OtherKey="IdOwner")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=14, EmitDefaultValue=false)]
+		public EntitySet<File> Files
+		{
+			get
+			{
+				if ((this.serializing 
+							&& (this._Files.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
+				return this._Files;
+			}
+			set
+			{
+				this._Files.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_FileVersion", Storage="_FileVersions", ThisKey="Id", OtherKey="IdOwner")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=15, EmitDefaultValue=false)]
+		public EntitySet<FileVersion> FileVersions
+		{
+			get
+			{
+				if ((this.serializing 
+							&& (this._FileVersions.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
+				return this._FileVersions;
+			}
+			set
+			{
+				this._FileVersions.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_HistoryUser", Storage="_HistoryUsers", ThisKey="Id", OtherKey="IdUser")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=16, EmitDefaultValue=false)]
+		public EntitySet<HistoryUser> HistoryUsers
+		{
+			get
+			{
+				if ((this.serializing 
+							&& (this._HistoryUsers.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
+				return this._HistoryUsers;
+			}
+			set
+			{
+				this._HistoryUsers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Message", Storage="_Messages", ThisKey="Id", OtherKey="IdUserFrom")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=17, EmitDefaultValue=false)]
+		public EntitySet<Message> Messages
+		{
+			get
+			{
+				if ((this.serializing 
+							&& (this._Messages.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
+				return this._Messages;
+			}
+			set
+			{
+				this._Messages.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Message1", Storage="_Messages1", ThisKey="Id", OtherKey="IdUserFor")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=18, EmitDefaultValue=false)]
+		public EntitySet<Message> Messages1
+		{
+			get
+			{
+				if ((this.serializing 
+							&& (this._Messages1.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
+				return this._Messages1;
+			}
+			set
+			{
+				this._Messages1.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Item_User", Storage="_Item", ThisKey="IdRootFolder", OtherKey="Id", IsForeignKey=true)]
+		public Item Item
+		{
+			get
+			{
+				return this._Item.Entity;
+			}
+			set
+			{
+				Item previousValue = this._Item.Entity;
 				if (((previousValue != value) 
-							|| (this._User.HasLoadedOrAssignedValue == false)))
+							|| (this._Item.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._User.Entity = null;
-						previousValue.UserGroups.Remove(this);
+						this._Item.Entity = null;
+						previousValue.Users.Remove(this);
 					}
-					this._User.Entity = value;
+					this._Item.Entity = value;
 					if ((value != null))
 					{
-						value.UserGroups.Add(this);
-						this._IdUser = value.Id;
+						value.Users.Add(this);
+						this._IdRootFolder = value.Id;
 					}
 					else
 					{
-						this._IdUser = default(int);
+						this._IdRootFolder = default(int);
 					}
-					this.SendPropertyChanged("User");
+					this.SendPropertyChanged("Item");
 				}
 			}
 		}
@@ -4338,10 +4134,100 @@ namespace Directums.Service
 			}
 		}
 		
+		private void attach_AccessRights(AccessRight entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_AccessRights(AccessRight entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_UserGroups(UserGroup entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_UserGroups(UserGroup entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Files(File entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Files(File entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_FileVersions(FileVersion entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_FileVersions(FileVersion entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_HistoryUsers(HistoryUser entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_HistoryUsers(HistoryUser entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Messages(Message entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Messages(Message entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Messages1(Message entity)
+		{
+			this.SendPropertyChanging();
+			entity.User1 = this;
+		}
+		
+		private void detach_Messages1(Message entity)
+		{
+			this.SendPropertyChanging();
+			entity.User1 = null;
+		}
+		
 		private void Initialize()
 		{
-			this._Group = default(EntityRef<Group>);
-			this._User = default(EntityRef<User>);
+			this._AccessRights = new EntitySet<AccessRight>(new Action<AccessRight>(this.attach_AccessRights), new Action<AccessRight>(this.detach_AccessRights));
+			this._UserGroups = new EntitySet<UserGroup>(new Action<UserGroup>(this.attach_UserGroups), new Action<UserGroup>(this.detach_UserGroups));
+			this._Files = new EntitySet<File>(new Action<File>(this.attach_Files), new Action<File>(this.detach_Files));
+			this._FileVersions = new EntitySet<FileVersion>(new Action<FileVersion>(this.attach_FileVersions), new Action<FileVersion>(this.detach_FileVersions));
+			this._HistoryUsers = new EntitySet<HistoryUser>(new Action<HistoryUser>(this.attach_HistoryUsers), new Action<HistoryUser>(this.detach_HistoryUsers));
+			this._Messages = new EntitySet<Message>(new Action<Message>(this.attach_Messages), new Action<Message>(this.detach_Messages));
+			this._Messages1 = new EntitySet<Message>(new Action<Message>(this.attach_Messages1), new Action<Message>(this.detach_Messages1));
+			this._Item = default(EntityRef<Item>);
 			OnCreated();
 		}
 		
@@ -4350,6 +4236,20 @@ namespace Directums.Service
 		public void OnDeserializing(StreamingContext context)
 		{
 			this.Initialize();
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerializing(StreamingContext context)
+		{
+			this.serializing = true;
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializedAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerialized(StreamingContext context)
+		{
+			this.serializing = false;
 		}
 	}
 }

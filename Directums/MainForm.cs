@@ -172,6 +172,11 @@ namespace Directums.Client
             imageList.Images.Add("shared_folder", IconExtractor.MergeIcons(iconFolder, iconShared));
             imageList.Images.Add("ref_folder", IconExtractor.MergeIcons(iconFolder, iconRef));
             imageList.Images.Add("ref", iconRef);
+
+            if (Config.Client.IsHasNewMessages())
+            {
+                NotificationForm.ExecuteMessageAdded(this, tsmMessages_Click);
+            }
         }
 
         private void tvDirs_AfterSelect(object sender, TreeViewEventArgs e)
@@ -306,6 +311,11 @@ namespace Directums.Client
             {
                 tsmOpenDocument.PerformClick();
             }
+        }
+
+        private void tsmMessages_Click(object sender, EventArgs e)
+        {
+            MessagesForm.Execute(this);
         }
     }
 }

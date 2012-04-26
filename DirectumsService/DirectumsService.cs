@@ -97,6 +97,8 @@ namespace Directums.Service
         {
             if (user != null)
             {
+                LogManager.AddException(new Exception());
+
                 return true;
             }
 
@@ -155,10 +157,10 @@ namespace Directums.Service
 
                     return false;
                 }
-
-                user = null;
-                callback = null;
             }
+
+            user = null;
+            callback = null;
 
             return true;
         }
@@ -172,6 +174,24 @@ namespace Directums.Service
                 user = context.Users.Single(x => x.Id == user.Id);
 
                 return user;
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return null;
+            }
+        }
+
+        public User GetUserInfo(int idUser)
+        {
+            IsAllowAction(AccessType.Authorized);
+
+            try
+            {
+                var result = context.Users.Single(x => x.Id == idUser);
+
+                return result;
             }
             catch (Exception e)
             {
@@ -258,39 +278,6 @@ namespace Directums.Service
                 LogManager.AddException(e);
 
                 return false;
-            }
-        }
-
-        public void AddMessage(int idUserFor, string text)
-        {
-            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
-
-            Message message = new Message() { IdUserFrom = user.Id, IdUserFor = idUserFor, Text = text };
-
-            try
-            {
-                context.Messages.InsertOnSubmit(message);
-                context.SubmitChanges();
-            }
-            catch
-            {
-                // Запись в протокол о попытке хакерской атаки
-
-                return;
-            }
-
-            if (connected.ContainsKey(idUserFor))
-            {
-                try
-                {
-                    connected[idUserFor].NewMessageReceive(user.Id, text);
-                }
-                catch (Exception e)
-                {
-                    LogManager.AddException(e);
-
-                    return;
-                }
             }
         }
 
@@ -1375,19 +1362,11 @@ namespace Directums.Service
             }
         }
 
-        public bool UpdateProfile(int idUser, string surname, string name, string patronymic, DateTime? birthday, string passwordHash)
+        public bool UpdateProfile(string surname, string name, string patronymic, DateTime? birthday, string passwordHash)
         {
             IsAllowAction(AccessType.Authorized, AccessStatus.Active);
             try
             {
-                var user = context.Users.SingleOrDefault(x => x.Id == idUser);
-                if (user == null)
-                {
-                    // Попытка хака
-
-                    return false;
-                }
-
                 //Валидация данных от пользователя
                 if ((passwordHash.Length == 32 || passwordHash.Length == 0) && (RegexCheck.CheckNames(surname) || surname.Length == 0) && (RegexCheck.CheckNames(name) || name.Length == 0) && (RegexCheck.CheckNames(patronymic) || patronymic.Length == 0))
                 {
@@ -1422,7 +1401,140 @@ namespace Directums.Service
 
                 return false;
             }
+        }
 
+        public GetGroupContentResult[] GetGroupsContent()
+        {
+            IsAllowAction(AccessType.Authorized);
+
+            try
+            {
+                var result = new List<GetGroupContentResult>();
+
+                var groups = context.Groups.Where(x => x.Status);
+                foreach (var group in groups)
+                {
+                    var tmp = new GetGroupContentResult();
+                    tmp.Name = group.Name;
+
+                    foreach (var user in group.UserGroups.Where(x => x.IdUser != user.Id))
+                    {
+                        tmp.Users.Add(user.IdUser, user.User.GetLoginWithName());
+                    }
+
+                    if (tmp.Users.Count > 0)
+                    {
+                        result.Add(tmp);
+                    }
+                }
+
+                return result.ToArray();
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return null;
+            }
+        }
+
+        public bool IsHasNewMessages()
+        {
+            try
+            {
+                return context.Messages.Count(x => x.IdUserFor == user.Id && x.Status == 0) > 0;
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return false;
+            }
+        }
+
+        public GetMessagesResult[] GetMessages()
+        {
+            IsAllowAction(AccessType.Authorized);
+
+            try
+            {
+                var result = new List<GetMessagesResult>();
+
+                var tmpMessages = context.Messages.Where(x => x.IdUserFor == user.Id || x.IdUserFrom == user.Id);
+                var items = tmpMessages.Select(x => x.User).Union(tmpMessages.Select(x => x.User1)).Distinct().Where(x => x.Id != user.Id);
+                foreach (var item in items)
+                {
+                    result.Add(new GetMessagesResult()
+                    {
+                        IdUser = item.Id,
+                        UserName = item.GetLoginWithName(),
+                        Text = context.Messages.Where(x => x.IdUserFor == item.Id && x.IdUserFrom == user.Id || x.IdUserFor == user.Id && x.IdUserFrom == item.Id).OrderByDescending(x => x.Created).First().Text,
+                        NotReadCount = context.Messages.Count(x => x.IdUserFor == user.Id && x.IdUserFrom == item.Id && x.Status == 0),
+                        Created = context.Messages.Where(x => x.IdUserFor == item.Id && x.IdUserFrom == user.Id || x.IdUserFor == user.Id && x.IdUserFrom == item.Id).OrderByDescending(x => x.Created).First().Created
+                    });
+                }
+
+                return result.OrderByDescending(x => x.NotReadCount).ThenByDescending(x => x.Created).ToArray();
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return null;
+            }
+        }
+
+        public Message[] GetUserMessages(int idUserWith)
+        {
+            IsAllowAction(AccessType.Authorized);
+
+            try
+            {
+                var items = context.Messages.Where(x => x.IdUserFor == user.Id);
+                foreach (var item in items)
+                {
+                    item.Status = 1;
+                }
+
+                context.SubmitChanges();
+                
+                var result = context.Messages.Where(x => x.IdUserFrom == idUserWith && x.IdUserFor == user.Id || x.IdUserFrom == user.Id && x.IdUserFor == idUserWith).
+                    OrderByDescending(x => x.Created);
+                
+                return result.ToArray();
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return null;
+            }
+        }
+
+        public bool AddMessage(int idUserFor, string text)
+        {
+            IsAllowAction(AccessType.Authorized, AccessStatus.Active);
+
+            try
+            {
+                Message message = new Message() { IdUserFrom = user.Id, IdUserFor = idUserFor, Text = text, Status = 0, Created = DateTime.Now };
+
+                context.Messages.InsertOnSubmit(message);
+                context.SubmitChanges();
+
+                if (connected.ContainsKey(idUserFor))
+                {
+                    connected[idUserFor].NewMessageReceive(user.Id, text);
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                LogManager.AddException(e);
+
+                return false;
+            }
         }
     }
 }

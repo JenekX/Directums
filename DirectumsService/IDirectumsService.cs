@@ -22,6 +22,9 @@ namespace Directums.Service
         User GetCurrentUser();
 
         [OperationContract]
+        User GetUserInfo(int idUser);
+
+        [OperationContract]
         User[] UserList();
 
         [OperationContract]
@@ -32,9 +35,6 @@ namespace Directums.Service
 
         [OperationContract]
         bool IsEmailEmpty(string email);
-
-        [OperationContract(IsOneWay = true)]
-        void AddMessage(int idUserFor, string text);
 
         [OperationContract]
         FindUsersResult FindUsers(int page, UserFilter filter);
@@ -115,6 +115,21 @@ namespace Directums.Service
         GetFileVersionsResult[] GetFileVersions(int idFile);
 
         [OperationContract]
-        bool UpdateProfile(int idUser, string surname, string name, string patronymic, DateTime? birthday,string passwordHash);
+        bool UpdateProfile(string surname, string name, string patronymic, DateTime? birthday,string passwordHash);
+
+        [OperationContract]
+        GetGroupContentResult[] GetGroupsContent();
+
+        [OperationContract]
+        bool IsHasNewMessages();
+
+        [OperationContract]
+        GetMessagesResult[] GetMessages();
+
+        [OperationContract]
+        Message[] GetUserMessages(int idUserWith);
+
+        [OperationContract]
+        bool AddMessage(int idUserFor, string text);
     }
 }
